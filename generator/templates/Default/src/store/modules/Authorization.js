@@ -12,7 +12,7 @@ export default {
     actions: {
         login(context, data) {
             return new Promise((resolve, reject) => {
-                $http.post('admin/login',
+                $http.post('oauth/token',
                     {
                         grant_type: 'password',
                         client_id: 1,
@@ -45,6 +45,9 @@ export default {
             return state.tokens !== null;
         },
         getAccessToken: state => {
+            if (state.tokens === null) {
+                return '';
+            }
             return state.tokens.access_token;
         },
     },

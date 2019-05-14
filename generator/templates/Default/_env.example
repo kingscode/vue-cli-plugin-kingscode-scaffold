@@ -1,0 +1,3 @@
+NODE_ENV=development
+VUE_APP_ROOT_API=//url.local/api
+VUE_APP_OAUTH_CLIENT_SECRET=

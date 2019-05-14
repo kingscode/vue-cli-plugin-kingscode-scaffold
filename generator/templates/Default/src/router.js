@@ -12,10 +12,12 @@ export default new Router({
             name: 'home',
             component: () => import('@/views/Home'),
         },
+        <%_ if (options.useAuthorisation) { _%>
         {
-            path: '/',
+            path: '/login',
             name: 'login',
             component: () => import('@/views/Login'),
         },
+        <%_ } _%>
     ],
 });
