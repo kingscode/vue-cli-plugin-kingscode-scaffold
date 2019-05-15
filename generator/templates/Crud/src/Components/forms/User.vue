@@ -12,6 +12,13 @@
                                 label="Naam"
                                 required
                                 v-model="values.name"></v-text-field>
+                            <v-text-field
+                                :counter="150"
+                                :rules="[(v) => !!v || 'E-mail is verplicht', v => serverError('name', v), (v) => !!v && v.length <= 100 || 'het e-mailadres mag maximaal 150 tekens bevatten']"
+                                label="E-mail"
+                                hint="Het e-mailadres waarmee de gebruiker gaat inloggen en waarnaar een mail verzonden wordt met instructies om een wachtwoord aan te maken"
+                                required
+                                v-model="values.email"></v-text-field>
                         </v-card-text>
                     </v-card>
                 </v-form>

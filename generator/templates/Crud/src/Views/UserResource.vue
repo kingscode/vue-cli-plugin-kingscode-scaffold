@@ -8,6 +8,7 @@
         name: 'user-resource',
         data() {
             return {
+                meta: {name: 'gebruiker', namePlural: 'gebruikers'},
                 selected: null,
                 resourceUri: 'user',
                 tableContent: [
@@ -16,6 +17,12 @@
                         align: 'left',
                         sortable: true,
                         value: 'name',
+                    },
+                    {
+                        text: 'E-mail',
+                        align: 'left',
+                        sortable: true,
+                        value: 'email',
                     },
                 ],
                 createFormComponent: UserForm,

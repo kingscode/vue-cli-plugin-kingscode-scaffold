@@ -6,6 +6,7 @@ module.exports = (api, options) => {
             'axios': '^0.18.0',
             'vuex': '^3.1.0',
             'vuex-persistedstate': '^2.5.4',
+            '@fortawesome/fontawesome-pro': '^5.8.1',
         },
     });
     if (options.useCrud) {
@@ -37,7 +38,7 @@ module.exports = (api, options) => {
 
         if (options.useCrud) {
             helpers.updateFile(api, api.entryFile, lines => {
-                const vueImportIndex = lines.findIndex(line => line.match(/^import Vue/));
+                const vueImportIndex = lines.findIndex(line => line.match(/^plugins/));
                 const newVueIndex = lines.findIndex(line => line.match(/^new Vue/));
 
                 lines.splice(vueImportIndex + 1, 0, 'import API from \'./API.js\';');
