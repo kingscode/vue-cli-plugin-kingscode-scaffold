@@ -39,17 +39,12 @@ instance.interceptors.response.use(
         // Do something with response error
         if (error.response) {
             switch (error.response.status) {
+
+                <%_ if (options.useAuthorisation) { _%>
                 case 401:
                     store.dispatch('Authorization/unauthorized');
                     break;
-                case 412:
-                    router.push({name:'home'});
-                    break;
-
-                case 403:
-                    //@TODO..
-                    alert('U heeft niet voldoende rechten om deze actie uit te voeren.');
-                    break;
+                <%_ } _%>
             }
         } else {
             if (error.request) {
@@ -76,6 +71,7 @@ instance.interceptors.response.use(
     },
 );
 
+<%_ if (options.useAuthorisation) { _%>
 /**
  * Request interceptor that catches the request and injects the token into the Authorization header.
  */
@@ -87,6 +83,8 @@ instance.interceptors.request.use((request) => {
 
     return request;
 });
+
+<%_ } _%>
 
 /**
  * Request interceptor that fixes PUT requests for php. >> https://bugs.php.net/bug.php?id=55815

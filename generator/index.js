@@ -28,6 +28,11 @@ module.exports = (api, options) => {
             ...options,
         });
     }
+    if (options.useAuthorisation) {
+        api.render('./templates/Authorisation', {
+            ...options,
+        });
+    }
     api.onCreateComplete(() => {
 
         if (options.useCrud) {
@@ -40,6 +45,7 @@ module.exports = (api, options) => {
 
                 lines.splice(newVueIndex - 1, 0, 'Vue.use(VuetifyResource);');
                 lines.splice(newVueIndex - 1, 0, 'window.$http = API;');
+                lines.splice(newVueIndex - 1, 0, 'Vue.prototype.$http = API;');
 
                 return lines;
             });

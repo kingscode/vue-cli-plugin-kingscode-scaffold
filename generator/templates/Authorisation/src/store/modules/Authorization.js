@@ -15,7 +15,7 @@ export default {
                 $http.post('oauth/token',
                     {
                         grant_type: 'password',
-                        client_id: 1,
+                        client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,
                         client_secret: process.env.VUE_APP_OAUTH_CLIENT_SECRET,
                         username: data.username,
                         password: data.password,
@@ -33,7 +33,6 @@ export default {
             });
         },
         unauthorized(context) {
-            window.resetState();
             router.push({name: 'login'});
         },
         refreshToken() {
