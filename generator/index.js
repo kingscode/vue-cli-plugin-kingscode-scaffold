@@ -1,4 +1,5 @@
 const helpers = require('./tools/helpers');
+const fs = require('fs');
 
 module.exports = (api, options) => {
     api.extendPackage({
@@ -34,22 +35,16 @@ module.exports = (api, options) => {
             ...options,
         });
     }
+
     api.onCreateComplete(() => {
-
-        if (options.useCrud) {
-            helpers.updateFile(api, api.entryFile, lines => {
-                const vueImportIndex = lines.findIndex(line => line.match(/^plugins/));
-                const newVueIndex = lines.findIndex(line => line.match(/^new Vue/));
-
-                lines.splice(vueImportIndex + 1, 0, 'import API from \'./API.js\';');
-                lines.splice(vueImportIndex + 1, 0, 'import VuetifyResource from \'@kingscode/vuetify-resource\';');
-
-                lines.splice(newVueIndex - 1, 0, 'Vue.use(VuetifyResource);');
-                lines.splice(newVueIndex - 1, 0, 'window.$http = API;');
-                lines.splice(newVueIndex - 1, 0, 'Vue.prototype.$http = API;');
-
-                return lines;
-            });
+        if(fs.existsSync('src/store.js')) {
+            fs.unlinkSync(api.resolve('src/store.js'));
+        }
+        if(fs.existsSync('src/assets/logo.svg')) {
+            fs.unlinkSync(api.resolve('src/assets/logo.svg'));
+        }
+        if(fs.existsSync('src/components/HelloWorld.vue')) {
+            fs.unlinkSync(api.resolve('src/components/HelloWorld.vue'));
         }
     });
 };
