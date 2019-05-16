@@ -44,6 +44,16 @@ export default new Router({
             <%_ } _%>
         },
         {
+            path: '/invitation/accept/:token',
+            name: 'invitation.accept',
+            component: () => import('./views/InvitationAccept.vue'),
+            <%_ if (options.useTemplateLoader) { _%>
+            meta: {
+                template: () => import('./templates/Authorisation.vue'),
+            },
+            <%_ } _%>
+        },
+        {
             path: '/profile',
             name: 'profile',
             component: () => import('./views/Profile.vue')

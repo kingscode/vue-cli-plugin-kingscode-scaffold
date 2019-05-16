@@ -1,5 +1,5 @@
 <template>
-    <v-form @submit.prevent="handlePasswordForgotten()" ref="form" v-model="valid">
+    <v-form @submit.prevent="handleAccept()" ref="form" v-model="valid">
         <v-card>
             <v-card-text>
                 <img :src="require('../assets/logo.png')" class="logo">
@@ -22,7 +22,7 @@
                         :rules="[(v) => !!v || 'Wachtwoord is verplicht', v => serverError('password', v)]"
                         :type="showpassword ? 'text' : 'password'"
                         @click:append="showpassword = !showpassword"
-                        label="Nieuw wachtwoord"
+                        label="Wachtwoord"
                         v-model="password"
                     ></v-text-field>
                     <v-text-field
@@ -30,7 +30,7 @@
                         :rules="[(v) => !!v || 'Wachtwoord is verplicht']"
                         :type="showpassword ? 'text' : 'password'"
                         @click:append="showpassword = !showpassword"
-                        label="Nieuw wachtwoord"
+                        label="Wachtwoord"
                         v-model="password_confirmation"
                     ></v-text-field>
                 </template>
@@ -45,7 +45,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="handlePasswordReset()" type="submit" color="accent">Wachtwoord resetten</v-btn>
+                <v-btn @click="handleAccept()" type="submit" color="accent">Uitnodiging accepteren</v-btn>
             </v-card-actions>
         </v-card>
     </v-form>
@@ -77,10 +77,10 @@
             this.email = this.$route.query.email;
         },
         methods: {
-            handlePasswordReset() {
+            handleAccept() {
                 this.$refs.form.validate();
                 this.loading = true;
-                this.$http.post('password/reset', {
+                this.$http.post('invitation/accept', {
                     email: this.email,
                     password: this.password,
                     password_confirmation: this.password_confirmation,
@@ -97,7 +97,7 @@
                         });
                     } else {
                         this.errorMessage = 'Er ging iets mis.';
-                        if (typeof error.response.data.message !== 'undefined' && error.response.data.message !== null) {
+                        if(typeof error.response.data.message !== 'undefined' && error.response.data.message !== null) {
                             this.errorMessage = error.response.data.message;
                         }
                     }
