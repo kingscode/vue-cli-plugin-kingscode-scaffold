@@ -46,5 +46,9 @@ module.exports = (api, options) => {
         if(fs.existsSync('src/components/HelloWorld.vue')) {
             fs.unlinkSync(api.resolve('src/components/HelloWorld.vue'));
         }
+        if(fs.existsSync('src/main.js')) {
+            fs.unlinkSync(api.resolve('src/main.js'));
+        }
+        fs.renameSync(api.resolve('src/newmain.js'), api.resolve('src/main.js'));
     });
 };
