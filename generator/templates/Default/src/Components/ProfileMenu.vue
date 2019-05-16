@@ -7,7 +7,7 @@
     >
         <v-btn class="mr-3" fab icon slot="activator">
             <v-avatar class="accent" size="48" title>
-                <span class="white--text headline"></span>
+                <v-icon>fa-user</v-icon>
             </v-avatar>
         </v-btn>
         <v-list>

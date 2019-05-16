@@ -1,26 +1,27 @@
 <template>
-    <vuetify-resource
-        :beforeCreateCallback="beforeOpenCreate"
-        :beforeUpdateCallback="beforeOpenUpdate"
-        :canDelete="false"
-        :createCallback="createEvent"
-        :deleteCallback="deleteEvent"
-        :getDataCallback="getDataFromApi"
-        :getItemCallback="getItemFromApi"
-        :meta="meta"
-        :tableContent="tableContent"
-        :texts="require('../VuetifyResourceTexts.js').default"
-        :updateCallback="updateEvent"
-        ref="resourceList"
-        v-model="selected"
-    >
-        <div slot="createContent">
-            <component :errors="errors" :is="createFormComponent" ref="createForm" v-model="createForm"/>
-        </div>
-        <div slot="updateContent">
-            <component :errors="errors" :is="updateFormComponent" ref="updateForm" v-model="updateForm"/>
-        </div>
-    </vuetify-resource>
+    <v-container fluid pt-5>
+        <vuetify-resource
+            :beforeCreateCallback="beforeOpenCreate"
+            :beforeUpdateCallback="beforeOpenUpdate"
+            :createCallback="createEvent"
+            :deleteCallback="deleteEvent"
+            :getDataCallback="getDataFromApi"
+            :getItemCallback="getItemFromApi"
+            :meta="meta"
+            :tableContent="tableContent"
+            :texts="require('../VuetifyResourceTexts.js').default"
+            :updateCallback="updateEvent"
+            ref="resourceList"
+            v-model="selected"
+        >
+            <div slot="createContent">
+                <component :errors="errors" :is="createFormComponent" ref="createForm" v-model="createForm"/>
+            </div>
+            <div slot="updateContent">
+                <component :errors="errors" :is="updateFormComponent" ref="updateForm" v-model="updateForm"/>
+            </div>
+        </vuetify-resource>
+    </v-container>
 </template>
 <script>
     export default {
@@ -47,7 +48,7 @@
                 const {sortBy, descending, page, rowsPerPage} = pagination;
                 return new Promise((resolve, reject) => {
 
-                    $http.get(this.resourceUri, {
+                    this.$http.get(this.resourceUri, {
                             params: {
                                 q: search,
                                 sortBy: sortBy,
@@ -69,7 +70,7 @@
             },
             getItemFromApi(id) {
                 return new Promise((resolve) => {
-                    $http.get((this.showResourceUri || this.resourceUri) + '/' + id)
+                    this.$http.get((this.showResourceUri || this.resourceUri) + '/' + id)
                         .then((response) => {
                             let item = response.data.data;
                             resolve({
@@ -93,7 +94,7 @@
                 return new Promise((resolve, reject) => {
                     process.nextTick(() => {
                         if (this.createForm.valid) {
-                            $http.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues(),
+                            this.$http.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues(),
                                 {
                                     headers: {
                                         'Content-Type': 'multipart/form-data',
@@ -128,7 +129,7 @@
                 return new Promise((resolve, reject) => {
                     process.nextTick(() => {
                         if (this.updateForm.valid) {
-                            $http.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues(),
+                            this.$http.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues(),
                                 {
                                     headers: {
                                         'Content-Type': 'multipart/form-data',
@@ -158,15 +159,20 @@
             },
             deleteEvent(ids) {
                 return new Promise((resolve) => {
-                    $http.delete(this.resourceUri + '/delete-many', {
-                            data: {ids: ids},
-                        })
-                        .then(() => {
-                            resolve();
-                        });
+                    let promises = [];
+                    ids.forEach((id) => {
+                        promises.push(this.$http.delete((this.deleteResourceUri || this.resourceUri) + '/' + id));
+                    });
+                    Promise.all(promises).then(() => {
+                        resolve();
+                    })
+
                 });
             },
             afterUpdated() {
+
+            },
+            afterCreated() {
 
             },
         },

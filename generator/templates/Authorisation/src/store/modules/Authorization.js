@@ -33,6 +33,7 @@ export default {
             });
         },
         unauthorized(context) {
+            context.commit('setAuthorizationTokens', null);
             router.push({name: 'login'});
         },
         refreshToken() {

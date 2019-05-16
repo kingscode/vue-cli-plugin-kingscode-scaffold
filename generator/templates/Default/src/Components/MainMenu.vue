@@ -54,7 +54,6 @@
 <script>
     export default {
         name: 'MainMenu',
-        computed: {
         data() {
             return {
                 items: [
