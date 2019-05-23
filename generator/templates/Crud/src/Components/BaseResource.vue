@@ -100,9 +100,14 @@
                                         'Content-Type': 'multipart/form-data',
                                     },
                                 })
-                                .then(() => {
-                                    this.afterCreated();
-                                    resolve();
+                                .then((response) => {
+                                    if (typeof this.afterCreate === 'function') {
+                                        this.afterCreate(response.data.data).then(() => {
+                                            resolve();
+                                        });
+                                    } else {
+                                        resolve();
+                                    }
                                 }).catch((error) => {
                                 console.log(error);
                                 this.errors = error.response.data.errors;
@@ -135,9 +140,14 @@
                                         'Content-Type': 'multipart/form-data',
                                     },
                                 })
-                                .then(() => {
-                                    this.afterUpdated();
-                                    resolve();
+                                .then((response) => {
+                                    if (typeof this.afterUpdate === 'function') {
+                                        this.afterUpdate(response.data.data).then(() => {
+                                            resolve();
+                                        });
+                                    } else {
+                                        resolve();
+                                    }
                                 }).catch((error) => {
                                 this.errors = error.response.data.errors;
                                 reject();
@@ -165,15 +175,9 @@
                     });
                     Promise.all(promises).then(() => {
                         resolve();
-                    })
+                    });
 
                 });
-            },
-            afterUpdated() {
-
-            },
-            afterCreated() {
-
             },
         },
     };
