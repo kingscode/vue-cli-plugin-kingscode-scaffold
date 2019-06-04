@@ -24,9 +24,12 @@
     </v-container>
 </template>
 <script>
+    import FormDataValues from './../mixins/formDataValues';
+
     export default {
         components: {},
         name: 'base-resource',
+        mixins: [FormDataValues],
         data() {
             return {
                 resourceUri: '',
@@ -82,11 +85,9 @@
             },
             getCreateFormValues() {
                 let form_data = new FormData();
-                for (let key in this.createForm.values) {
-                    form_data.append(key, this.createForm.values[key]);
-                }
-                return form_data;
+                this.appendFormData(form_data, this.createForm.values);
 
+                return form_data;
             },
             createEvent() {
                 this.errors = {};
@@ -123,9 +124,8 @@
             },
             getUpdateFormValues() {
                 let form_data = new FormData();
-                for (let key in this.updateForm.values) {
-                    form_data.append(key, this.updateForm.values[key]);
-                }
+                this.appendFormData(form_data, this.updateForm.values);
+
                 return form_data;
             },
             updateEvent(selected) {
