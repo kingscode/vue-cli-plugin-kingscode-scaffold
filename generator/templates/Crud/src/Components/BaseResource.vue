@@ -141,6 +141,8 @@
                                     },
                                 })
                                 .then((response) => {
+                                    history.pushState("", document.title, window.location.pathname + window.location.search);
+
                                     if (typeof this.afterUpdate === 'function') {
                                         this.afterUpdate(response.data.data).then(() => {
                                             resolve();
