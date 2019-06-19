@@ -4,14 +4,14 @@
             Pagina niet gevonden
         </h1>
         <div class="my-5 title">De pagina die u probeert te bereiken is niet gevonden</div>
-        <v-btn color="primary" @click="home">Terug naar de homepage</v-btn>
+        <v-btn color="primary" @click="home">Terug naar de startpagina</v-btn>
     </div>
 </template>
 
 <script>
 
     export default {
-        name: 'not-allowed',
+        name: 'page-not-found',
         data() {
             return {};
         },
