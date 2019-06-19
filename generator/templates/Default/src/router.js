@@ -12,6 +12,11 @@ export default new Router({
             name: 'home',
             component: () => import('@/views/Home'),
         },
+        {
+            path: '/403',
+            name: '403',
+            component: () => import('./views/PageForbidden.vue'),
+        },
         <%_ if (options.useAuthorisation) { _%>
         {
             path: '/login',
