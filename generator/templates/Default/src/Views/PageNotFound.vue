@@ -1,0 +1,28 @@
+<template>
+    <div class="text-xs-center">
+        <h1>
+            Pagina niet gevonden
+        </h1>
+        <div class="my-5 title">De pagina die u probeert te bereiken is niet gevonden</div>
+        <v-btn color="primary" @click="home">Terug naar de homepage</v-btn>
+    </div>
+</template>
+
+<script>
+
+    export default {
+        name: 'not-allowed',
+        data() {
+            return {};
+        },
+        methods: {
+            home() {
+                this.$router.push({name: 'home'});
+            }
+        },
+    };
+</script>
+
+<style scoped lang="scss">
+
+</style>
