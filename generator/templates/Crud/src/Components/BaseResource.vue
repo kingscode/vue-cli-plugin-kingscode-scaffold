@@ -61,7 +61,7 @@
                             },
                         })
                         .then((response) => {
-                            let items = response.data.data;
+                            let items = this.mapDataResponse(response.data.data);
                             let total = response.data.meta.total;
                             resolve({
                                 items,
@@ -70,6 +70,9 @@
                         }).catch(() => reject());
 
                 });
+            },
+            mapDataResponse(data) {
+                return data;
             },
             getItemFromApi(id) {
                 return new Promise((resolve) => {
