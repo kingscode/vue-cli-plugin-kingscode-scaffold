@@ -2,8 +2,9 @@
 import axios from 'axios';
 import router from './router';
 import qs from 'qs';
+<%_ if (options.useAuthorisation) { _%>
 import store from './store/store.js'
-
+<%_ } _%>
 /**
  * Instantiate promise based HTTP client for the browser and node.js
  *
@@ -45,6 +46,11 @@ instance.interceptors.response.use(
                     store.dispatch('Authorization/unauthorized');
                     break;
                 <%_ } _%>
+                case 403:
+                    router.push({
+                        name: '403',
+                    });
+                    break;
             }
         } else {
             if (error.request) {

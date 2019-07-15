@@ -24,7 +24,7 @@
     </v-container>
 </template>
 <script>
-    import FormDataValues from './../mixins/formDataValues';
+    import FormDataValues from '../mixins/formDataValues';
 
     export default {
         components: {},

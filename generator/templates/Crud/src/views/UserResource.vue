@@ -1,6 +1,6 @@
 <script>
-    import UserForm from './../components/forms/User.vue';
-    import BaseResource from './../components/BaseResource.vue';
+    import UserForm from '../components/forms/User.vue';
+    import BaseResource from '../components/BaseResource.vue';
 
     export default {
         components: {UserForm},
