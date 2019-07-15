@@ -46,6 +46,11 @@ instance.interceptors.response.use(
                     store.dispatch('Authorization/unauthorized');
                     break;
                 <%_ } _%>
+                case 403:
+                    router.push({
+                        name: '403',
+                    });
+                    break;
             }
         } else {
             if (error.request) {
