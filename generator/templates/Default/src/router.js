@@ -71,6 +71,14 @@ export default new Router({
             component: () => import('./views/UserResource.vue')
         },
         <%_ } _%>
-
+        {
+            path: '/404',
+            name: '404',
+            component: () => import('./views/PageNotFound.vue'),
+        },
+        {
+            path: '*',
+            redirect: '/404'
+        },
     ],
 });
