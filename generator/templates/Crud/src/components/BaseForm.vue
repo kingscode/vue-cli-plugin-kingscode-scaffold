@@ -4,7 +4,6 @@
         name: 'Form',
         props: {
             value: {
-                immediate: true,
                 default() {
                     return {values: {}, valid: false};
                 },
@@ -20,6 +19,7 @@
 
         watch: {
             value: {
+                immediate: true,
                 handler() {
                     this.values = this.setFormValues(this.value.values);
                 },
