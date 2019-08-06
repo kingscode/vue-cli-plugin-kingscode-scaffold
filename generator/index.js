@@ -13,7 +13,7 @@ module.exports = (api, options) => {
     if (options.useCrud) {
         api.extendPackage({
             dependencies: {
-                '@kingscode/vuetify-resource': '^0.6.2',
+                '@kingscode/vuetify-resource': '^1.0.0',
             },
         });
         api.render('./templates/Crud', {

@@ -168,7 +168,6 @@
                 this.updateForm.values = selected[0];
             },
             beforeOpenCreate() {
-                this.$refs.createForm.clear();
             },
             deleteEvent(ids) {
                 return new Promise((resolve) => {

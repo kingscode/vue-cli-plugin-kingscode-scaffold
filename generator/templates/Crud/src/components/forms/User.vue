@@ -33,7 +33,5 @@
     export default {
         name: 'user-form',
         extends: Form,
-        methods: {
-        },
     };
 </script>

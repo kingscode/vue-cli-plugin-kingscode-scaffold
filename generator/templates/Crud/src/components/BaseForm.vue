@@ -4,21 +4,24 @@
         name: 'Form',
         props: {
             value: {
+                immediate: true,
                 default() {
                     return {values: {}, valid: false};
-                }, type: Object,
+                },
+                type: Object,
             },
             errors: {
                 default() {
                     return {};
-                }, type: Object,
+                },
+                type: Object,
             },
         },
 
         watch: {
             value: {
                 handler() {
-                    this.values = this.value.values;
+                    this.values = this.setFormValues(this.value.values);
                 },
                 deep: true,
             },
@@ -43,7 +46,7 @@
         data() {
             return {
                 valid: false,
-                values: this.value.values,
+                values: {}
             };
         },
         methods: {
@@ -59,9 +62,16 @@
                 }
                 return true;
             },
+            setFormValues(values) {
+                return values;
+            },
         },
     };
 </script>
 
-<style scoped>
+<style>
+    .v-input.required label::after
+    {
+        content: " *";
+    }
 </style>
