@@ -8,6 +8,7 @@ module.exports = (api, options) => {
             'vuex': '^3.1.0',
             'vuex-persistedstate': '^2.5.4',
             '@fortawesome/fontawesome-pro': '^5.8.1',
+            "lodash.clonedeep": "^4.5.0",
         },
     });
     if (options.useCrud) {

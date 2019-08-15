@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid pt-5>
+    <v-container fluid pt-12>
         <vuetify-resource
             :beforeCreateCallback="beforeOpenCreate"
             :beforeUpdateCallback="beforeOpenUpdate"
@@ -15,16 +15,25 @@
             v-model="selected"
         >
             <div slot="createContent">
-                <component :errors="errors" :is="createFormComponent" ref="createForm" v-model="createForm"/>
+                <component :errors="errors"
+                           :is="createFormComponent"
+                           :is-update-form="false"
+                           ref="createForm"
+                           v-model="createForm"/>
             </div>
             <div slot="updateContent">
-                <component :errors="errors" :is="updateFormComponent" ref="updateForm" v-model="updateForm"/>
+                <component :errors="errors"
+                           :is="updateFormComponent"
+                           :is-update-form="true"
+                           ref="updateForm"
+                           v-model="updateForm"/>
             </div>
         </vuetify-resource>
     </v-container>
 </template>
 <script>
-    import FormDataValues from '../mixins/formDataValues';
+    import FormDataValues from './../mixins/formDataValues';
+    import cloneDeep from 'lodash.clonedeep';
 
     export default {
         components: {},
@@ -88,9 +97,13 @@
             },
             getCreateFormValues() {
                 let form_data = new FormData();
-                this.appendFormData(form_data, this.createForm.values);
+                this.appendFormData(form_data, this.mapCreateFormValues(cloneDeep(this.createForm.values)));
 
                 return form_data;
+
+            },
+            mapCreateFormValues(values) {
+                return this.mapCreateAndUpdateFormValues(values);
             },
             createEvent() {
                 this.errors = {};
@@ -105,6 +118,7 @@
                                     },
                                 })
                                 .then((response) => {
+                                    this.createForm.values = {};
                                     if (typeof this.afterCreate === 'function') {
                                         this.afterCreate(response.data.data).then(() => {
                                             resolve();
@@ -127,9 +141,15 @@
             },
             getUpdateFormValues() {
                 let form_data = new FormData();
-                this.appendFormData(form_data, this.updateForm.values);
+                this.appendFormData(form_data, this.mapUpdateFormValues(cloneDeep(this.updateForm.values)));
 
                 return form_data;
+            },
+            mapUpdateFormValues(values) {
+                return this.mapCreateAndUpdateFormValues(values);
+            },
+            mapCreateAndUpdateFormValues(values) {
+                return values;
             },
             updateEvent(selected) {
                 this.errors = {};
@@ -168,6 +188,7 @@
                 this.updateForm.values = selected[0];
             },
             beforeOpenCreate() {
+
             },
             deleteEvent(ids) {
                 return new Promise((resolve) => {

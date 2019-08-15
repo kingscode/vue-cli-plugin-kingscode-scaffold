@@ -15,6 +15,10 @@
                 },
                 type: Object,
             },
+            isUpdateForm: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         watch: {
@@ -46,7 +50,7 @@
         data() {
             return {
                 valid: false,
-                values: {}
+                values: {},
             };
         },
         methods: {
