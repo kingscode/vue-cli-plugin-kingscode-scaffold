@@ -25,7 +25,9 @@
             value: {
                 immediate: true,
                 handler() {
-                    this.values = this.setFormValues(this.value.values);
+                    if (Object.keys(this.value.values).length !== 0) {
+                        this.values = this.setFormValues(this.value.values);
+                    }
                 },
                 deep: true,
             },
