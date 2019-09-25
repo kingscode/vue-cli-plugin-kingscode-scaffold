@@ -49,6 +49,7 @@
                 createForm: {values: {}},
                 updateForm: {values: {}},
                 errors: {},
+                selected: [],
             };
         },
         methods: {
