@@ -16,6 +16,7 @@
                         :rules="[(v) => !!v || 'E-Mail is verplicht']"
                         label="E-Mail"
                         v-model="username"
+                        tabindex="1"
                     ></v-text-field>
                     <v-text-field
                         :append-icon="showpassword ? 'fa-eye-slash' : 'fa-eye'"
@@ -24,6 +25,7 @@
                         @click:append="showpassword = !showpassword"
                         label="Wachtwoord"
                         v-model="password"
+                        tabindex="2"
                     ></v-text-field>
                 </template>
                 <div class="text-xs-center" v-else>
@@ -38,7 +40,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="handlePasswordForgotten()" color="accent" flat>Wachtwoord vergeten</v-btn>
-                <v-btn @click="handleLogin()" type="submit" color="accent">Inloggen</v-btn>
+                <v-btn @click="handleLogin()" tabindex="3" type="submit" color="accent">Inloggen</v-btn>
             </v-card-actions>
         </v-card>
     </v-form>
