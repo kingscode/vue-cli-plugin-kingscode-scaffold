@@ -9,7 +9,6 @@
         data() {
             return {
                 meta: {name: 'gebruiker', namePlural: 'gebruikers'},
-                selected: null,
                 resourceUri: 'user',
                 tableContent: [
                     {
