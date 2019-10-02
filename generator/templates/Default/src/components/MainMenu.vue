@@ -6,7 +6,6 @@
             <v-list-group
                 :disabled="item.disabled"
                 :prepend-icon="item.icon"
-                @click="routeTo(item.route)"
                 no-icon
                 v-if="typeof item.items !== 'undefined'"
                 v-model="item.active"
