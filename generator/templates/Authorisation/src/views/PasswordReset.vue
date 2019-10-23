@@ -6,7 +6,7 @@
                 <template v-if="!loading">
                     <v-alert
                         :value="errorMessage !== null"
-                        class="mb-4"
+                        class="mb-10"
                         transition="fade-transition"
                         type="error"
                     >

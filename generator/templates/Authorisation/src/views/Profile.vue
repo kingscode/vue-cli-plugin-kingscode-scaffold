@@ -1,11 +1,11 @@
 <template>
     <v-container>
-        <v-layout align-center justify-center mt-5>
+        <v-layout align-center justify-center mt-12>
             <v-flex xs12 sm10 md8 lg6 xl4>
                 <v-form @submit.prevent="updateProfile" ref="profileForm">
                     <v-subheader class="pa-0">Profiel</v-subheader>
                     <v-card class="themed-color">
-                        <div class="text-xs-center pa-5"
+                        <div class="text-xs-center pa-12"
                              v-if="profileFormLoading">
                             <v-progress-circular
                                 :width="3"
@@ -46,7 +46,7 @@
                 <v-form  @submit.prevent="updatePassword" ref="passwordForm">
                     <v-subheader class="pa-0">Wachtwoord</v-subheader>
                     <v-card class="themed-color">
-                        <div class="text-xs-center pa-5"
+                        <div class="text-xs-center pa-12"
                              v-if="passwordFormLoading">
                             <v-progress-circular
                                 :width="3"

@@ -5,18 +5,18 @@
         offset-y
         transition="slide-y-transition"
     >
-        <v-btn class="mr-3" fab icon slot="activator">
+        <v-btn class="mr-6" fab icon slot="activator">
             <v-avatar class="accent" size="48" title>
                 <v-icon>fa-user</v-icon>
             </v-avatar>
         </v-btn>
         <v-list>
-            <v-list-tile @click="routeTo('profile')">
-                <v-list-tile-title>Profiel</v-list-tile-title>
-            </v-list-tile>
-            <v-list-tile @click="logout">
-                <v-list-tile-title>Uitloggen</v-list-tile-title>
-            </v-list-tile>
+            <v-list-item @click="routeTo('profile')">
+                <v-list-item-title>Profiel</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="logout">
+                <v-list-item-title>Uitloggen</v-list-item-title>
+            </v-list-item>
         </v-list>
     </v-menu>
 </template>

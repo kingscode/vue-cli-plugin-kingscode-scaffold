@@ -7,7 +7,7 @@
                 v-model="menu"
             >
                 <img :src="require('../assets/logo.png')" @click="$router.push({name: 'home'})" class="logo">
-                <v-divider class="mt-4"/>
+                <v-divider class="mt-10"/>
                 <main-menu/>
             </v-navigation-drawer>
             <v-toolbar app color="primary" dark mfixed>
@@ -20,7 +20,7 @@
                 <router-view/>
             </v-content>
             <v-footer app color="primary" inset>
-                <span class="white--text pl-3">Created by Kings Code</span>
+                <span class="white--text pl-6">Created by Kings Code</span>
             </v-footer>
         </v-app>
     </div>

@@ -3,7 +3,7 @@
         <h1>
             Pagina niet gevonden
         </h1>
-        <div class="my-5 title">De pagina die u probeert te bereiken is niet gevonden</div>
+        <div class="my-12 title">De pagina die u probeert te bereiken is niet gevonden</div>
         <v-btn color="primary" @click="home">Terug naar de startpagina</v-btn>
     </div>
 </template>
