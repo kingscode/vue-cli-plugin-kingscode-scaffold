@@ -22,6 +22,7 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
+    vuetify,
 <%_ if (options.useAuthorisation) { _%>
     store,
 <%_ } _%>

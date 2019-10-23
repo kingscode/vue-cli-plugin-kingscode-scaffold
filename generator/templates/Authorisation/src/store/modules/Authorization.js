@@ -12,7 +12,7 @@ export default {
     actions: {
         login(context, data) {
             return new Promise((resolve, reject) => {
-                $http.post('oauth/token',
+                window.$http.post('oauth/token',
                     {
                         grant_type: 'password',
                         client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,

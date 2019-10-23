@@ -5,11 +5,13 @@
         offset-y
         transition="slide-y-transition"
     >
-        <v-btn class="mr-6" fab icon slot="activator">
-            <v-avatar class="accent" size="48" title>
-                <v-icon>fa-user</v-icon>
-            </v-avatar>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+            <v-btn class="mr-6" fab icon v-on="on">
+                <v-avatar class="accent" size="48" title>
+                    <v-icon>fa-user</v-icon>
+                </v-avatar>
+            </v-btn>
+        </template>
         <v-list>
             <v-list-item @click="routeTo('profile')">
                 <v-list-item-title>Profiel</v-list-item-title>

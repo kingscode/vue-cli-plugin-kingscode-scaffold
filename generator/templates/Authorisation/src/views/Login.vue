@@ -28,7 +28,7 @@
                         tabindex="2"
                     ></v-text-field>
                 </template>
-                <div class="text-xs-center" v-else>
+                <div class="text-center" v-else>
                     <v-progress-circular
                         :size="70"
                         :width="7"

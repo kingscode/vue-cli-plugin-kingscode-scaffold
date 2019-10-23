@@ -5,7 +5,7 @@
                 <v-form @submit.prevent="updateProfile" ref="profileForm">
                     <v-subheader class="pa-0">Profiel</v-subheader>
                     <v-card class="themed-color">
-                        <div class="text-xs-center pa-12"
+                        <div class="text-center pa-12"
                              v-if="profileFormLoading">
                             <v-progress-circular
                                 :width="3"
@@ -46,7 +46,7 @@
                 <v-form  @submit.prevent="updatePassword" ref="passwordForm">
                     <v-subheader class="pa-0">Wachtwoord</v-subheader>
                     <v-card class="themed-color">
-                        <div class="text-xs-center pa-12"
+                        <div class="text-center pa-12"
                              v-if="passwordFormLoading">
                             <v-progress-circular
                                 :width="3"
@@ -145,7 +145,7 @@
                     });
                 });
             },
-            serverError(name, v) {
+            serverError(name) {
                 if (this.errors !== null && typeof this.errors[name] !== 'undefined') {
                     return this.errors[name][0];
                 }
