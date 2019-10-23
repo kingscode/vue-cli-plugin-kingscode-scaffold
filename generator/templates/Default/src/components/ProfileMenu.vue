@@ -13,7 +13,7 @@
             </v-btn>
         </template>
         <v-list>
-            <v-list-item @click="routeTo('profile')">
+            <v-list-item :to="{name:'profile'}">
                 <v-list-item-title>Profiel</v-list-item-title>
             </v-list-item>
             <v-list-item @click="logout">
@@ -37,9 +37,6 @@
 
         },
         methods: {
-            routeTo(name) {
-                this.$router.push({name: name});
-            },
             logout() {
                 this.$store.dispatch('Authorization/unauthorized');
             }
