@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs-center">
+    <div class="text-center">
         <h1>
             Pagina niet gevonden
         </h1>
