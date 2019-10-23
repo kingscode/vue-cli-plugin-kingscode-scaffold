@@ -18,7 +18,7 @@
 
                 <v-list-item
                     :key="subItem.title"
-                    @click="routeTo(subItem.route)"
+                    :to="subItem.route"
 
                     v-for="subItem in item.items"
                     :value="$route.name === subItem.route"
@@ -33,7 +33,7 @@
                 </v-list-item>
             </v-list-group>
             <v-list-item
-                @click="routeTo(item.route)"
+                :to="item.route"
                 v-else
                 :value="$route.name === item.route"
             >
@@ -59,16 +59,11 @@
                     {
                         icon: 'fa-users',
                         title: 'Gebruikers',
-                        route: 'users',
+                        route: {name: 'users'},
                     }
 
                 ]
             };
-        },
-        methods: {
-            routeTo(name) {
-                this.$router.push({name: name});
-            },
         },
     };
 </script>
