@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+<%_ if (options.useAuthorisation) { _%>
+import AuthorisationGuard from './guards/AuthorisationGuard';
+<%_ } _%>
 
 Vue.use(Router);
 
