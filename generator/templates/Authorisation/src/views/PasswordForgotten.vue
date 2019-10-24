@@ -6,7 +6,7 @@
                     <img :src="require('../assets/logo.png')" class="logo">
                     <v-alert
                         :value="successMessage !== null"
-                        class="mb-4"
+                        class="mb-10"
                         transition="fade-transition"
                         type="success"
                     >
@@ -18,7 +18,7 @@
                         v-model="email"
                     ></v-text-field>
                 </template>
-                <div class="text-xs-center" v-else>
+                <div class="text-center" v-else>
                     <v-progress-circular
                         :size="70"
                         :width="7"
@@ -29,7 +29,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="handleLogin()" color="accent" flat>inloggen</v-btn>
+                <v-btn @click="handleLogin()" color="accent" text>inloggen</v-btn>
                 <v-btn @click="handlePasswordForgotten()" type="submit" color="accent">Wachtwoord aanvragen</v-btn>
             </v-card-actions>
         </v-card>

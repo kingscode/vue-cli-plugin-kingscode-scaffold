@@ -8,7 +8,7 @@
                     v-if="enabled"
     >
         <template v-slot:append-item>
-            <v-flex v-if="canLoadMoreItems" class="text-xs-center">
+            <v-flex v-if="canLoadMoreItems" class="text-center">
                 <v-btn color="accent" @click="getItemsFromApi(page + 1)">Meer laden</v-btn>
             </v-flex>
         </template>

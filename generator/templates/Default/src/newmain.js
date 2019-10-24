@@ -1,7 +1,7 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import API from './API.js';
-import './plugins/vuetify'
+import vuetify from './plugins/vuetify';
 <%_ if (options.useCrud) { _%>
 import VuetifyResource from '@kingscode/vuetify-resource';
 <%_ } _%>
@@ -22,6 +22,7 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
+    vuetify,
 <%_ if (options.useAuthorisation) { _%>
     store,
 <%_ } _%>

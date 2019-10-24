@@ -2,7 +2,7 @@
     <div id="app">
         <v-app class="primary" id="inspire">
             <v-content>
-                <v-container fill-height fluid justify-center>
+                <v-container fill-height fluid justify-center class="primary">
                     <v-flex lg4 md6 xl3 xs12>
                         <router-view/>
                     </v-flex>

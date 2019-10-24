@@ -62,7 +62,7 @@
             clear() {
                 this.$refs.form.reset();
             },
-            serverError(name, v) {
+            serverError(name) {
                 if (this.errors !== null && typeof this.errors[name] !== 'undefined') {
                     return this.errors[name][0];
                 }

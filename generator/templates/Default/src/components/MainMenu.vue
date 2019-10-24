@@ -1,51 +1,50 @@
 <template>
     <v-list>
         <div
-            :key="item.title"
-            v-for="item in items">
+            :key="index"
+            v-for="(item, index) in items">
             <v-list-group
                 :disabled="item.disabled"
                 :prepend-icon="item.icon"
-                @click="routeTo(item.route)"
                 no-icon
                 v-if="typeof item.items !== 'undefined'"
                 v-model="item.active"
             >
-                <v-list-tile @click="routeTo('merchant')" slot="activator">
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <v-list-item slot="activator">
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-                <v-list-tile
+                <v-list-item
                     :key="subItem.title"
-                    @click="routeTo(subItem.route)"
+                    :to="subItem.route"
 
                     v-for="subItem in item.items"
-                    v-model="$route.name === subItem.route"
+                    :value="$route.name === subItem.route"
                 >
-                    <v-list-tile-action>
+                    <v-list-item-action>
                         <v-icon>{{ subItem.icon }}</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-                    </v-list-tile-content>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ subItem.title }}</v-list-item-title>
+                    </v-list-item-content>
 
-                </v-list-tile>
+                </v-list-item>
             </v-list-group>
-            <v-list-tile
-                @click="routeTo(item.route)"
+            <v-list-item
+                :to="item.route"
                 v-else
-                v-model="$route.name === item.route"
+                :value="$route.name === item.route"
             >
-                <v-list-tile-action>
+                <v-list-item-action>
                     <v-icon>{{ item.icon }}</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                </v-list-tile-content>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
 
-            </v-list-tile>
+            </v-list-item>
         </div>
 
     </v-list>
@@ -60,17 +59,12 @@
                     {
                         icon: 'fa-users',
                         title: 'Gebruikers',
-                        route: 'users',
+                        route: {name: 'users'},
                     }
 
                 ]
             };
         },
-        methods: {
-            routeTo(name) {
-                this.$router.push({name: name});
-            }
-        }
     };
 </script>
 

@@ -6,7 +6,7 @@
                 <template v-if="!loading">
                     <v-alert
                         :value="errorMessage !== null"
-                        class="mb-4"
+                        class="mb-10"
                         transition="fade-transition"
                         type="error"
                     >
@@ -34,7 +34,7 @@
                         v-model="password_confirmation"
                     ></v-text-field>
                 </template>
-                <div class="text-xs-center" v-else>
+                <div class="text-center" v-else>
                     <v-progress-circular
                         :size="70"
                         :width="7"
@@ -105,7 +105,7 @@
             },
             handleLogin() {
                 this.$router.push({name: 'login'});
-            }, serverError(name, v) {
+            }, serverError(name) {
                 if (this.errors !== null && typeof this.errors[name] !== 'undefined') {
                     return this.errors[name][0];
                 }
