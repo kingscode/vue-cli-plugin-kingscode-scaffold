@@ -7,12 +7,7 @@ export default new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: () => import('@/views/Home'),
-        },
-        // <%_ if (options.useAuthorisation) { _%>
+        <%_ if (options.useAuthorisation) { _%>
         {
             path: '',
             component: () => import('@/templates/Authorisation'),
@@ -39,26 +34,31 @@ export default new Router({
                 },
             ]
         },
-        //  <%_ } _%>
+         <%_ } _%>
         {
             path: '',
             beforeEnter: AuthorisationGuard,
             component: () => import('@/templates/Default'),
             children: [
-                // <%_ if (options.useAuthorisation) { _%>
+                {
+                    path: '/',
+                    name: 'home',
+                    component: () => import('@/views/Home'),
+                },
+                <%_ if (options.useAuthorisation) { _%>
                 {
                     path: '/profile',
                     name: 'profile',
                     component: () => import('./views/Profile.vue')
                 },
-                //  <%_ } _%>
-                //  <%_ if (options.useCrud) { _%>
+                 <%_ } _%>
+                 <%_ if (options.useCrud) { _%>
                 {
                     path: '/users',
                     name: 'users',
                     component: () => import('./views/UserResource.vue')
                 },
-                //   <%_ } _%>
+                  <%_ } _%>
                 {
                     path: '/404',
                     name: '404',
