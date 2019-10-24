@@ -14,6 +14,9 @@ import './registerServiceWorker'
 
 Vue.prototype.$http = API;
 window.$http = API;
+<%_ if (options.useAuthorisation) { _%>
+Vue.prototype.$store = store;
+<%_ } _%>
 <%_ if (options.useCrud) { _%>
 Vue.use(VuetifyResource);
 <%_ } _%>
