@@ -40,7 +40,9 @@ export default new Router({
          <%_ } _%>
         {
             path: '',
+            <%_ if (options.useAuthorisation) { _%>
             beforeEnter: AuthorisationGuard,
+            <%_ } _%>
             component: () => import('@/templates/Default'),
             children: [
                 {
