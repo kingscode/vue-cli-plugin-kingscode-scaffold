@@ -26,11 +26,6 @@ module.exports = (api, options) => {
         ...options,
     });
 
-    if (options.useTemplateLoader) {
-        api.render('./templates/TemplateLoader', {
-            ...options,
-        });
-    }
     if (options.useAuthorisation) {
         api.render('./templates/Authorisation', {
             ...options,
