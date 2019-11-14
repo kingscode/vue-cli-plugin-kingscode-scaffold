@@ -11,7 +11,8 @@ module.exports = (api, options) => {
             'lodash.clonedeep': '^4.5.0',
             'css-vars-ponyfill': '^2.1.2',
         },
-    });
+    })
+
     if (options.useCrud) {
         api.extendPackage({
             dependencies: {
@@ -19,6 +20,10 @@ module.exports = (api, options) => {
             },
         });
         api.render('./templates/Crud', options);
+    }
+
+    if (options.useGithubDeployemnts) {
+        api.render('./templates/Deployment', options);
     }
 
     api.render('./templates/Default', options);

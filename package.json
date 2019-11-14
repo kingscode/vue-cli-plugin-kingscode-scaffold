@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-plugin-kingscode-scaffold",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "",
   "main": "index.js",
   "scripts": {

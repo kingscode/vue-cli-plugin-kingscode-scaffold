@@ -16,6 +16,12 @@ module.exports = [
         default: true,
     },
     {
+        name: 'useGithubDeployemnts',
+        type: 'confirm',
+        message: 'Do you want to use github actions for deployments?',
+        default: true,
+    },
+    {
         name: 'plugins',
         type: 'checkbox',
         message: 'Which plugins should we install for you?',

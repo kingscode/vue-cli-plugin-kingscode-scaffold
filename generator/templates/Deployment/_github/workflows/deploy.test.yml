@@ -1,0 +1,65 @@
+name: Deploy [test]
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: setup server connections
+        env:
+          PUBLIC_KEY: ${{ secrets.public_key }}
+          PRIVATE_KEY: ${{ secrets.private_key }}
+          HOST_KEY_VERIFICATION: ${{ secrets.host_key_verification }}
+        run: |
+          mkdir ~/.ssh
+          echo "$PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          echo "$HOST_KEY_VERIFICATION" >> ~/.ssh/known_hosts
+          ssh-keyscan -H jumphost.kingscode.nl >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa
+          eval `ssh-agent -s`
+          ssh-add ~/.ssh/id_rsa
+      - name: test connection
+        run: ssh -T jumphost@jumphost.kingscode.nl
+
+      - name: build .npmrc
+        env:
+          FONT_AWESOME_TOKEN: ${{ secrets.font_awesome_token }}
+        run: |
+          echo "@fortawesome:registry=https://npm.fontawesome.com/" >> .npmrc
+          echo "//npm.fontawesome.com/:_authToken=$FONT_AWESOME_TOKEN" >> .npmrc
+      - name: build application environment
+        env:
+          CLIENT_ID: ${{ secrets.client_id }}
+          CLIENT_SECRET: ${{ secrets.client_secret }}
+        run: |
+          touch .env.production
+          echo "NODE_ENV=production" >> .env.production
+          echo "VUE_APP_ROOT_API=" >> .env.production
+          echo "VUE_APP_CLIENT_SECRET=$CLIENT_SECRET" >> .env.production
+          echo "VUE_APP_CLIENT_ID=$CLIENT_ID" >> .env.production
+          echo "VUE_APP_SENTRY=" >> .env.production
+          echo "VUE_APP_ANALYTICS=" >> .env.production
+          <%_ if (options.plugins.includes('analytics')) { _%>
+          echo "VUE_APP_ANALYTICS=" >> .env.production
+          <%_ } _%>
+          <%_ if (options.plugins.includes('sentry')) { _%>
+          echo "VUE_APP_ANALYTICS=" >> .env.production
+          <%_ } _%>echo "VUE_APP_PUBLIC_PATH=/" >> .env.production
+      - name: build the environment
+        run: |
+          npm ci
+          npm run build
+      - name: deployment
+        run: |
+          cd dist
+          rsync -ave "ssh -o ProxyJump=jumphost@jumphost.kingscode.nl" ./ user@host:~/domains/example.com/public_html
