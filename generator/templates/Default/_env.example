@@ -5,3 +5,9 @@ VUE_APP_PUBLIC_PATH=
 VUE_APP_OAUTH_CLIENT_SECRET=
 VUE_APP_OAUTH_CLIENT_ID=
 <%_ } _%>
+<%_ if (options.plugins.includes('analytics')) { _%>
+VUE_APP_ANALYTICS=
+<%_ } _%>
+<%_ if (options.plugins.includes('sentry')) { _%>
+VUE_APP_SENTRY=
+<%_ } _%>

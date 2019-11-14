@@ -1,7 +1,7 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import API from './API.js';
-import vuetify from './plugins/vuetify';
+import {vuetify} from './plugins';
 <%_ if (options.useCrud) { _%>
 import VuetifyResource from '@kingscode/vuetify-resource';
 <%_ } _%>
