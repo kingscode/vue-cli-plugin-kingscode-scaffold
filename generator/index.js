@@ -7,16 +7,22 @@ module.exports = (api, options) => {
             'axios': '^0.18.0',
             'vuex': '^3.1.0',
             'vuex-persistedstate': '^2.5.4',
-            '@fortawesome/fontawesome-pro': '^5.8.1',
             'lodash.clonedeep': '^4.5.0',
             'css-vars-ponyfill': '^2.1.2',
         },
-    })
+    });
+    if (options.plugins.includes('fontawesomepro')) {
+        api.extendPackage({
+            dependencies: {
+                '@fortawesome/fontawesome-pro': '^5.8.1',
+            },
+        });
+    }
 
     if (options.useCrud) {
         api.extendPackage({
             dependencies: {
-                '@kingscode/vuetify-resource': '^1.1.0',
+                '@kingscode/vuetify-resource': '^1.1.2',
             },
         });
         api.render('./templates/Crud', options);

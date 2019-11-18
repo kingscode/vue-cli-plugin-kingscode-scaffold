@@ -1,13 +1,15 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify';
+import Vuetify from 'vuetify/lib';
+<%_ if (options.plugins.includes('fontawesomepro')){ _%>
 import '@fortawesome/fontawesome-pro/css/all.css';
-import 'vuetify/dist/vuetify.min.css';
+<%_ } _%>
 import nl from 'vuetify/es5/locale/nl';
 
 Vue.use(Vuetify);
 export default new Vuetify({
     icons: {
         iconfont: 'fa',
+<%_ if (options.plugins.includes('fontawesomepro')){ _%>
         values: {
             'close': 'far fa-times',
             'menu': 'far fa-bars',
@@ -16,6 +18,16 @@ export default new Vuetify({
             'edit': 'far fa-pencil-alt',
             'search': 'far fa-search',
         },
+<%_ } else { _%>
+        values: {
+            'close': 'fas fa-times',
+            'menu': 'fas fa-bars',
+            'delete': 'fas fa-trash-alt',
+            'add': 'fas fa-plus',
+            'edit': 'fas fa-pencil-alt',
+            'search': 'fas fa-search',
+        },
+<%_ } _%>
     },
     customProperties: true,
     lang: {

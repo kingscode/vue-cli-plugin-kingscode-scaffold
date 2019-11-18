@@ -36,6 +36,11 @@ module.exports = [
                 name: 'Google Analytics with vue-analytics',
                 checked: true,
             },
+            {
+                value: 'fontawesomepro',
+                name: 'Font awesome pro',
+                checked: false,
+            },
         ],
     },
     {
