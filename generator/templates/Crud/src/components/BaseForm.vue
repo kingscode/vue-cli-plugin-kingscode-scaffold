@@ -33,12 +33,12 @@
             },
             valid: {
                 handler() {
-                    this.$emit('input', {values: this.values, valid: this.valid});
+                    this.handleFormEmit();
                 },
             },
             values: {
                 handler() {
-                    this.$emit('input', {values: this.values, valid: this.valid});
+                    this.handleFormEmit();
                 },
                 deep: true,
             },
@@ -70,6 +70,12 @@
             },
             setFormValues(values) {
                 return values;
+            },
+            handleFormEmit() {
+                clearTimeout(this.emitTimeout);
+                this.emitTimeout = setTimeout(() => {
+                    this.$emit('input', {values: this.values, valid: this.valid});
+                }, 500);
             },
         },
     };
