@@ -1,8 +1,7 @@
 # Kings Code  scaffold
 
 
-```
-vue create my-app
+```vue create my-app
 cd my-app
 vue add vuetify
 vue add kingscode-scaffold
