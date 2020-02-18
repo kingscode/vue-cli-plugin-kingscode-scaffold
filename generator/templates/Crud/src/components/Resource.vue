@@ -9,7 +9,7 @@
             :getItemCallback="getItemFromApi"
             :meta="meta"
             :tableContent="tableContent"
-            :texts="require($i18n.locale === 'nl' ? '../VuetifyResourceTextsDutch.js' : '../VuetifyResourceTextsEnglish.js').default"
+            :texts="require('../VuetifyResourceTexts.js').default"
             :updateCallback="updateEvent"
             can-delete-resource-key="can_be_deleted"
             ref="resourceList"
