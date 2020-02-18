@@ -1,7 +1,3 @@
-function useAuthorisation(answers) {
-    return answers.useAuthorisation;
-}
-
 module.exports = [
     {
         name: 'useCrud',
@@ -42,18 +38,6 @@ module.exports = [
                 checked: false,
             },
         ],
-    },
-    {
-        name: 'oauthClientId',
-        type: 'input',
-        message: 'What is the oauth client id? (run php artisan passport:client --password (you can change this later)',
-        when: useAuthorisation,
-    },
-    {
-        name: 'oauthSecret',
-        type: 'input',
-        message: 'What is the oauth client secret? (run php artisan passport:client --password (you can change this later)',
-        when: useAuthorisation,
     },
     {
         name: 'rootUrl',
