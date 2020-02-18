@@ -6,7 +6,7 @@
             :meta="{name: 'gebruiker', namePlural: 'gebruikers'}"
             :table-content="tableContent"
             :update-form-component="() => import('../components/forms/User.vue')"
-            resource-uri="admin/user"
+            resource-uri="user"
         />
     </v-container>
 </template>

@@ -14,6 +14,7 @@
             can-delete-resource-key="can_be_deleted"
             ref="resourceList"
             v-model="selected"
+            can-search
         >
             <div slot="createContent">
                 <component :errors="errors"

@@ -84,7 +84,7 @@ instance.interceptors.response.use(
 instance.interceptors.request.use((request) => {
     if(store.getters['Authorisation/isLoggedIn']) {
         let token = store.getters['Authorisation/getAccessToken'];
-        request.headers.Authorisation = 'Bearer ' + token;
+        request.headers.Authorization = 'Bearer ' + token;
     }
 
     return request;
