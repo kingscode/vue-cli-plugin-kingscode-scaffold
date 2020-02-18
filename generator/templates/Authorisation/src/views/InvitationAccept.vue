@@ -71,7 +71,7 @@
             };
         },
         created() {
-            if (this.$store.getters['Authorization/isLoggedIn']) {
+            if (this.$store.getters['Authorisation/isLoggedIn']) {
                 this.$router.push({name: 'home'});
             }
             this.email = this.$route.query.email;

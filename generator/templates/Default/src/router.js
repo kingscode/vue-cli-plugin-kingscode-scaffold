@@ -25,6 +25,11 @@ export default new Router({
                     component: () => import('@/views/Login'),
                 },
                 {
+                    path: '/auth/callback',
+                    name: 'auth.callback',
+                    component: () => import('@/views/AuthorisationCallback'),
+                },
+                {
                     path: '/password/forgotten',
                     name: 'password.forgotten',
                     component: () => import('./views/PasswordForgotten.vue'),

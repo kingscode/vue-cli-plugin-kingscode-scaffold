@@ -38,7 +38,7 @@
         },
         methods: {
             logout() {
-                this.$store.dispatch('Authorization/unauthorized');
+                this.$store.dispatch('Authorisation/unauthorized');
             }
         },
     };

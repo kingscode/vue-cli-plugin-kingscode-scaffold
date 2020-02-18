@@ -43,7 +43,7 @@ instance.interceptors.response.use(
 
                 <%_ if (options.useAuthorisation) { _%>
                 case 401:
-                    store.dispatch('Authorization/unauthorized');
+                    store.dispatch('Authorisation/unauthorized');
                     break;
                 <%_ } _%>
                 case 403:
@@ -79,12 +79,12 @@ instance.interceptors.response.use(
 
 <%_ if (options.useAuthorisation) { _%>
 /**
- * Request interceptor that catches the request and injects the token into the Authorization header.
+ * Request interceptor that catches the request and injects the token into the Authorisation header.
  */
 instance.interceptors.request.use((request) => {
-    if(store.getters['Authorization/isLoggedIn']) {
-        let token = store.getters['Authorization/getAccessToken'];
-        request.headers.Authorization = 'Bearer ' + token;
+    if(store.getters['Authorisation/isLoggedIn']) {
+        let token = store.getters['Authorisation/getAccessToken'];
+        request.headers.Authorisation = 'Bearer ' + token;
     }
 
     return request;
