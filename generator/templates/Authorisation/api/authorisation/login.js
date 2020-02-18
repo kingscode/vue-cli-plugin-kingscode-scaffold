@@ -1,7 +1,7 @@
 import API from './../../API.js';
 import handleTooManyRequestsError from '../utils/handleTooManyRequestsError.js';
 
-export default async function login(email, password) {
+export default async function (email, password) {
     const result = await API.post('auth/login', {
         email, password,
     }).catch((error) => {

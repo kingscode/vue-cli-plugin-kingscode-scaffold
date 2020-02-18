@@ -1,17 +1,17 @@
 import API from './../../API.js';
 import handleTooManyRequestsError from '../utils/handleTooManyRequestsError.js';
 
-export default async function (email, name) {
-    const result = await API.post('registration', {
-        email, name,
+export default async function (email) {
+    const result = await API.post('password/forgotten', {
+        email,
     }).catch((error) => {
         return error.response;
     });
 
-    if (result.status === 201) {
+    if (result.status === 200) {
         return {
             success: true,
-            message: 'Er is een account aangemaakt, controleer je e-mail om een wachtwoord te kiezen zodat je vervolgens kunt inloggen.',
+            message: 'Er is een wachtwoord vergeten mail verstuurd mits er een account bestaat met het gegeven email adres.',
         };
     }
 
@@ -20,7 +20,7 @@ export default async function (email, name) {
     }
 
     return {
-        message: `De ingevulde gegevens kloppen niet.`,
+        message: 'De ingevulde gegevens kloppen niet.',
         success: false,
     };
 }
