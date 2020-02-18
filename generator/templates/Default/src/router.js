@@ -54,13 +54,6 @@ export default new Router({
                     name: 'home',
                     component: () => import('@/views/Home'),
                 },
-                <%_ if (options.useAuthorisation) { _%>
-                {
-                    path: '/profile',
-                    name: 'profile',
-                    component: () => import('./views/Profile.vue')
-                },
-                 <%_ } _%>
                  <%_ if (options.useCrud) { _%>
                 {
                     path: '/users',
