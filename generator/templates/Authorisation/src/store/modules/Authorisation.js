@@ -2,7 +2,8 @@ export default {
     namespaced: true,
     state: {
         token: null,
-    }, mutations: {
+    }, 
+    mutations: {
         setAuthorisationToken(currentState, token) {
             currentState.token = token;
         },
