@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <v-app id="inspire" v-if="$store.getters['Authorization/isLoggedIn']">
+        <v-app id="inspire" v-if="$store.getters['Authorisation/isLoggedIn']">
             <v-navigation-drawer
                 app
                 fixed
@@ -39,7 +39,7 @@
             };
         },
         beforeCreate() {
-            if (!this.$store.getters['Authorization/isLoggedIn']) {
+            if (!this.$store.getters['Authorisation/isLoggedIn']) {
                 this.$router.push({name: 'login'});
             }
         },
