@@ -45,8 +45,6 @@ jobs:
           touch .env.production
           echo "NODE_ENV=production" >> .env.production
           echo "VUE_APP_ROOT_API=" >> .env.production
-          echo "VUE_APP_CLIENT_SECRET=$CLIENT_SECRET" >> .env.production
-          echo "VUE_APP_CLIENT_ID=$CLIENT_ID" >> .env.production
           echo "VUE_APP_SENTRY=" >> .env.production
           <%_ if (options.plugins.includes('analytics')) { _%>
           echo "VUE_APP_ANALYTICS=" >> .env.production
