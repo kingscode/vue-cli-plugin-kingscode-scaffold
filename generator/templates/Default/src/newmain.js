@@ -5,12 +5,12 @@ import {vuetify} from './plugins';
 <%_ if (options.useCrud) { _%>
 import VuetifyResource from '@kingscode/vuetify-resource';
 <%_ } _%>
-import App from './App.vue'
-import router from './router'
+import App from './App.vue';
+import router from './router';
 <%_ if (options.useAuthorisation) { _%>
-import store from './store/store.js'
+import store from './store';
 <%_ } _%>
-import './registerServiceWorker'
+import './registerServiceWorker';
 
 Vue.prototype.$http = API;
 window.$http = API;
@@ -21,7 +21,7 @@ Vue.prototype.$store = store;
 Vue.use(VuetifyResource);
 <%_ } _%>
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
     router,
@@ -30,4 +30,4 @@ new Vue({
     store,
 <%_ } _%>
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
