@@ -124,9 +124,6 @@ export default {
             required: false,
         },
     },
-    created() {
-        console.log(this.$attrs);
-    },
     methods: {
         /***
          * @param pagination
@@ -135,13 +132,19 @@ export default {
         getDataFromApi(pagination, search) {
             const {sortBy, sortDesc, page, itemsPerPage} = pagination;
             return new Promise((resolve, reject) => {
+                let sorting = {};
+                if (sortBy[0]) {
+                    sorting = {
+                        sortBy: sortBy[0],
+                        desc: sortDesc[0] ? 1 : 0,
+                    };
+                }
                 this.$http.get(this.resourceUri, {
                         params: {
                             q: search,
-                            sortBy: sortBy[0],
-                            desc: sortDesc[0] ? 1 : 0,
                             page: page,
                             perPage: itemsPerPage,
+                            ...sorting,
                         },
                     })
                     .then((response) => {
