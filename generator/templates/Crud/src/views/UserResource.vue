@@ -7,6 +7,7 @@
             :table-content="tableContent"
             :update-form-component="() => import('../components/forms/User.vue')"
             resource-uri="user"
+            can-search
         />
     </v-container>
 </template>

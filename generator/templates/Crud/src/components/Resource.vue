@@ -11,10 +11,9 @@
             :tableContent="tableContent"
             :texts="require('../VuetifyResourceTexts.js').default"
             :updateCallback="updateEvent"
-            can-delete-resource-key="can_be_deleted"
             ref="resourceList"
             v-model="selected"
-            can-search
+            v-bind="$attrs"
         >
             <div slot="createContent">
                 <component :errors="errors"
@@ -124,6 +123,9 @@ export default {
             type: Function,
             required: false,
         },
+    },
+    created() {
+        console.log(this.$attrs);
     },
     methods: {
         /***
