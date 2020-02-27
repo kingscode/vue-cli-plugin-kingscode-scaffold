@@ -53,7 +53,8 @@ jobs:
           <%_ } _%>
           <%_ if (options.plugins.includes('sentry')) { _%>
           echo "VUE_APP_ANALYTICS=" >> .env.production
-          <%_ } _%>echo "VUE_APP_PUBLIC_PATH=/" >> .env.production
+          <%_ } _%>
+          echo "VUE_APP_PUBLIC_PATH=/" >> .env.production
       <%_ if (!options.addRobotsFile){ _%>
       - name: setup robots.txt for disallowing search engines to visit the test env
         run: |
