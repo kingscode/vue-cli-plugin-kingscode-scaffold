@@ -18,6 +18,12 @@ module.exports = [
         default: true,
     },
     {
+        name: 'addRobotsFile',
+        type: 'confirm',
+        message: 'Do you want to disallow robots (SEO) to visit this applications (Y: robots.txt is placed in public folder, N: if you use github actions for deployment, in the test deployment a robots.txt is generated)',
+        default: false,
+    },
+    {
         name: 'plugins',
         type: 'checkbox',
         message: 'Which plugins should we install for you?',
