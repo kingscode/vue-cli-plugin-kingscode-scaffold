@@ -30,13 +30,14 @@ jobs:
           ssh-add ~/.ssh/id_rsa
       - name: test connection
         run: ssh -T jumphost@jumphost.kingscode.nl
-
+      <%_ if (options.plugins.includes('fontawesomepro')){ _%>
       - name: build .npmrc
         env:
           FONT_AWESOME_TOKEN: ${{ secrets.font_awesome_token }}
         run: |
           echo "@fortawesome:registry=https://npm.fontawesome.com/" >> .npmrc
           echo "//npm.fontawesome.com/:_authToken=$FONT_AWESOME_TOKEN" >> .npmrc
+      <%_ } _%>
       - name: build application environment
         env:
           CLIENT_ID: ${{ secrets.client_id }}
@@ -53,11 +54,48 @@ jobs:
           <%_ if (options.plugins.includes('sentry')) { _%>
           echo "VUE_APP_ANALYTICS=" >> .env.production
           <%_ } _%>echo "VUE_APP_PUBLIC_PATH=/" >> .env.production
+      <%_ if (!options.addRobotsFile){ _%>
+      - name: setup robots.txt for disallowing search engines to visit the test env
+        run: |
+          cd public
+          touch robots.txt
+          echo "" > robots.txt
+          echo "User-agent: *" >> robots.txt
+          echo "Disallow: /" >> robots.txt
+      <%_ } _%>
       - name: build the environment
         run: |
           npm ci
           npm run build
+      - name: remove /old deployment and create /new folder for deployment
+          uses: appleboy/ssh-action@master
+          with:
+            host: host
+            username: user
+            key: ${{ secrets.private_key }}
+            proxy_host: jumphost.kingscode.nl
+            proxy_username: jumphost
+            proxy_key: ${{ secrets.private_key }}
+            script: |
+              cd ~/domains/example.com/public_html
+              rm -rf ./old
+              mkdir -p ./new
+              mkdir -p ./old
       - name: deployment
         run: |
           cd dist
-          rsync -ave "ssh -o ProxyJump=jumphost@jumphost.kingscode.nl" ./ user@host:~/domains/example.com/public_html
+          rsync -ave "ssh -o ProxyJump=jumphost@jumphost.kingscode.nl" ./ user@host:~/domains/example.com/public_html/new
+      - name: move previous deployment to ./old and move ./new deployment to ./
+          uses: appleboy/ssh-action@master
+          with:
+            host: host
+            username: user
+            key: ${{ secrets.private_key }}
+            proxy_host: jumphost.kingscode.nl
+            proxy_username: jumphost
+            proxy_key: ${{ secrets.private_key }}
+            script: |
+              cd ~/domains/example.com/public_html
+              mv `\ls -1 ./ | grep -v "\<new\>" | grep -v "\<old\>" | grep -v "\<api\>"` ./old
+              mv ./new/* ./
+              rm -rf ./new

@@ -33,6 +33,10 @@ module.exports = (api, options) => {
         api.render('./templates/Deployment', options);
     }
 
+    if (options.addRobotsFile) {
+        api.render('./templates/Robots', options);
+    }
+
     api.render('./templates/Default', options);
 
     if (options.useAuthorisation) {
