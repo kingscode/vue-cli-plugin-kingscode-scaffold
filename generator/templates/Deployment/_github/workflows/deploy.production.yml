@@ -69,6 +69,7 @@ jobs:
           proxy_username: jumphost
           proxy_key: ${{ secrets.private_key }}
           script: |
+            shopt -s dotglob
             cd ~/domains/example.com/public_html
             rm -rf ./old
             mkdir -p ./new
@@ -89,6 +90,7 @@ jobs:
           proxy_username: jumphost
           proxy_key: ${{ secrets.private_key }}
           script: |
+            shopt -s dotglob
             cd ~/domains/example.com/public_html
             mv `\ls -1 ./ | grep -v "\<new\>" | grep -v "\<old\>" | grep -v "\<api\>"` ./old
             mv ./new/* ./
