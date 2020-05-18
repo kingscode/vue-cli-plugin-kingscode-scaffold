@@ -57,10 +57,10 @@ export default {
             required: true,
         },
         createFormComponent: {
-            required: true,
+            required: false,
         },
         updateFormComponent: {
-            required: true,
+            required: false,
         },
         meta: {
             type: Object,
