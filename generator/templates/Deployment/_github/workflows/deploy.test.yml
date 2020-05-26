@@ -45,6 +45,8 @@ jobs:
         run: |
           touch .env.production
           echo "NODE_ENV=production" >> .env.production
+          echo "VUE_APP_ENV=vue_test" >> .env.production
+          echo "VUE_APP_RELEASE=${GITHUB_SHA}" >> .env.production
           echo "VUE_APP_ROOT_API=" >> .env.production
           <%_ if (options.plugins.includes('analytics')) { _%>
           echo "VUE_APP_ANALYTICS=" >> .env.production
