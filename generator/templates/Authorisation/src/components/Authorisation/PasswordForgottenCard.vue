@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import forgottenRequest from '../../api/password/forgotten.js';
+import forgottenRequest from '../../api/endpoints/password/forgotten.js';
 
 export default {
     name: 'PasswordForgottenCard',

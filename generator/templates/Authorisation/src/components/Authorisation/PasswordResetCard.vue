@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import resetRequest from '../../api/password/reset.js';
+import resetRequest from '../../api/endpoints/password/reset.js';
 
 export default {
     name: 'PasswordResetCard',

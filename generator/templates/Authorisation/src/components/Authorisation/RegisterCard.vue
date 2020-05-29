@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import registerRequest from '../../api/authorisation/register.js';
+import registerRequest from '../../api/endpoints/authorisation/register.js';
 
 export default {
     name: 'RegisterCard',

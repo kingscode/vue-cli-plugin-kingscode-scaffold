@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import loginRequest from './../../api/authorisation/login';
+import loginRequest from '../../api/endpoints/authorisation/login';
 
 export default {
     name: 'LoginCard',
