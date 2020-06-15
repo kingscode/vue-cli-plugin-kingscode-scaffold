@@ -1,4 +1,4 @@
-import {ADD, CLEAR, FIND, REMOVE} from 'generator/templates/Default/src/store/constants.js';
+import {ADD, CLEAR, FIND, REMOVE} from '../constants.js';
 
 export default {
     namespaced: true,
