@@ -1,4 +1,4 @@
-import handle from 'generator/templates/Default/src/api/implementation/app/index.js'
+import handle from './index';
 
 async function get(url, params = {}) {
     const result = await handle.get(url, {

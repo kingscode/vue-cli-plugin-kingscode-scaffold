@@ -1,4 +1,4 @@
-import store from 'generator/templates/Authorisation/src/store';
+import store from '../../../store';
 
 /**
  * @param request {AxiosRequestConfig}

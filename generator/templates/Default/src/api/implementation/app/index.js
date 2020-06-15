@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from 'generator/templates/Default/src/api/implementation/app/interceptor.js';
-import {destroy, get, getPaginated, post, put} from 'generator/templates/Default/src/api/implementation/app/wrapper.js';
+import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from './interceptor';
+import {destroy, get, getPaginated, post, put} from './wrapper'
 
 /**
  * Returns an axios instance

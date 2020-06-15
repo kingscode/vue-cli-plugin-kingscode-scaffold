@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 
 import createPersistedState from 'vuex-persistedstate';
 /* MODULES */
-import Authorisation from './modules/Authorisation.js';
-import Error from './modules/Error.js';
+import Authorisation from './modules/Authorisation';
+import Error from './modules/Error';
 /* END MODULES */
 
 Vue.use(Vuex);

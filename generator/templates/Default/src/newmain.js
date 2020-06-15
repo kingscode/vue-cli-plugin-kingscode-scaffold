@@ -9,7 +9,6 @@ import router from './router';
 <%_ if (options.useAuthorisation) { _%>
 import store from './store';
 <%_ } _%>
-import './registerServiceWorker';
 
 <%_ if (options.useAuthorisation) { _%>
 Vue.prototype.$store = store;
