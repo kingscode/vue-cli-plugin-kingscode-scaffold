@@ -1,12 +1,16 @@
 # Kings Code  scaffold
 
+## Installation
 
-```vue create my-app
+```bash
+vue create my-app
 cd my-app
 vue add vuetify
 vue add kingscode-scaffold
 npm run serve
 ```
+
+Make sure to create the new Vue app with the vue-router package, or add it later.
 
 Mind that some of the choices you make in the `vue create my-app` and 
 later in the `vue add vuetify` will be overwritten by vuetify or the kings code scaffold.

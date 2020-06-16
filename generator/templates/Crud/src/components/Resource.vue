@@ -38,6 +38,8 @@
 <script>
 import cloneDeep from 'lodash.clonedeep';
 import FormDataValues from './../mixins/formDataValues';
+import {get, post, put, destroy} from '../api/implementation/app';
+import objectToFormData from '../api/util/objectToFormDataConverter.js';
 
 export default {
     components: {},
@@ -139,17 +141,17 @@ export default {
                         desc: sortDesc[0] ? 1 : 0,
                     };
                 }
-                this.$http.get(this.resourceUri, {
-                        params: {
-                            q: search,
-                            page: page,
-                            perPage: itemsPerPage,
-                            ...sorting,
-                        },
-                    })
+                get(this.resourceUri, {
+                    params: {
+                        q: search,
+                        page: page,
+                        perPage: itemsPerPage,
+                        ...sorting,
+                    },
+                })
                     .then((response) => {
-                        let items = this.mapDataResponse(response.data.data);
-                        let total = response.data.meta.total;
+                        const items = this.mapDataResponse(response.data);
+                        const total = response.data.meta.total;
                         resolve({
                             items,
                             total,
@@ -160,9 +162,9 @@ export default {
         },
         getItemFromApi(id) {
             return new Promise((resolve) => {
-                this.$http.get((this.showResourceUri || this.resourceUri) + '/' + id)
+                get((this.showResourceUri || this.resourceUri) + '/' + id)
                     .then((response) => {
-                        let item = response.data.data;
+                        const item = response.data.data;
                         resolve({
                             item,
                         });
@@ -171,10 +173,10 @@ export default {
             });
         },
         getCreateFormValues() {
-            let form_data = new FormData();
-            this.appendFormData(form_data, this.mapCreateFormValuesHandler(cloneDeep(this.createForm.values)));
+            const formData = new FormData();
+            this.appendFormData(formData, this.mapCreateFormValuesHandler(cloneDeep(this.createForm.values)));
 
-            return form_data;
+            return formData;
 
         },
         createEvent() {
@@ -183,13 +185,10 @@ export default {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
-                        this.$http.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues(),
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                            })
+                        post((this.createResourceUri || this.resourceUri), objectToFormData(this.getCreateFormValues()))
                             .then((response) => {
+                                console.log('createEvent: ');
+                                console.log(response.data);
                                 this.createForm.values = {};
                                 if (typeof this.afterCreate === 'function') {
                                     this.afterCreate(response.data.data).then(() => {
@@ -211,10 +210,10 @@ export default {
             });
         },
         getUpdateFormValues() {
-            let form_data = new FormData();
-            this.appendFormData(form_data, this.mapUpdateFormValuesHandler(cloneDeep(this.updateForm.values)));
+            const formData = new FormData();
+            this.appendFormData(formData, this.mapUpdateFormValuesHandler(cloneDeep(this.updateForm.values)));
 
-            return form_data;
+            return formData;
         },
         updateEvent(selected) {
             this.errors = {};
@@ -222,13 +221,10 @@ export default {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.updateForm.valid) {
-                        this.$http.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues(),
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                            })
+                        put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, objectToFormData(this.getUpdateFormValues()))
                             .then((response) => {
+                                console.log('updateEvent: ');
+                                console.log(response.data);
                                 if (typeof this.afterUpdate === 'function') {
                                     this.afterUpdate(response.data.data).then(() => {
                                         resolve();
@@ -251,14 +247,9 @@ export default {
         },
         deleteEvent(ids) {
             return new Promise((resolve) => {
-                let promises = [];
-                ids.forEach((id) => {
-                    promises.push(this.$http.delete((this.deleteResourceUri || this.resourceUri) + '/' + id));
-                });
-                Promise.all(promises).then(() => {
-                    resolve();
-                });
-
+                const promises = [];
+                ids.forEach(id => promises.push(destroy(`${this.deleteResourceUri || this.resourceUri}/${id}`)));
+                Promise.all(promises).then(() => resolve());
             });
         },
         /**

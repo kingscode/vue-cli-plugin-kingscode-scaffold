@@ -1,7 +1,6 @@
 <template>
     <v-container fluid>
         <Resource
-            :after-update="afterUpdated"
             :create-form-component="() => import('../components/forms/User.vue')"
             :meta="{name: 'gebruiker', namePlural: 'gebruikers'}"
             :table-content="tableContent"
