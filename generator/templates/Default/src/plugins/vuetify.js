@@ -4,6 +4,7 @@ import Vuetify from 'vuetify/lib';
 import '@fortawesome/fontawesome-pro/css/all.css';
 <%_ } _%>
 import nl from 'vuetify/es5/locale/nl';
+import '@kingscode/vuetify-resource/dist/vuetify-resource.css';
 
 Vue.use(Vuetify);
 export default new Vuetify({

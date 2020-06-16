@@ -15,7 +15,7 @@
             <v-app-bar-nav-icon @click.stop="menu = !menu"></v-app-bar-nav-icon>
             <v-toolbar-title>Beheer</v-toolbar-title>
             <v-spacer/>
-            <profile-menu></profile-menu>
+            <AppBarMenu/>
         </v-app-bar>
         <v-main>
             <router-view/>
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import ProfileMenu from './../components/ProfileMenu.vue';
+import AppBarMenu from '../components/AppBarMenu.vue';
 import MainMenu from './../components/MainMenu.vue';
 
 export default {
     name: 'template-default',
-    components: {ProfileMenu, MainMenu},
+    components: {AppBarMenu, MainMenu},
     data() {
         return {
             menu: true,

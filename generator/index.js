@@ -4,12 +4,13 @@ const fs = require('fs');
 module.exports = (api, options) => {
     api.extendPackage({
         dependencies: {
-            'axios': '^0.18.0',
-            "dayjs": "^1.8.19",
+            'axios': '^0.19.2',
+            'dayjs': '^1.8.19',
             'vuex': '^3.1.2',
             'vuex-persistedstate': '^2.5.4',
             'lodash.clonedeep': '^4.5.0',
             'css-vars-ponyfill': '^2.1.2',
+            'vue-router': '3.3.4',
         },
     });
     if (options.plugins.includes('fontawesomepro')) {

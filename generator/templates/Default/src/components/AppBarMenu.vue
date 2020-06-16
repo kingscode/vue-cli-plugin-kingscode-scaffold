@@ -13,9 +13,6 @@
             </v-btn>
         </template>
         <v-list>
-            <v-list-item :to="{name:'profile'}">
-                <v-list-item-title>Profiel</v-list-item-title>
-            </v-list-item>
             <v-list-item @click="logout">
                 <v-list-item-title>Uitloggen</v-list-item-title>
             </v-list-item>
@@ -26,16 +23,7 @@
 <script>
 
     export default {
-        components: {},
-        watch: {},
-        props: [],
-        name: 'profile-menu',
-        data() {
-            return {};
-        },
-        created() {
-
-        },
+        name: 'AppBarMenu',
         methods: {
             logout() {
                 this.$store.dispatch('Authorisation/unauthorized');
@@ -43,7 +31,3 @@
         },
     };
 </script>
-
-<style scoped lang="scss">
-
-</style>
