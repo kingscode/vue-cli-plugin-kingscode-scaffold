@@ -1,13 +1,12 @@
 <template>
     <v-card height="100%">
-        <v-form @submit.prevent="handleLogin()" ref="form" v-model="valid">
+        <v-form @submit.prevent="handleLogin()" ref="form" v-model="isValid">
             <v-card-title class="title">Ik wil inloggen</v-card-title>
             <v-card-text>
-                <v-alert
-                    :value="errorMessage !== null"
-                    class="mb-10"
-                    transition="fade-transition"
-                    type="error"
+                <v-alert :value="!!errorMessage.length"
+                         class="mb-10"
+                         transition="fade-transition"
+                         type="error"
                 >
                     {{errorMessage}}
                 </v-alert>
@@ -42,16 +41,17 @@
 </template>
 
 <script>
-import loginRequest from '../../api/endpoints/authorisation/login';
+import LoginRequest from '../../api/endpoints/authorisation/login';
+import {mapGetters} from 'vuex';
 
 export default {
     name: 'LoginCard',
     data() {
         return {
-            errorMessage: null,
+            errorMessage: '',
             isLoading: false,
             showPassword: false,
-            valid: null,
+            isValid: false,
             form: {
                 email: '',
                 password: '',
@@ -59,52 +59,46 @@ export default {
             isRedirecting: false,
         };
     },
+    computed: {
+        ...mapGetters({
+            findError: 'Error/find',
+        }),
+    },
     methods: {
-        async handleLogin() {
-            this.$refs.form.validate();
-            if (!this.valid) {
-                return;
-            }
+        handleLogin() {
             this.isLoading = true;
-            const {success, message, token} = await loginRequest(this.form.email, this.form.password);
-
-            this.isLoading = false;
-
-            if (success) {
-                this.isRedirecting = true;
-                return this.redirectToAuthDispense(token);
-            }
-
-            this.errorMessage = message;
+            LoginRequest(this.form.email, this.form.password)
+                .then(res => {
+                    this.isRedirecting = true;
+                    this.redirectToAuthDispense(res.data.token);
+                })
+                .catch(() => this.errorMessage = this.findError('email'))
+                .finally(() => this.isLoading = false);
         },
         redirectToAuthDispense(token) {
-            const form = document.createElement("form");
+            const form = document.createElement('form');
 
             form.method = 'POST';
             form.action = process.env.VUE_APP_ROOT_API + '/auth/dispense';
 
-            const redirectUriElement = document.createElement("input");
+            const redirectUriElement = document.createElement('input');
             redirectUriElement.name = 'redirect_uri';
-            redirectUriElement.value= 'home';
+            redirectUriElement.value = 'home';
             form.appendChild(redirectUriElement);
 
-            const emailElement = document.createElement("input");
+            const emailElement = document.createElement('input');
             emailElement.name = 'email';
-            emailElement.value= this.form.email;
+            emailElement.value = this.form.email;
             form.appendChild(emailElement);
 
-            const tokenElement = document.createElement("input");
+            const tokenElement = document.createElement('input');
             tokenElement.name = 'token';
-            tokenElement.value= token;
+            tokenElement.value = token;
             form.appendChild(tokenElement);
 
             document.body.appendChild(form);
             form.submit();
-        }
+        },
     },
 };
 </script>
-
-<style scoped>
-
-</style>

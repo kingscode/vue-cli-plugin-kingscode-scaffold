@@ -1,22 +1,26 @@
+import router from '../../router';
+
 export default {
     namespaced: true,
     state: {
-        token: null,
-    }, 
+        token: '',
+    },
     mutations: {
         setAuthorisationToken(currentState, token) {
             currentState.token = token;
         },
     },
+    actions: {
+        logout(state) {
+            state.token = '';
+
+            router.push({
+                name: 'login',
+            });
+        },
+    },
     getters: {
-        isLoggedIn: state => {
-            return state.token !== null;
-        },
-        getAccessToken: state => {
-            if (state.token === null) {
-                return '';
-            }
-            return state.token;
-        },
+        isLoggedIn: state => !!state.token.length,
+        getAccessToken: state => state.token,
     },
 };

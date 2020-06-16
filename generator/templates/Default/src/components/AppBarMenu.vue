@@ -26,7 +26,7 @@
         name: 'AppBarMenu',
         methods: {
             logout() {
-                this.$store.dispatch('Authorisation/unauthorized');
+                this.$store.dispatch('Authorisation/logout');
             }
         },
     };

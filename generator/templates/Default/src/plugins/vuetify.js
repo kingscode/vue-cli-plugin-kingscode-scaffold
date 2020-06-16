@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
+import nl from 'vuetify/es5/locale/nl';
+import '@kingscode/vuetify-resource/dist/vuetify-resource.css';
+
 <%_ if (options.plugins.includes('fontawesomepro')){ _%>
 import '@fortawesome/fontawesome-pro/css/all.css';
 <%_ } _%>
-import nl from 'vuetify/es5/locale/nl';
-import '@kingscode/vuetify-resource/dist/vuetify-resource.css';
 
 Vue.use(Vuetify);
 export default new Vuetify({

@@ -1,10 +1,10 @@
 <template>
     <v-card height="100%">
-        <v-form @submit.prevent="handleRegister()" ref="form" v-model="valid">
+        <v-form @submit.prevent="handleRegister()" ref="form" v-model="isValid">
             <v-card-title class="title">Ik wil een account aanvragen</v-card-title>
             <v-card-text>
                 <v-alert
-                    :value="alertMessage !== null"
+                    :value="!!alertMessage.length"
                     class="mb-10"
                     transition="fade-transition"
                     :type="alertType"
@@ -33,16 +33,16 @@
 </template>
 
 <script>
-import registerRequest from '../../api/endpoints/authorisation/register.js';
+import RegisterRequest from '../../api/endpoints/authorisation/register.js';
 
 export default {
     name: 'RegisterCard',
     data() {
         return {
-            alertType: 'info',
-            alertMessage: null,
+            alertType: 'success',
+            alertMessage: '',
             isLoading: false,
-            valid: null,
+            isValid: false,
             form: {
                 name: '',
                 email: '',
@@ -50,16 +50,23 @@ export default {
         };
     },
     methods: {
-        async handleRegister() {
+        handleRegister() {
             this.$refs.form.validate();
-            if (!this.valid) {
-                return;
-            }
+
+            if (!this.isValid) return;
+
             this.isLoading = true;
-            const {success, message} = await registerRequest(this.form.email, this.form.name);
-            this.alertType = success ? 'success' : 'error';
-            this.alertMessage = message;
-            this.isLoading = false;
+
+            RegisterRequest(this.form.email, this.form.name)
+                .then(() => {
+                    this.alertType = 'success';
+                    this.alertMessage = 'Er is een account aangemaakt, controleer je e-mail om een wachtwoord te kiezen zodat je vervolgens kunt inloggen.';
+                })
+                .catch(() => {
+                    this.alertType = 'error';
+                    this.alertMessage = 'De ingevulde gegevens kloppen niet.';
+                })
+                .finally(() => this.isLoading = false);
         },
     },
 };
