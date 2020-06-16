@@ -21,6 +21,5 @@ export default {
     },
     getters: {
         isLoggedIn: state => !!state.token.length,
-        getAccessToken: state => state.token,
     },
 };

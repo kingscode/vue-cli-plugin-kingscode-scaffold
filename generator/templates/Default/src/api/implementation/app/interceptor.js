@@ -4,7 +4,32 @@ import store from '../../../store';
  * @param request {AxiosRequestConfig}
  */
 function onRequestFulFilled(request) {
+    if (request.method === 'put') {
+        request.method = 'post';
+        if (request.data instanceof FormData) {
+            request.data.append('_method', 'put');
+        } else {
+            request.data['_method'] = 'put';
+        }
+    }
+
+    const computedHeaders = computeHeaders();
+
+    Object.keys(computedHeaders).forEach(header => {
+        Object.assign(request.headers.common, {
+            [header]: computedHeaders[header],
+        });
+    });
+
     return request;
+}
+
+function computeHeaders() {
+    return {
+        Authorization: store.getters['Authorisation/isLoggedIn']
+            ? `Bearer ${store.state.Authorisation.token}`
+            : undefined,
+    };
 }
 
 /**

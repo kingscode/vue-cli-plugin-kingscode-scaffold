@@ -38,8 +38,7 @@
 <script>
 import cloneDeep from 'lodash.clonedeep';
 import FormDataValues from './../mixins/formDataValues';
-import {destroy, get, post, put} from '../api/implementation/app';
-import objectToFormData from '../api/util/objectToFormDataConverter.js';
+import axios from '../api/implementation/app';
 
 export default {
     components: {},
@@ -141,15 +140,15 @@ export default {
                         desc: sortDesc[0] ? 1 : 0,
                     };
                 }
-                get(this.resourceUri, {
-                    q: search,
-                    page: page,
-                    perPage: itemsPerPage,
-                    ...sorting,
-                })
-                    .then((response) => {
-                        const items = this.mapDataResponse(response.data);
-                        const total = response.data.meta.total;
+                axios.get(this.resourceUri, {
+                        q: search,
+                        page: page,
+                        perPage: itemsPerPage,
+                        ...sorting,
+                    })
+                    .then(res => {
+                        const items = this.mapDataResponse(res.data.data);
+                        const total = res.data.meta.total;
                         resolve({
                             items,
                             total,
@@ -160,7 +159,7 @@ export default {
         },
         getItemFromApi(id) {
             return new Promise((resolve) => {
-                get((this.showResourceUri || this.resourceUri) + '/' + id)
+                axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
                     .then((response) => {
                         const item = response.data.data;
                         resolve({
@@ -183,21 +182,18 @@ export default {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
-                        post((this.createResourceUri || this.resourceUri), objectToFormData(this.getCreateFormValues()))
-                            .then((response) => {
-                                console.log('createEvent: ');
-                                console.log(response.data);
+                        axios.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues())
+                            .then(res => {
                                 this.createForm.values = {};
                                 if (typeof this.afterCreate === 'function') {
-                                    this.afterCreate(response.data.data).then(() => {
+                                    this.afterCreate(res.data.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
                             }).catch((error) => {
-                            console.log(error);
-                            this.errors = error.response.data.errors;
+                            this.errors = error.data.errors;
                             reject();
                         });
 
@@ -220,20 +216,17 @@ export default {
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.updateForm.valid) {
-                        put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, objectToFormData(this.getUpdateFormValues()))
-                            .then((response) => {
-                                console.log('updateEvent: ');
-                                console.log(response.data);
+                        axios.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues())
+                            .then(res => {
                                 if (typeof this.afterUpdate === 'function') {
-                                    this.afterUpdate(response.data).then(() => {
+                                    this.afterUpdate(res.data.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
                             }).catch((error) => {
-                            console.log(error);
-                            this.errors = error.response.data.errors;
+                            this.errors = error.data.errors;
                             reject();
                         });
 
@@ -248,7 +241,7 @@ export default {
         deleteEvent(ids) {
             return new Promise((resolve) => {
                 const promises = [];
-                ids.forEach(id => promises.push(destroy(`${this.deleteResourceUri || this.resourceUri}/${id}`)));
+                ids.forEach(id => promises.push(axios.delete(`${this.deleteResourceUri || this.resourceUri}/${id}`)));
                 Promise.all(promises).then(() => resolve());
             });
         },
