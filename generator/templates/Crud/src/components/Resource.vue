@@ -38,7 +38,7 @@
 <script>
 import cloneDeep from 'lodash.clonedeep';
 import FormDataValues from './../mixins/formDataValues';
-import {get, post, put, destroy} from '../api/implementation/app';
+import {destroy, get, post, put} from '../api/implementation/app';
 import objectToFormData from '../api/util/objectToFormDataConverter.js';
 
 export default {
@@ -142,12 +142,10 @@ export default {
                     };
                 }
                 get(this.resourceUri, {
-                    params: {
-                        q: search,
-                        page: page,
-                        perPage: itemsPerPage,
-                        ...sorting,
-                    },
+                    q: search,
+                    page: page,
+                    perPage: itemsPerPage,
+                    ...sorting,
                 })
                     .then((response) => {
                         const items = this.mapDataResponse(response.data);
@@ -198,6 +196,7 @@ export default {
                                     resolve();
                                 }
                             }).catch((error) => {
+                            console.log(error);
                             this.errors = error.response.data.errors;
                             reject();
                         });
@@ -226,13 +225,14 @@ export default {
                                 console.log('updateEvent: ');
                                 console.log(response.data);
                                 if (typeof this.afterUpdate === 'function') {
-                                    this.afterUpdate(response.data.data).then(() => {
+                                    this.afterUpdate(response.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
                             }).catch((error) => {
+                            console.log(error);
                             this.errors = error.response.data.errors;
                             reject();
                         });

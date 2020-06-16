@@ -5,7 +5,9 @@
             fixed
             v-model="menu"
         >
-            <img :src="require('../assets/logo.png')" @click="$router.push({name: 'home'})" class="logo">
+            <router-link :to="{name: 'home'}">
+                <img :src="require('../assets/logo.png')" class="logo">
+            </router-link>
             <v-divider class="mt-10"/>
             <main-menu/>
         </v-navigation-drawer>
