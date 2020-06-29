@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$store.getters['Authorisation/isLoggedIn']">
+    <div v-if="isLoggedIn">
         <v-navigation-drawer
             app
             fixed
@@ -29,6 +29,7 @@
 <script>
 import AppBarMenu from '../components/AppBarMenu.vue';
 import MainMenu from './../components/MainMenu.vue';
+import {mapGetters} from 'vuex';
 
 export default {
     name: 'template-default',
@@ -37,6 +38,11 @@ export default {
         return {
             menu: true,
         };
+    },
+    computed: {
+        ...mapGetters({
+            isLoggedIn: 'Authorisation/isLoggedIn',
+        }),
     },
     beforeCreate() {
         if (!this.$store.getters['Authorisation/isLoggedIn']) {
