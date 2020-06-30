@@ -146,9 +146,9 @@ export default {
                         perPage: itemsPerPage,
                         ...sorting,
                     })
-                    .then(res => {
-                        const items = this.mapDataResponse(res.data.data);
-                        const total = res.data.meta.total;
+                    .then(response => {
+                        const items = this.mapDataResponse(response.data.data);
+                        const total = response.data.meta.total;
                         resolve({
                             items,
                             total,
@@ -160,7 +160,7 @@ export default {
         getItemFromApi(id) {
             return new Promise((resolve) => {
                 axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
-                    .then((response) => {
+                    .then(response => {
                         const item = response.data.data;
                         resolve({
                             item,
@@ -183,10 +183,10 @@ export default {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
                         axios.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues())
-                            .then(res => {
+                            .then(response => {
                                 this.createForm.values = {};
                                 if (typeof this.afterCreate === 'function') {
-                                    this.afterCreate(res.data.data).then(() => {
+                                    this.afterCreate(response.data.data).then(() => {
                                         resolve();
                                     });
                                 } else {

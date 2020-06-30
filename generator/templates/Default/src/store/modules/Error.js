@@ -1,14 +1,12 @@
-import {ADD, CLEAR, FIND, REMOVE} from '../constants.js';
-
 export default {
     namespaced: true,
     state: {
         errors: [],
     },
     mutations: {
-        [REMOVE]: (state, key) => state.errors.splice(state.errors.findIndex(x => x.key === key), 1),
-        [CLEAR]: state => state.errors = [],
-        [ADD]: (state, {message, key}) => {
+        remove: (state, key) => state.errors.splice(state.errors.findIndex(x => x.key === key), 1),
+        clear: state => state.errors = [],
+        add: (state, {message, key}) => {
             const target = state.errors.find(x => x.key === key);
 
             if (!target) {
@@ -22,7 +20,7 @@ export default {
         },
     },
     getters: {
-        [FIND]: state => key => {
+        find: state => key => {
             const error = state.errors.find(x => x.key === key);
 
             if (error) return error.message;
