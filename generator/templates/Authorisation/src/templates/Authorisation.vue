@@ -1,6 +1,6 @@
 <template>
     <v-main>
-        <v-container fill-height fluid justify-center class="primary">
+        <v-container fluid class="primary">
             <router-view/>
         </v-container>
     </v-main>
