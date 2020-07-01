@@ -14,14 +14,14 @@ export default {
         }),
     },
     created() {
-        const redirect_uri = this.$route.query.redirect_uri;
+        const redirectUri = this.$route.query.redirect_uri;
 
         const regex = new RegExp('[\\#&]token=([^&#]*)');
         const token = decodeURIComponent(regex.exec(this.$route.hash)[1]);
 
         this.setAuthorisationToken(token);
 
-        this.$router.push({name: redirect_uri});
+        this.$router.push({name: redirectUri});
     },
 };
 </script>

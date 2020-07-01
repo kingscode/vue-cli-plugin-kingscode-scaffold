@@ -1,7 +1,9 @@
 # Kings Code  scaffold
 
+## Installation
 
-```vue create my-app
+```bash
+vue create my-app
 cd my-app
 vue add vuetify
 vue add kingscode-scaffold

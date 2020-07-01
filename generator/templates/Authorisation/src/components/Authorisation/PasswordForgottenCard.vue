@@ -1,10 +1,10 @@
 <template>
     <v-card height="100%">
-        <v-form @submit.prevent="handleRegister()" ref="form" v-model="valid">
+        <v-form @submit.prevent="handleRegister()" ref="form" v-model="isValid">
             <v-card-title class="title">Ik wil een account aanvragen</v-card-title>
             <v-card-text>
                 <v-alert
-                    :value="alertMessage !== null"
+                    :value="!!alertMessage.length"
                     class="mb-10"
                     transition="fade-transition"
                     :type="alertType"
@@ -27,37 +27,40 @@
 </template>
 
 <script>
-import forgottenRequest from '../../api/password/forgotten.js';
+import ForgottenRequest from '../../api/endpoints/password/forgotten.js';
 
 export default {
     name: 'PasswordForgottenCard',
     data() {
         return {
-            alertType: 'info',
-            alertMessage: null,
+            alertType: 'success',
+            alertMessage: '',
             isLoading: false,
-            valid: null,
+            isValid: false,
             form: {
                 email: '',
             },
         };
     },
     methods: {
-        async handleRegister() {
+        handleRegister() {
             this.$refs.form.validate();
-            if (!this.valid) {
-                return;
-            }
+
+            if (!this.isValid) return;
+
             this.isLoading = true;
-            const {success, message} = await forgottenRequest(this.form.email);
-            this.alertType = success ? 'success' : 'error';
-            this.alertMessage = message;
-            this.isLoading = false;
+
+            ForgottenRequest(this.form.email)
+                .then(() => {
+                    this.alertMessage = 'Er is een wachtwoord vergeten mail verstuurd mits er een account bestaat met het gegeven email adres.';
+                    this.alertType = 'success';
+                })
+                .catch(() => {
+                    this.alertMessage = 'De ingevulde gegevens kloppen niet.';
+                    this.alertType = 'error';
+                })
+                .finally(() => this.isLoading = false);
         },
     },
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 <%_ if (options.useAuthorisation) { _%>
-import AuthorisationGuard from './guards/AuthorisationGuard';
+import AuthorisationGuard from '../guards/AuthorisationGuard';
 <%_ } _%>
 
 Vue.use(Router);
@@ -32,17 +32,17 @@ export default new Router({
                 {
                     path: '/password/forgotten',
                     name: 'password.forgotten',
-                    component: () => import('./views/PasswordForgotten.vue'),
+                    component: () => import('@/views/PasswordForgotten.vue'),
                 },
                 {
                     path: '/password/reset/:token',
                     name: 'password.reset',
-                    component: () => import('./views/PasswordReset.vue'),
+                    component: () => import('@/views/PasswordReset.vue'),
                 },
                 {
                     path: '/invitation/accept/:token',
                     name: 'invitation.accept',
-                    component: () => import('./views/InvitationAccept.vue'),
+                    component: () => import('@/views/InvitationAccept.vue'),
                 },
             ]
         },
@@ -63,18 +63,18 @@ export default new Router({
                 {
                     path: '/users',
                     name: 'users',
-                    component: () => import('./views/UserResource.vue')
+                    component: () => import('@/views/UserResource.vue')
                 },
                   <%_ } _%>
                 {
                     path: '/404',
                     name: '404',
-                    component: () => import('./views/PageNotFound.vue'),
+                    component: () => import('@/views/PageNotFound.vue'),
                 },
                 {
                     path: '/403',
                     name: '403',
-                    component: () => import('./views/PageForbidden.vue'),
+                    component: () => import('@/views/PageForbidden.vue'),
                 },
                 {
                     path: '*',
