@@ -5,19 +5,17 @@
                 <v-subheader class="pa-0">Gebruiker</v-subheader>
                 <v-card class="themed-color">
                     <v-card-text>
-                        <v-text-field
+                        <VTextField
                             :counter="100"
-                            :rules="[(v) => !!v || 'Naam is verplicht', v => serverError('name', v), (v) => !!v && v.length <= 100 || 'de naam mag maximaal 100 tekens bevatten']"
+                            :rules="[(v) => !!v || 'Naam is verplicht', () => serverError('name'), (v) => !!v && v.length <= 100 || 'de naam mag maximaal 100 tekens bevatten']"
                             label="Naam"
-                            class="required"
-                            v-model="values.name"></v-text-field>
-                        <v-text-field
+                            v-model="values.name"/>
+                        <VTextField
                             :counter="150"
-                            :rules="[(v) => !!v || 'E-mail is verplicht', v => serverError('email', v), (v) => !!v && v.length <= 100 || 'het e-mailadres mag maximaal 150 tekens bevatten']"
+                            :rules="[(v) => !!v || 'E-mail is verplicht', () => serverError('email'), (v) => !!v && v.length <= 100 || 'het e-mailadres mag maximaal 150 tekens bevatten']"
                             label="E-mail"
                             hint="Het e-mailadres waarmee de gebruiker gaat inloggen en waarnaar een mail verzonden wordt met instructies om een wachtwoord aan te maken"
-                            class="required"
-                            v-model="values.email"></v-text-field>
+                            v-model="values.email"/>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -26,7 +24,7 @@
 </template>
 
 <script>
-    import Form from './../BaseForm';
+    import Form from '@/components/VuetifyResourceBaseForm.vue';
 
     export default {
         name: 'user-form',
