@@ -23,7 +23,7 @@ export default {
         find: state => key => {
             const error = state.errors.find(x => x.key === key);
 
-            if (error) return error.message;
+            return error ? error.message : '';
         },
         hasError: state => !!state.errors.length,
         first: state => {
