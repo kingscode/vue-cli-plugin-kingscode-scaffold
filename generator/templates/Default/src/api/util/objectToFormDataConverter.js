@@ -33,9 +33,9 @@ function convert(obj, data, parent) {
             convert(val, data, finalName);
         else if (typeof val === 'boolean')
             data.append(finalName, val ? '1' : '0');
-        else if (val === null || val === '')
+        else if (val === '')
             data.append(finalName, '');
-        else if (val !== undefined)
+        else if (val)
             data.append(finalName, val);
     });
 
