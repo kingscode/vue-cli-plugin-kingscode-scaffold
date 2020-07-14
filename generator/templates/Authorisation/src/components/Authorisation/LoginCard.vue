@@ -61,7 +61,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            findError: 'Error/find',
+            findError: 'error/find',
         }),
     },
     methods: {
@@ -70,7 +70,7 @@ export default {
             LoginRequest(this.form.email, this.form.password)
                 .then(res => {
                     this.isRedirecting = true;
-                    this.redirectToAuthDispense(res.data.token);
+                    this.redirectToAuthDispense(res.data.data.token);
                 })
                 .catch(() => this.errorMessage = this.findError('email'))
                 .finally(() => this.isLoading = false);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from './interceptor';
-import {destroy, get, getPaginated, post, put} from './wrapper'
+import {getPaginated} from './wrapper';
 
 /**
  * Returns an axios instance
@@ -23,12 +23,17 @@ const instance = axios.create(config);
 instance.interceptors.request.use(onRequestFulFilled, onRequestRejected);
 instance.interceptors.response.use(onResponseFulFilled, onResponseRejected);
 
+const get = axios.get;
+const post = axios.post;
+const destroy = axios.delete;
+const put = axios.put;
+
 export {
-    get,
     getPaginated,
+    get,
     post,
-    put,
     destroy,
-}
+    put,
+};
 
 export default instance;

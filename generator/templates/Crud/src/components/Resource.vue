@@ -174,7 +174,6 @@ export default {
             this.appendFormData(formData, this.mapCreateFormValuesHandler(cloneDeep(this.createForm.values)));
 
             return formData;
-
         },
         createEvent() {
             this.errors = {};
@@ -192,16 +191,14 @@ export default {
                                 } else {
                                     resolve();
                                 }
-                            }).catch((error) => {
-                            this.errors = error.data.errors;
+                            }).catch(error => {
+                            this.errors = error.response.data.errors;
                             reject();
                         });
-
                     } else {
                         reject();
                     }
                 });
-
             });
         },
         getUpdateFormValues() {
@@ -225,8 +222,8 @@ export default {
                                 } else {
                                     resolve();
                                 }
-                            }).catch((error) => {
-                            this.errors = error.data.errors;
+                            }).catch(error => {
+                            this.errors = error.response.data.errors;
                             reject();
                         });
 

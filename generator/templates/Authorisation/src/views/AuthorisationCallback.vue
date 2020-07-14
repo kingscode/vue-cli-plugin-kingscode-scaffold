@@ -1,23 +1,26 @@
 <template>
-    <v-overlay :value="true">
+    <v-overlay>
         <VProgressCircular indeterminate size="64"/>
     </v-overlay>
 </template>
-<script>
+
+<script lang="js">
 import {mapMutations} from 'vuex';
+import {getFragment} from '../application/util/url.js';
 
 export default {
     name: 'AuthorisationCallback',
     methods: {
         ...mapMutations({
-            setAuthorisationToken: 'Authorisation/setAuthorisationToken',
+            setAuthorisationToken: 'authorisation/setAuthorisationToken',
         }),
     },
     created() {
         const redirectUri = this.$route.query.redirect_uri;
 
-        const regex = new RegExp('[\\#&]token=([^&#]*)');
-        const token = decodeURIComponent(regex.exec(this.$route.hash)[1]);
+        const token = getFragment('token');
+
+        if (!token) return; // what to do?
 
         this.setAuthorisationToken(token);
 

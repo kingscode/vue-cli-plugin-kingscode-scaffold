@@ -49,16 +49,15 @@ export default {
             if (!this.isValid) return;
 
             this.isLoading = true;
+            this.alertMessage = '';
+            this.alertType = 'error';
 
             ForgottenRequest(this.form.email)
                 .then(() => {
                     this.alertMessage = 'Er is een wachtwoord vergeten mail verstuurd mits er een account bestaat met het gegeven email adres.';
                     this.alertType = 'success';
                 })
-                .catch(() => {
-                    this.alertMessage = 'De ingevulde gegevens kloppen niet.';
-                    this.alertType = 'error';
-                })
+                .catch(() => this.alertMessage = 'De ingevulde gegevens kloppen niet.')
                 .finally(() => this.isLoading = false);
         },
     },

@@ -29,8 +29,8 @@ module.exports = [
         message: 'Which plugins should we install for you?',
         choices: [
             {
-                value: 'sentry',
-                name: 'error logging with sentry',
+                value: 'Sentry',
+                name: 'error logging with Sentry',
                 checked: true,
             },
             {
@@ -40,7 +40,7 @@ module.exports = [
             },
             {
                 value: 'fontawesomepro',
-                name: 'Font awesome pro',
+                name: 'FontAwesome Pro',
                 checked: false,
             },
         ],

@@ -1,9 +1,0 @@
-import Vue from 'vue';
-
-export default function (to, from, next) {
-    if (!Vue.prototype.$store.getters['Authorisation/isLoggedIn']) {
-        next({name: 'login'});
-        return;
-    }
-    next();
-}

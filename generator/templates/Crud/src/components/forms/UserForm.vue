@@ -3,7 +3,7 @@
         <v-form ref="form" v-model="valid" class="mt-5">
             <v-col cols="12" sm="10" offset-sm="1" md="8" offset-md="2" lg="6" offset-lg="3">
                 <v-subheader class="pa-0">Gebruiker</v-subheader>
-                <v-card class="themed-color">
+                <v-card>
                     <v-card-text>
                         <VTextField
                             :counter="100"
@@ -23,11 +23,17 @@
     </v-container>
 </template>
 
-<script>
-    import Form from '@/components/VuetifyResourceBaseForm.vue';
+<script lang="js">
+import Form from '@/components/VuetifyResourceBaseForm.vue';
 
-    export default {
-        name: 'user-form',
-        extends: Form,
-    };
+export default {
+    name: 'UserForm',
+    extends: Form,
+    data: () => ({
+        values: {
+            name: '',
+            email: '',
+        },
+    }),
+};
 </script>

@@ -56,6 +56,8 @@ export default {
             if (!this.isValid) return;
 
             this.isLoading = true;
+            this.alertType = 'error';
+            this.alertMessage = '';
 
             RegisterRequest(this.form.email, this.form.name)
                 .then(() => {

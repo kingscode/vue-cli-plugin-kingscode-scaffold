@@ -26,8 +26,8 @@ function onRequestFulFilled(request) {
 
 function computeHeaders() {
     return {
-        Authorization: store.getters['Authorisation/isLoggedIn']
-            ? `Bearer ${store.state.Authorisation.token}`
+        Authorization: store.getters['authorisation/isLoggedIn']
+            ? `Bearer ${store.state.authorisation.token}`
             : undefined,
     };
 }
@@ -50,23 +50,18 @@ function onResponseFulFilled(response) {
  * @param error {AxiosError}
  */
 function onResponseRejected(error) {
+    const response = error.response;
+    const status = response.status;
+    const errors = response.data.errors;
 
-    if (typeof error === 'string' || !error.response) return Promise.reject(error);
-
-    const status = error.response.status;
-
-    const data = error.response.data;
-    /* Now we know there was an error during submitting */
-    if (data.errors && status === 422) {
-        /* For now, all errors will be removed on route change
-        *  We might need to add global errors later on */
-        Object.keys(data.errors).forEach(key => store.commit('Error/add', {
+    if (errors && status === 422) {
+        Object.keys(errors).forEach(key => store.commit('error/add', {
             key: key,
-            message: data.errors[key][0],
+            message: error[key][0],
         }));
     }
 
-    return Promise.reject(error.response);
+    return Promise.reject(error);
 }
 
 export {

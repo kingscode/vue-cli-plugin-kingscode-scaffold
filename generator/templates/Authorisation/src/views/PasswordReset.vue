@@ -6,11 +6,13 @@
     </v-row>
 </template>
 
-<script>
+<script lang="js">
+import PasswordResetCard from '../components/Authorisation/PasswordResetCard.vue';
 
-    import PasswordResetCard from '../components/Authorisation/PasswordResetCard.vue';
-    export default {
-        name: 'PasswordReseet',
-        components: {PasswordResetCard},
-    };
+export default {
+    name: 'PasswordReset',
+    components: {
+        PasswordResetCard,
+    },
+};
 </script>

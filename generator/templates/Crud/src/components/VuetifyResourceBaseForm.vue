@@ -11,12 +11,6 @@ export default {
             },
             type: Object,
         },
-        errors: {
-            default() {
-                return {};
-            },
-            type: Object,
-        },
         isUpdateForm: {
             type: Boolean,
             default: false,

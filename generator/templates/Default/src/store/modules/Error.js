@@ -25,7 +25,6 @@ export default {
 
             return error ? error.message : '';
         },
-        hasError: state => !!state.errors.length,
         first: state => {
             if (!state.errors.length)
                 return '';

@@ -82,7 +82,5 @@ export default new Router({
                 },
             ],
         },
-
-
     ],
 });

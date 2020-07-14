@@ -1,7 +1,12 @@
 import router from '../../router';
 
+import createPersistedState from 'vuex-persistedstate';
+
 export default {
     namespaced: true,
+    plugins: [
+        createPersistedState(),
+    ],
     state: {
         token: '',
     },

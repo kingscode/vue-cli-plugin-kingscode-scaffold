@@ -3,18 +3,18 @@
         <v-navigation-drawer
             app
             fixed
-            v-model="menu"
+            v-model="isMenuOpen"
         >
             <router-link :to="{name: 'home'}">
                 <img :src="require('../assets/logo.png')" class="logo">
             </router-link>
             <v-divider class="mt-10"/>
-            <main-menu/>
+            <MainMenu/>
         </v-navigation-drawer>
         <v-app-bar app color="primary" dark mfixed>
-            <v-app-bar-nav-icon @click.stop="menu = !menu"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click.stop="isMenuOpen = !isMenuOpen"></v-app-bar-nav-icon>
             <v-toolbar-title>Beheer</v-toolbar-title>
-            <v-spacer/>
+            <VSpacer/>
             <AppBarMenu/>
         </v-app-bar>
         <v-main>
@@ -28,15 +28,18 @@
 
 <script>
 import AppBarMenu from '../components/AppBarMenu.vue';
-import MainMenu from './../components/MainMenu.vue';
+import MainMenu from './../components/menu/MainMenu.vue';
 import {mapGetters} from 'vuex';
 
 export default {
-    name: 'template-default',
-    components: {AppBarMenu, MainMenu},
+    name: 'Default',
+    components: {
+        AppBarMenu,
+        MainMenu,
+    },
     data() {
         return {
-            menu: true,
+            isMenuOpen: true,
         };
     },
     computed: {
@@ -44,9 +47,11 @@ export default {
             isLoggedIn: 'Authorisation/isLoggedIn',
         }),
     },
-    beforeCreate() {
-        if (!this.$store.getters['Authorisation/isLoggedIn']) {
-            this.$router.push({name: 'login'});
+    created() {
+        if (!this.isLoggedIn) {
+            this.$router.push({
+                name: 'login',
+            });
         }
     },
 };
@@ -61,6 +66,7 @@ export default {
     cursor: pointer;
 }
 </style>
+
 <style lang="scss">
 .v-dialog--fullscreen > .v-card.v-sheet.theme--light {
     background: rgb(248, 249, 250);
