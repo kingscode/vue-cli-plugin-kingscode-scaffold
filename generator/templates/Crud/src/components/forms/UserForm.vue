@@ -25,7 +25,7 @@
 
 <script lang="js">
 import Form from '@/components/VuetifyResourceBaseForm.vue';
-import User from '../../models/user.js';
+import User from '../../application/models/user.js';
 
 export default {
     name: 'UserForm',

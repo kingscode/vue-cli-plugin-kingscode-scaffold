@@ -1,14 +1,14 @@
 {
-  "name": "vue-cli-plugin-kingscode-scaffold",
-  "version": "0.8.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "file-system": "^2.2.2",
-  }
+    "name": "vue-cli-plugin-kingscode-scaffold",
+    "version": "0.8.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "file-system": "^2.2.2"
+    }
 }
