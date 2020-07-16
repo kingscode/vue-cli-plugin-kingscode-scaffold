@@ -17,7 +17,7 @@
                     :key="subItem.title"
                     :to="subItem.route"
                     :value="$route.name === subItem.route">
-                    s very large so the tab took a large<v-list-item-action>
+                    <v-list-item-action>
                         <v-icon>{{ subItem.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
