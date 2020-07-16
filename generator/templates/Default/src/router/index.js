@@ -44,6 +44,11 @@ export default new Router({
                     name: 'invitation.accept',
                     component: () => import('@/views/InvitationAccept.vue'),
                 },
+                {
+                    path: '/registration/verify',
+                    name: 'registration.verify',
+                    component: () => import('@/views/Authorisation/Verify.vue'),
+                },
             ]
         },
          <%_ } _%>

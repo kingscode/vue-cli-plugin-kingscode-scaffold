@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 /* MODULES */
-import Authorisation from './modules/Authorisation';
-import Error from './modules/Error';
+import Authorisation from './modules/authorisation';
+import Error from './modules/error';
 /* END MODULES */
 
 Vue.use(Vuex);
