@@ -7,6 +7,7 @@
             :deleteCallback="deleteEvent"
             :getDataCallback="getDataFromApi"
             :getItemCallback="getItemFromApi"
+            @row-click="onRowClick"
             :meta="meta"
             :tableContent="tableContent"
             :texts="require('../VuetifyResourceTexts.js').default"
@@ -17,14 +18,14 @@
         >
             <div slot="createContent">
                 <component :errors="errors"
-                           :is="createFormComponent"
+                           :is="formComponent"
                            :is-update-form="false"
                            ref="createForm"
                            v-model="createForm"/>
             </div>
             <div slot="updateContent">
                 <component :errors="errors"
-                           :is="updateFormComponent"
+                           :is="formComponent"
                            :is-update-form="true"
                            ref="updateForm"
                            v-model="updateForm"/>
@@ -36,13 +37,13 @@
     </v-container>
 </template>
 <script>
-import cloneDeep from 'lodash.clonedeep';
 import FormDataValues from './../mixins/formDataValues';
 import axios from '../api/implementation/app';
+import VuetifyResource from '@kingscode/vuetify-resource';
 
 export default {
-    components: {},
     name: 'Resource',
+    components: {VuetifyResource},
     mixins: [FormDataValues],
     data() {
         return {
@@ -57,10 +58,7 @@ export default {
             type: Array,
             required: true,
         },
-        createFormComponent: {
-            required: false,
-        },
-        updateFormComponent: {
+        formComponent: {
             required: false,
         },
         meta: {
@@ -78,32 +76,17 @@ export default {
             type: String,
             required: false,
         },
-        updateResourceUri: {
-            type: String,
-            required: false,
-        },
-        deleteResourceUri: {
-            type: String,
-            required: false,
-        },
-        createResourceUri: {
-            type: String,
-            required: false,
-        },
-        mapCreateFormValues: {
+        updateHandler: {
             type: Function,
             required: false,
         },
-        mapUpdateFormValues: {
+        deleteHandler: {
             type: Function,
             required: false,
         },
-        mapCreateAndUpdateFormValues: {
+        createHandler: {
             type: Function,
             required: false,
-            default: (values) => {
-                return values;
-            },
         },
         mapDataResponse: {
             type: Function,
@@ -124,8 +107,15 @@ export default {
             type: Function,
             required: false,
         },
+        afterCreate: {
+            type: Function,
+            required: false,
+        },
     },
     methods: {
+        onRowClick(item) {
+            this.$emit('row-click', item);
+        },
         /***
          * @param pagination
          * @param search
@@ -141,14 +131,16 @@ export default {
                     };
                 }
                 axios.get(this.resourceUri, {
-                        q: search,
-                        page: page,
-                        perPage: itemsPerPage,
-                        ...sorting,
+                        params: {
+                            search: search || undefined,
+                            page: page,
+                            perPage: itemsPerPage,
+                            ...sorting,
+                        },
                     })
-                    .then(response => {
-                        const items = this.mapDataResponse(response.data.data);
-                        const total = response.data.meta.total;
+                    .then((response) => {
+                        let items = this.mapDataResponse(response.data.data);
+                        let total = response.data.meta.total;
                         resolve({
                             items,
                             total,
@@ -160,8 +152,8 @@ export default {
         getItemFromApi(id) {
             return new Promise((resolve) => {
                 axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
-                    .then(response => {
-                        const item = response.data.data;
+                    .then((response) => {
+                        let item = response.data.data;
                         resolve({
                             item,
                         });
@@ -169,77 +161,73 @@ export default {
 
             });
         },
-        getCreateFormValues() {
-            const formData = new FormData();
-            this.appendFormData(formData, this.mapCreateFormValuesHandler(cloneDeep(this.createForm.values)));
-
-            return formData;
-        },
         createEvent() {
             this.errors = {};
             this.$refs.createForm.validate();
+
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
-                        axios.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues())
-                            .then(response => {
+                        this.createHandler(this.createForm.values)
+                            .then((response) => {
                                 this.createForm.values = {};
                                 if (typeof this.afterCreate === 'function') {
-                                    this.afterCreate(response.data.data).then(() => {
+                                    this.afterCreate(response.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
-                            }).catch(error => {
+                            }).catch((error) => {
                             this.errors = error.response.data.errors;
                             reject();
                         });
+
                     } else {
                         reject();
                     }
                 });
-            });
-        },
-        getUpdateFormValues() {
-            const formData = new FormData();
-            this.appendFormData(formData, this.mapUpdateFormValuesHandler(cloneDeep(this.updateForm.values)));
 
-            return formData;
+            });
         },
         updateEvent(selected) {
             this.errors = {};
             this.$refs.updateForm.validate();
+
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.updateForm.valid) {
-                        axios.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues())
-                            .then(res => {
+                        this.updateForm.values.id = selected[0].id;
+                        this.updateHandler(this.updateForm.values)
+                            .then((response) => {
                                 if (typeof this.afterUpdate === 'function') {
-                                    this.afterUpdate(res.data.data).then(() => {
+                                    this.afterUpdate(response.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
-                            }).catch(error => {
+                            }).catch((error) => {
                             this.errors = error.response.data.errors;
                             reject();
                         });
-
                     } else {
                         reject();
                     }
                 });
-
             });
 
         },
         deleteEvent(ids) {
-            return new Promise((resolve) => {
-                const promises = [];
-                ids.forEach(id => promises.push(axios.delete(`${this.deleteResourceUri || this.resourceUri}/${id}`)));
-                Promise.all(promises).then(() => resolve());
+            return new Promise((resolve, reject) => {
+                let promises = [];
+                ids.forEach((id) => {
+                    promises.push(this.deleteHandler(id));
+                });
+                Promise.all(promises).then(() => {
+                    resolve();
+                }).catch(() => reject());
+
             });
         },
         /**
@@ -257,12 +245,6 @@ export default {
                 return;
             }
             this.updateForm.values = selected[0];
-        },
-        mapCreateFormValuesHandler(values) {
-            return this.mapCreateFormValues ? this.mapCreateFormValues() : this.mapCreateAndUpdateFormValues(values);
-        },
-        mapUpdateFormValuesHandler(values) {
-            return this.mapUpdateFormValues ? this.mapUpdateFormValues() : this.mapCreateAndUpdateFormValues(values);
         },
     },
 };
