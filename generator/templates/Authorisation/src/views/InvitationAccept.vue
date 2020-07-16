@@ -113,11 +113,6 @@ export default {
                 }
             }).finally(() => this.isLoading = false);
         },
-        handleLogin() {
-            this.$router.push({
-                name: 'login',
-            });
-        },
         serverError(name) {
             return this.findError(name) || true;
         },

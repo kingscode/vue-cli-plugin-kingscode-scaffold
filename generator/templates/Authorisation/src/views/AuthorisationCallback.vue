@@ -20,7 +20,7 @@ export default {
 
         const token = getFragment('token');
 
-        if (!token) return; // what to do?
+        if (!token) throw new Error('AuthorisationCallback::created token hash not found');
 
         this.setAuthorisationToken(token);
 
