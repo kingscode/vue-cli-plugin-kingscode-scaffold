@@ -43,6 +43,7 @@
 <script>
 import LoginRequest from '../../api/endpoints/authorisation/login';
 import {mapGetters} from 'vuex';
+import {getRateLimitMinutes} from '../../api/util/response.js';
 
 export default {
     name: 'LoginCard',
@@ -72,7 +73,18 @@ export default {
                     this.isRedirecting = true;
                     this.redirectToAuthDispense(res.data.data.token);
                 })
-                .catch(() => this.errorMessage = this.findError('email'))
+                .catch(err => {
+                    const response = err.response;
+                    const status = response.status;
+
+                    if (status === 429) {
+                        this.errorMessage =
+                            `Je hebt te veel foutieve inlog pogingen gedaan.
+                             Probeer het over ${getRateLimitMinutes(response, 15)} minuten opnieuw`;
+                    } else {
+                        this.errorMessage = this.findError('email');
+                    }
+                })
                 .finally(() => this.isLoading = false);
         },
         redirectToAuthDispense(token) {
