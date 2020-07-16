@@ -5,7 +5,7 @@
                 :disabled="item.disabled"
                 :prepend-icon="item.icon"
                 no-action
-                v-if="!!item.items.length"
+                v-if="!!item.items && item.items.length"
                 v-model="item.active">
                 <template slot="activator">
                     <v-list-item-content>
