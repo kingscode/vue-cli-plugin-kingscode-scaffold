@@ -10,6 +10,7 @@ module.exports = (api, options) => {
             'vuex-persistedstate': '^2.5.4',
             'lodash.clonedeep': '^4.5.0',
             'css-vars-ponyfill': '^2.1.2',
+            'qs': '^6.9.4',
             'vue-router': '3.3.4',
         },
     });
@@ -24,7 +25,7 @@ module.exports = (api, options) => {
     if (options.useCrud) {
         api.extendPackage({
             dependencies: {
-                '@kingscode/vuetify-resource': '^1.4.1',
+                '@kingscode/vuetify-resource': '^2.0.3',
             },
         });
         api.render('./templates/Crud', options);

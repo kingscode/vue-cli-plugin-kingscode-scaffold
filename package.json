@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "file-system": "^2.2.2"
+    "file-system": "^2.2.2",
+    "qs": "^6.9.4"
   }
 }

@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            isLoggedIn: 'Authorisation/isLoggedIn',
+            isLoggedIn: 'authorisation/isLoggedIn',
         }),
     },
     created() {

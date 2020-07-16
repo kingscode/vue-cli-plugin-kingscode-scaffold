@@ -1,6 +1,5 @@
-const fragmentRegExp = new RegExp(`[\\#&]${key}=([^&#]*)`);
-
 function getFragment(key, defaultValue = '') {
+    const fragmentRegExp = new RegExp(`[\\#&]${key}=([^&#]*)`);
     const result = fragmentRegExp.exec(location.hash);
 
     if (result && result.length >= 2) {

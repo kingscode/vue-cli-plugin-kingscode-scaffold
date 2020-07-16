@@ -25,15 +25,13 @@
 
 <script lang="js">
 import Form from '@/components/VuetifyResourceBaseForm.vue';
+import User from '../../models/user.js';
 
 export default {
     name: 'UserForm',
     extends: Form,
     data: () => ({
-        values: {
-            name: '',
-            email: '',
-        },
+        values: new User(),
     }),
 };
 </script>

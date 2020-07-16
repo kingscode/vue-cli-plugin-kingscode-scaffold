@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from './interceptor';
 import {getPaginated} from './wrapper';
+import {transformParams, transformRequest, transformResponse} from './transformer';
 
 /**
  * Returns an axios instance
@@ -16,6 +17,9 @@ const config = {
     headers: {
         Accept: 'application/json',
     },
+    transformRequest: [transformRequest],
+    transformResponse: [transformResponse],
+    paramsSerializer: transformParams,
 };
 
 const instance = axios.create(config);

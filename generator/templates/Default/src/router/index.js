@@ -47,7 +47,7 @@ export default new Router({
                 {
                     path: '/registration/verify',
                     name: 'registration.verify',
-                    component: () => import('@/views/Authorisation/Verify.vue'),
+                    component: () => import('@/views/Verify.vue'),
                 },
             ]
         },

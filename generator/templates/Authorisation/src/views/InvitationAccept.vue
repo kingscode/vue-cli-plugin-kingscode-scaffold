@@ -53,7 +53,7 @@
 
 <script lang="js">
 import axios from '../api/implementation/app';
-import {mapGetters} from 'vuex;';
+import {mapGetters} from 'vuex';
 
 export default {
     name: 'InvitationAccept',

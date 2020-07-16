@@ -1,5 +1,5 @@
 <script>
-import store from '../store';
+import {mapGetters, mapMutations} from 'vuex';
 
 export default {
     name: 'Form',
@@ -8,6 +8,11 @@ export default {
             default: () => ({}),
             type: Object,
         },
+    },
+    computed: {
+        ...mapGetters({
+            findError: 'error/find',
+        }),
     },
     watch: {
         errors: {
@@ -23,14 +28,18 @@ export default {
         };
     },
     methods: {
+        ...mapMutations({
+            removeError: 'error/remove',
+        }),
         validate() {
             this.$refs.form.validate();
         },
         clear() {
             this.$refs.form.reset();
         },
+        /* Should only be used for Vuetify rules */
         serverError(key) {
-            const error = store.getters['error/find'](key);
+            const error = this.findError(key);
 
             if (error) {
                 this.removeServerError(key);
@@ -41,7 +50,7 @@ export default {
             return true;
         },
         removeServerError(key) {
-            store.commit('error/remove', key);
+            this.removeError(key);
         },
     },
 };

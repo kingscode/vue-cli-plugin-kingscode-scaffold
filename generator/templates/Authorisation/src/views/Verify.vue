@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import BaseForm from '../../components/BaseForm.vue';
-import {getRateLimitMinutes} from '../../api/util/response.js';
-import {verify} from '../../api/endpoints/authorisation/register.js';
-import {getFragment} from 'generator/templates/Default/src/application/util/url.js';
+import BaseForm from '../components/BaseForm.vue';
+import {getRateLimitMinutes} from '../api/util/response.js';
+import {verify} from '../api/endpoints/authorisation/register.js';
+import {getFragment} from '../application/util/url.js';
 
 export default {
     name: 'Verify',
