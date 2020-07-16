@@ -27,10 +27,10 @@ const instance = axios.create(config);
 instance.interceptors.request.use(onRequestFulFilled, onRequestRejected);
 instance.interceptors.response.use(onResponseFulFilled, onResponseRejected);
 
-const get = axios.get;
-const post = axios.post;
-const destroy = axios.delete;
-const put = axios.put;
+const get = instance.get;
+const post = instance.post;
+const destroy = instance.delete;
+const put = instance.put;
 
 export {
     getPaginated,
