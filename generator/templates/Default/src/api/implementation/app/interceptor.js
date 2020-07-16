@@ -57,7 +57,7 @@ function onResponseRejected(error) {
     if (errors && status === 422) {
         Object.keys(errors).forEach(key => store.commit('error/add', {
             key: key,
-            message: error[key][0],
+            message: errors[key][0],
         }));
     }
 
