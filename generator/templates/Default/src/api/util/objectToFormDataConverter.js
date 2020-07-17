@@ -3,9 +3,11 @@ function isIterableObject(input) {
 }
 
 function objectToFormData(obj) {
-    const data = new FormData();
+    if (!isIterableObject(obj)) {
+        throw new Error('objectToFormDataConverter::objectToFormData data is not iterable');
+    }
 
-    if (!isIterableObject(obj)) return data;
+    const data = new FormData();
 
     return convert(obj, data);
 }

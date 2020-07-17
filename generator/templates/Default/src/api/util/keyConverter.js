@@ -1,11 +1,13 @@
 function camelToSnake(data) {
-    const target = Array.isArray(data) ? [] : {};
+    if (!isIterableObject(data)) {
+        throw new Error('keyConverter::camelToSnake data is not iterable');
+    }
 
-    if (typeof data !== 'object') return;
+    const target = Array.isArray(data) ? [] : {};
 
     Object.keys(data).forEach(key => {
         Object.assign(target, {
-            [convertCamelToSnake(key)]: isObject(data[key]) ? camelToSnake(data[key]) : data[key],
+            [convertCamelToSnake(key)]: isIterableObject(data[key]) ? camelToSnake(data[key]) : data[key],
         });
     });
 
@@ -19,13 +21,15 @@ function convertCamelToSnake(key) {
 }
 
 function snakeToCamel(data) {
-    const target = Array.isArray(data) ? [] : {};
+    if (!isIterableObject(data)) {
+        throw new Error('keyConverter::snakeToCamel data is not iterable');
+    }
 
-    if (typeof data !== 'object') return;
+    const target = Array.isArray(data) ? [] : {};
 
     Object.keys(data).forEach(key => {
         Object.assign(target, {
-            [convertSnakeToCamel(key)]: isObject(data[key]) ? snakeToCamel(data[key]) : data[key],
+            [convertSnakeToCamel(key)]: isIterableObject(data[key]) ? snakeToCamel(data[key]) : data[key],
         });
     });
 
@@ -38,8 +42,8 @@ function convertSnakeToCamel(key) {
     });
 }
 
-function isObject(target) {
-    return typeof target === 'object' && target !== null;
+function isIterableObject(target) {
+    return typeof target === 'object' && target !== null && !(target instanceof Blob) && !(target instanceof Date);
 }
 
 export {
