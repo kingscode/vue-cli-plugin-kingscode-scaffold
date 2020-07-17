@@ -1,6 +1,7 @@
 import {camelToSnake, snakeToCamel} from '../../util/keyConverter';
 import objectToFormData from '../../util/objectToFormDataConverter.js';
 import Qs from 'qs';
+import Model from '../../../application/models/model.js';
 
 /**
  * @param response
@@ -24,6 +25,10 @@ function transformResponse(response) {
  * @return {FormData}
  */
 function transformRequest(data) {
+    if (data instanceof Model) {
+        data = data.mapForRequest();
+    }
+
     if (data) {
         data = camelToSnake(data);
         data = objectToFormData(data);

@@ -218,10 +218,11 @@ export default {
         },
         deleteEvent(ids) {
             return new Promise((resolve, reject) => {
-                let promises = [];
+                const promises = [];
                 ids.forEach((id) => {
                     promises.push(this.deleteHandler(id));
                 });
+
                 Promise.all(promises).then(() => {
                     resolve();
                 }).catch(() => reject());
