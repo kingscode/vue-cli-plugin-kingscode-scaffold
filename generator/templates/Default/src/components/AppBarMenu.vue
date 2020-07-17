@@ -27,7 +27,7 @@ export default {
     name: 'AppBarMenu',
     methods: {
         ...mapActions({
-            logout: 'Authorisation/logout',
+            logout: 'authorisation/logout',
         }),
     },
 };

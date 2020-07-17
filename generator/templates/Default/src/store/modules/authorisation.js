@@ -1,18 +1,13 @@
 import router from '../../router';
 
-import createPersistedState from 'vuex-persistedstate';
-
 export default {
     namespaced: true,
-    plugins: [
-        createPersistedState(),
-    ],
     state: {
         token: '',
     },
     mutations: {
-        setAuthorisationToken(currentState, token) {
-            currentState.token = token;
+        setAuthorisationToken(state, token) {
+            state.token = token;
         },
     },
     actions: {

@@ -20,15 +20,16 @@ function transformResponse(response) {
 }
 
 /**
- * @param data
+ * @param data {undefined|*}
  * @return {FormData}
  */
 function transformRequest(data) {
     if (data) {
         data = camelToSnake(data);
+        data = objectToFormData(data);
     }
 
-    return objectToFormData(data);
+    return data;
 }
 
 function transformParams(params) {
