@@ -137,10 +137,11 @@ export default {
                         },
                     })
                     .then((response) => {
-                        const axiosData = response.data;
+                        const items = this.mapDataResponse(response.data.data);
+                        const total = response.data.meta.total;
                         resolve({
-                            items: this.mapDataResponse(axiosData.data),
-                            total: axiosData.meta,
+                            items,
+                            total,
                         });
                     }).catch(() => reject());
 
@@ -150,8 +151,9 @@ export default {
             return new Promise((resolve) => {
                 axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
                     .then((response) => {
+                        let item = response.data.data;
                         resolve({
-                            item: response.data.data,
+                            item,
                         });
                     });
 
@@ -217,11 +219,14 @@ export default {
         deleteEvent(ids) {
             return new Promise((resolve, reject) => {
                 const promises = [];
-                ids.forEach(id => promises.push(this.deleteHandler(id)));
+                ids.forEach((id) => {
+                    promises.push(this.deleteHandler(id));
+                });
 
-                Promise.all(promises)
-                    .then(() => resolve())
-                    .catch(() => reject());
+                Promise.all(promises).then(() => {
+                    resolve();
+                }).catch(() => reject());
+
             });
         },
         /**
