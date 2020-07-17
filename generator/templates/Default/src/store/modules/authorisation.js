@@ -11,8 +11,8 @@ export default {
         },
     },
     actions: {
-        logout(state) {
-            state.token = '';
+        logout(context) {
+            context.commit('setAuthorisationToken', '');
 
             router.push({
                 name: 'login',
