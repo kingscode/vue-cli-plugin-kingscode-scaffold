@@ -123,12 +123,10 @@ export default {
         getDataFromApi(pagination, search) {
             const {sortBy, sortDesc, page, itemsPerPage} = pagination;
             return new Promise((resolve, reject) => {
-                let sorting = {};
+                const sorting = {};
                 if (sortBy[0]) {
-                    sorting = {
-                        sortBy: sortBy[0],
-                        desc: sortDesc[0] ? 1 : 0,
-                    };
+                    sorting.sortBy = sortBy[0];
+                    sorting.desc = sortDesc[0] ? 1 : 0;
                 }
                 axios.get(this.resourceUri, {
                         params: {
@@ -139,8 +137,8 @@ export default {
                         },
                     })
                     .then((response) => {
-                        let items = this.mapDataResponse(response.data.data);
-                        let total = response.data.meta.total;
+                        const items = this.mapDataResponse(response.data.data);
+                        const total = response.data.meta.total;
                         resolve({
                             items,
                             total,

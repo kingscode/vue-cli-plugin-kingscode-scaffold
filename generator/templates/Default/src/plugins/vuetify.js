@@ -3,7 +3,9 @@ import Vuetify from 'vuetify/lib';
 import nl from 'vuetify/es5/locale/nl';
 
 <%_ if (options.plugins.includes('fontawesomepro')){ _%>
-import '@fortawesome/fontawesome-pro/css/all.css';
+import '@fortawesome/fontawesome-pro/css/all.min.css';
+<%_ } else { _%>
+import '@fortawesome/fontawesome-free/css/all.min.css';
 <%_ } _%>
 
 Vue.use(Vuetify);

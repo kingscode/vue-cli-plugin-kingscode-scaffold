@@ -20,6 +20,12 @@ module.exports = (api, options) => {
                 '@fortawesome/fontawesome-pro': '^5.8.1',
             },
         });
+    } else {
+        api.extendPackage({
+            dependencies: {
+                '@fortawesome/fontawesome-free': '^5.14.0',
+            },
+        });
     }
 
     if (options.useCrud) {

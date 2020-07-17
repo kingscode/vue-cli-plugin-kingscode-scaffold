@@ -4,7 +4,6 @@
             <v-list-item-group
                 :disabled="item.disabled"
                 :prepend-icon="item.icon"
-                no-action
                 v-if="!!item.items && item.items.length"
                 v-model="item.active">
                 <template slot="activator">
