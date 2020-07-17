@@ -18,7 +18,7 @@ function update(user) {
  * @param userId {number}
  */
 function destroy(userId) {
-    return axios.destroy(`user/${userId}`);
+    return axios.delete(`user/${userId}`);
 }
 
 export {
