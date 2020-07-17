@@ -51,6 +51,9 @@ function onResponseFulFilled(response) {
  */
 function onResponseRejected(error) {
     const response = error.response;
+
+    if (!response) return Promise.reject(error); // network error, not axios related
+
     const status = response.status;
     const errors = response.data.errors;
 
