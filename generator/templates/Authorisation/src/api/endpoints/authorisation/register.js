@@ -1,8 +1,8 @@
 import {post} from '../../implementation/app';
 
-function register(email, name, code) {
+function register(email, name) {
     return post('registration', {
-        email, name, code,
+        email, name,
     });
 }
 
