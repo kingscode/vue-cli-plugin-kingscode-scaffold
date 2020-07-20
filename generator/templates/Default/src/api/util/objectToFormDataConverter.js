@@ -23,7 +23,6 @@ function convert(obj, data, parent) {
             else if (isIterableObject(obj))
                 finalName = `${parent}[${key}]`;
         }
-
         if (val instanceof Blob)
             data.append(finalName, val, val.name);
         else if (val instanceof Date)
@@ -35,9 +34,11 @@ function convert(obj, data, parent) {
             convert(val, data, finalName);
         else if (typeof val === 'boolean')
             data.append(finalName, val ? '1' : '0');
-        else if (val === '')
+        else if (val === '' || val === null)
             data.append(finalName, '');
-        else if (val || typeof val === 'number')
+        else if (typeof val === 'number')
+            data.append(finalName, val);
+        else if (val)
             data.append(finalName, val);
     });
 
