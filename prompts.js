@@ -40,7 +40,7 @@ module.exports = [
             },
             {
                 value: 'fontawesomepro',
-                name: 'FontAwesome Pro',
+                name: 'Font Awesome Pro',
                 checked: false,
             },
         ],
