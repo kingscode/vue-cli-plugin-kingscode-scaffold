@@ -5,7 +5,7 @@ export default {
     name: 'Form',
     props: {
         errors: {
-            default: () => ({}),
+            default: () => {},
             type: Object,
         },
     },
