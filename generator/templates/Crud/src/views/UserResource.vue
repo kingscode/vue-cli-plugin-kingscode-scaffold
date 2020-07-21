@@ -7,6 +7,7 @@
             :update-handler="updateHandler"
             :delete-handler="deleteHandler"
             :create-handler="createHandler"
+            :model-type="modelType"
             resource-uri="user"
         />
     </v-container>
@@ -14,8 +15,8 @@
 
 <script lang="js">
 import Resource from '@/components/Resource.vue';
-
 import {create, destroy, update} from '../api/endpoints/user.js';
+import User from '../application/models/user.js';
 
 export default {
     name: 'UserResource',
@@ -26,6 +27,7 @@ export default {
         updateHandler: () => update,
         deleteHandler: () => destroy,
         createHandler: () => create,
+        modelType: () => User,
         tableContent: () => [
             {
                 text: 'Naam',

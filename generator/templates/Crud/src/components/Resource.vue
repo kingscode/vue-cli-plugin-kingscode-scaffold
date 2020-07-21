@@ -36,15 +36,14 @@
         </vuetify-resource>
     </v-container>
 </template>
+
 <script>
-import FormDataValues from './../mixins/formDataValues';
 import axios from '../api/implementation/app';
 import VuetifyResource from '@kingscode/vuetify-resource';
 
 export default {
     name: 'Resource',
     components: {VuetifyResource},
-    mixins: [FormDataValues],
     data() {
         return {
             createForm: {values: {}},
@@ -54,6 +53,10 @@ export default {
         };
     },
     props: {
+        modelType: {
+            type: Function,
+            required: false,
+        },
         tableContent: {
             type: Array,
             required: true,
@@ -151,7 +154,15 @@ export default {
             return new Promise((resolve) => {
                 axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
                     .then((response) => {
-                        let item = response.data.data;
+                        let item;
+
+                        if (this.modelType) {
+                            item = new this.modelType();
+                            item.mapResponse(response.data.data);
+                        } else {
+                            item = response.data.data;
+                        }
+
                         resolve({
                             item,
                         });
@@ -168,7 +179,12 @@ export default {
                     if (this.createForm.valid) {
                         this.createHandler(this.createForm.values)
                             .then((response) => {
-                                this.createForm.values = {};
+                                if (this.modelType) {
+                                    this.createForm.values = new this.modelType();
+                                } else {
+                                    this.createForm.values = {};
+                                }
+
                                 if (typeof this.afterCreate === 'function') {
                                     this.afterCreate(response.data).then(() => {
                                         resolve();
@@ -196,6 +212,7 @@ export default {
                 process.nextTick(() => {
                     if (this.updateForm.valid) {
                         this.updateForm.values.id = selected[0].id;
+
                         this.updateHandler(this.updateForm.values)
                             .then((response) => {
                                 if (typeof this.afterUpdate === 'function') {
@@ -243,7 +260,13 @@ export default {
                 this.beforeOpenUpdate(selected);
                 return;
             }
-            this.updateForm.values = selected[0];
+
+            if (this.modelType) {
+                this.updateForm.values = new this.modelType();
+                this.updateForm.values.mapResponse(selected[0]);
+            } else {
+                this.updateForm.values = {};
+            }
         },
     },
 };

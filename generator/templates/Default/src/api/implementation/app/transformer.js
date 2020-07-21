@@ -26,7 +26,13 @@ function transformResponse(response) {
  */
 function transformRequest(data) {
     if (data instanceof Model) {
+        const isPutRequest = data._method === 'put';
+
         data = data.mapForRequest();
+
+        if (isPutRequest) {
+            data._method = 'put';
+        }
     }
 
     if (data) {
