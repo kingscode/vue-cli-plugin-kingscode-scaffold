@@ -3,15 +3,15 @@
         <vuetify-resource
             :beforeCreateCallback="beforeOpenCreateHandler"
             :beforeUpdateCallback="beforeOpenUpdateHandler"
-            :createCallback="createEvent"
-            :deleteCallback="deleteEvent"
-            :getDataCallback="getDataFromApi"
-            :getItemCallback="getItemFromApi"
+            :deleteCallback="handleDeleteRequest"
+            :createCallback="handleCreateRequest"
+            :getDataCallback="handleIndexRequest"
+            :getItemCallback="handleShowRequest"
+            :updateCallback="handleUpdateRequest"
             @row-click="onRowClick"
             :meta="meta"
             :tableContent="tableContent"
             :texts="require('../VuetifyResourceTexts.js').default"
-            :updateCallback="updateEvent"
             ref="resourceList"
             v-model="selected"
             v-bind="$attrs"
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import axios from '../api/implementation/app';
 import VuetifyResource from '@kingscode/vuetify-resource';
 
 export default {
@@ -71,46 +70,27 @@ export default {
                 return {name: 'item', namePlural: 'items'};
             },
         },
-        resourceUri: {
-            type: String,
+        indexRequest: {
+            type: Function,
             required: true,
         },
-        showResourceUri: {
-            type: String,
-            required: false,
-        },
-        updateHandler: {
+        showRequest: {
             type: Function,
-            required: false,
         },
-        deleteHandler: {
+        createRequest: {
             type: Function,
-            required: false,
         },
-        createHandler: {
+        updateRequest: {
             type: Function,
-            required: false,
         },
-        mapDataResponse: {
+        deleteRequest: {
             type: Function,
-            required: false,
-            default: (data) => {
-                return data;
-            },
         },
         beforeOpenUpdate: {
             type: Function,
             required: false,
         },
         beforeOpenCreate: {
-            type: Function,
-            required: false,
-        },
-        afterUpdate: {
-            type: Function,
-            required: false,
-        },
-        afterCreate: {
             type: Function,
             required: false,
         },
@@ -123,7 +103,7 @@ export default {
          * @param pagination
          * @param search
          */
-        getDataFromApi(pagination, search) {
+        handleIndexRequest(pagination, search) {
             const {sortBy, sortDesc, page, itemsPerPage} = pagination;
             return new Promise((resolve, reject) => {
                 const sorting = {};
@@ -142,11 +122,9 @@ export default {
                     params.search = search;
                 }
 
-                axios.get(this.resourceUri, {
-                        params: params,
-                    })
+                this.indexRequest(page, itemsPerPage, search, sorting.sortBy, sorting.desc)
                     .then((response) => {
-                        const items = this.mapDataResponse(response.data.data);
+                        const items = response.data.data;
                         const total = response.data.meta.total;
                         resolve({
                             items,
@@ -156,9 +134,9 @@ export default {
 
             });
         },
-        getItemFromApi(id) {
+        handleShowRequest(id) {
             return new Promise((resolve) => {
-                axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
+                this.showRequest(id)
                     .then((response) => {
                         let item;
 
@@ -176,33 +154,27 @@ export default {
 
             });
         },
-        createEvent() {
+        handleCreateRequest() {
             this.errors = {};
             this.$refs.createForm.validate();
 
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
-                        this.createHandler(this.createForm.values)
-                            .then((response) => {
+                        this.createRequest(this.createForm.values)
+                            .then(() => {
                                 if (this.modelType) {
                                     this.createForm.values = new this.modelType();
                                 } else {
                                     this.createForm.values = {};
                                 }
 
-                                if (typeof this.afterCreate === 'function') {
-                                    this.afterCreate(response.data).then(() => {
-                                        resolve();
-                                    });
-                                } else {
-                                    resolve();
-                                }
-                            }).catch((error) => {
-                            this.errors = error.response.data.errors;
-                            reject();
-                        });
-
+                                resolve();
+                            })
+                            .catch((error) => {
+                                this.errors = error.response.data.errors;
+                                reject();
+                            });
                     } else {
                         reject();
                     }
@@ -210,7 +182,7 @@ export default {
 
             });
         },
-        updateEvent(selected) {
+        handleUpdateRequest(selected) {
             this.errors = {};
             this.$refs.updateForm.validate();
 
@@ -219,19 +191,12 @@ export default {
                     if (this.updateForm.valid) {
                         this.updateForm.values.id = selected[0].id;
 
-                        this.updateHandler(this.updateForm.values)
-                            .then((response) => {
-                                if (typeof this.afterUpdate === 'function') {
-                                    this.afterUpdate(response.data).then(() => {
-                                        resolve();
-                                    });
-                                } else {
-                                    resolve();
-                                }
-                            }).catch((error) => {
-                            this.errors = error.response.data.errors;
-                            reject();
-                        });
+                        this.updateRequest(this.updateForm.values)
+                            .then(() => resolve())
+                            .catch((error) => {
+                                this.errors = error.response.data.errors;
+                                reject();
+                            });
                     } else {
                         reject();
                     }
@@ -239,11 +204,11 @@ export default {
             });
 
         },
-        deleteEvent(ids) {
+        handleDeleteRequest(ids) {
             return new Promise((resolve, reject) => {
                 const promises = [];
                 ids.forEach((id) => {
-                    promises.push(this.deleteHandler(id));
+                    promises.push(this.deleteRequest(id));
                 });
 
                 Promise.all(promises).then(() => {
@@ -271,7 +236,7 @@ export default {
                 this.updateForm.values = new this.modelType();
                 this.updateForm.values.mapResponse(selected[0]);
             } else {
-                this.updateForm.values = {};
+                this.updateForm.values = selected[0];
             }
         },
     },

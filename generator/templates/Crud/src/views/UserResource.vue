@@ -4,18 +4,19 @@
             :form-component="() => import('../components/forms/UserForm.vue')"
             :meta="{name: 'gebruiker', namePlural: 'gebruikers'}"
             :table-content="tableContent"
-            :update-handler="updateHandler"
-            :delete-handler="deleteHandler"
-            :create-handler="createHandler"
+            :index-request="indexHandler"
+            :show-request="showHandler"
+            :update-request="updateHandler"
+            :delete-request="deleteHandler"
+            :create-request="createHandler"
             :model-type="modelType"
-            resource-uri="user"
         />
     </v-container>
 </template>
 
 <script lang="js">
 import Resource from '@/components/Resource.vue';
-import {create, destroy, update} from '../api/endpoints/user.js';
+import {create, destroy, index, show, update} from '../api/endpoints/user.js';
 import User from '../application/models/user.js';
 
 export default {
@@ -24,6 +25,8 @@ export default {
         Resource,
     },
     computed: {
+        indexHandler: () => index,
+        showHandler: () => show,
         updateHandler: () => update,
         deleteHandler: () => destroy,
         createHandler: () => create,
