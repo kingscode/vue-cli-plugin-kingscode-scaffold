@@ -131,13 +131,19 @@ export default {
                     sorting.sortBy = sortBy[0];
                     sorting.desc = sortDesc[0] ? 1 : 0;
                 }
+
+                const params = {
+                    page: page,
+                    perPage: itemsPerPage,
+                    ...sorting,
+                };
+
+                if (search) {
+                    params.search = search;
+                }
+
                 axios.get(this.resourceUri, {
-                        params: {
-                            search: search || undefined,
-                            page: page,
-                            perPage: itemsPerPage,
-                            ...sorting,
-                        },
+                        params: params,
                     })
                     .then((response) => {
                         const items = this.mapDataResponse(response.data.data);
