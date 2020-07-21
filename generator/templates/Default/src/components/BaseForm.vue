@@ -1,11 +1,18 @@
 <script>
-import store from '../store';
-import Error from '../store/modules/Error';
+import {mapGetters, mapMutations} from 'vuex';
 
 export default {
     name: 'Form',
+    props: {
+        errors: {
+            default: () => {},
+            type: Object,
+        },
+    },
     computed: {
-        hasServerError: () => Error.state.errors.length > 0,
+        ...mapGetters({
+            findError: 'error/find',
+        }),
     },
     watch: {
         errors: {
@@ -21,14 +28,18 @@ export default {
         };
     },
     methods: {
+        ...mapMutations({
+            removeError: 'error/remove',
+        }),
         validate() {
             this.$refs.form.validate();
         },
         clear() {
             this.$refs.form.reset();
         },
+        /* Should only be used for Vuetify rules */
         serverError(key) {
-            const error = store.getters['Error/find'](key);
+            const error = this.findError(key);
 
             if (error) {
                 this.removeServerError(key);
@@ -39,7 +50,7 @@ export default {
             return true;
         },
         removeServerError(key) {
-            store.commit('Error/remove', key);
+            this.removeError(key);
         },
     },
 };

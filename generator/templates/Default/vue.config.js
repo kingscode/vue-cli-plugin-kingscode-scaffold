@@ -1,5 +1,5 @@
 module.exports = {
-    'transpileDependencies': [
+    transpileDependencies: [
         'vuetify',
     ],
     publicPath: process.env.VUE_APP_PUBLIC_PATH,
@@ -9,8 +9,8 @@ module.exports = {
             skipWaiting: true,
             clientsClaim: true,
             exclude: [
-                /\.htaccess$/
-            ]
+                /\.htaccess$/,
+            ],
         },
     },
 };

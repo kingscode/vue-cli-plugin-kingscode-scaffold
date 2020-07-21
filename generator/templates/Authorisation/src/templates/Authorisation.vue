@@ -1,28 +1,13 @@
 <template>
     <v-main>
-        <v-container fluid fill-height class="primary">
+        <v-container fluid class="fill-height primary">
             <router-view/>
         </v-container>
     </v-main>
 </template>
 
-<script>
-
+<script lang="js">
 export default {
-    components: {},
-    watch: {},
-    props: [],
-    name: 'template-authorisation',
-    data() {
-        return {};
-    },
-    created() {
-
-    },
-    methods: {},
+    name: 'Authorisation',
 };
 </script>
-
-<style scoped lang="scss">
-
-</style>

@@ -7,6 +7,7 @@
             :deleteCallback="deleteEvent"
             :getDataCallback="getDataFromApi"
             :getItemCallback="getItemFromApi"
+            @row-click="onRowClick"
             :meta="meta"
             :tableContent="tableContent"
             :texts="require('../VuetifyResourceTexts.js').default"
@@ -17,14 +18,14 @@
         >
             <div slot="createContent">
                 <component :errors="errors"
-                           :is="createFormComponent"
+                           :is="formComponent"
                            :is-update-form="false"
                            ref="createForm"
                            v-model="createForm"/>
             </div>
             <div slot="updateContent">
                 <component :errors="errors"
-                           :is="updateFormComponent"
+                           :is="formComponent"
                            :is-update-form="true"
                            ref="updateForm"
                            v-model="updateForm"/>
@@ -35,15 +36,14 @@
         </vuetify-resource>
     </v-container>
 </template>
+
 <script>
-import cloneDeep from 'lodash.clonedeep';
-import FormDataValues from './../mixins/formDataValues';
 import axios from '../api/implementation/app';
+import VuetifyResource from '@kingscode/vuetify-resource';
 
 export default {
-    components: {},
     name: 'Resource',
-    mixins: [FormDataValues],
+    components: {VuetifyResource},
     data() {
         return {
             createForm: {values: {}},
@@ -53,14 +53,15 @@ export default {
         };
     },
     props: {
+        modelType: {
+            type: Function,
+            required: false,
+        },
         tableContent: {
             type: Array,
             required: true,
         },
-        createFormComponent: {
-            required: false,
-        },
-        updateFormComponent: {
+        formComponent: {
             required: false,
         },
         meta: {
@@ -78,32 +79,17 @@ export default {
             type: String,
             required: false,
         },
-        updateResourceUri: {
-            type: String,
-            required: false,
-        },
-        deleteResourceUri: {
-            type: String,
-            required: false,
-        },
-        createResourceUri: {
-            type: String,
-            required: false,
-        },
-        mapCreateFormValues: {
+        updateHandler: {
             type: Function,
             required: false,
         },
-        mapUpdateFormValues: {
+        deleteHandler: {
             type: Function,
             required: false,
         },
-        mapCreateAndUpdateFormValues: {
+        createHandler: {
             type: Function,
             required: false,
-            default: (values) => {
-                return values;
-            },
         },
         mapDataResponse: {
             type: Function,
@@ -124,8 +110,15 @@ export default {
             type: Function,
             required: false,
         },
+        afterCreate: {
+            type: Function,
+            required: false,
+        },
     },
     methods: {
+        onRowClick(item) {
+            this.$emit('row-click', item);
+        },
         /***
          * @param pagination
          * @param search
@@ -133,20 +126,26 @@ export default {
         getDataFromApi(pagination, search) {
             const {sortBy, sortDesc, page, itemsPerPage} = pagination;
             return new Promise((resolve, reject) => {
-                let sorting = {};
+                const sorting = {};
                 if (sortBy[0]) {
-                    sorting = {
-                        sortBy: sortBy[0],
-                        desc: sortDesc[0] ? 1 : 0,
-                    };
+                    sorting.sortBy = sortBy[0];
+                    sorting.desc = sortDesc[0] ? 1 : 0;
                 }
+
+                const params = {
+                    page: page,
+                    perPage: itemsPerPage,
+                    ...sorting,
+                };
+
+                if (search) {
+                    params.search = search;
+                }
+
                 axios.get(this.resourceUri, {
-                        q: search,
-                        page: page,
-                        perPage: itemsPerPage,
-                        ...sorting,
+                        params: params,
                     })
-                    .then(response => {
+                    .then((response) => {
                         const items = this.mapDataResponse(response.data.data);
                         const total = response.data.meta.total;
                         resolve({
@@ -160,8 +159,16 @@ export default {
         getItemFromApi(id) {
             return new Promise((resolve) => {
                 axios.get((this.showResourceUri || this.resourceUri) + '/' + id)
-                    .then(response => {
-                        const item = response.data.data;
+                    .then((response) => {
+                        let item;
+
+                        if (this.modelType) {
+                            item = new this.modelType();
+                            item.mapResponse(response.data.data);
+                        } else {
+                            item = response.data.data;
+                        }
+
                         resolve({
                             item,
                         });
@@ -169,31 +176,30 @@ export default {
 
             });
         },
-        getCreateFormValues() {
-            const formData = new FormData();
-            this.appendFormData(formData, this.mapCreateFormValuesHandler(cloneDeep(this.createForm.values)));
-
-            return formData;
-
-        },
         createEvent() {
             this.errors = {};
             this.$refs.createForm.validate();
+
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.createForm.valid) {
-                        axios.post((this.createResourceUri || this.resourceUri), this.getCreateFormValues())
-                            .then(response => {
-                                this.createForm.values = {};
+                        this.createHandler(this.createForm.values)
+                            .then((response) => {
+                                if (this.modelType) {
+                                    this.createForm.values = new this.modelType();
+                                } else {
+                                    this.createForm.values = {};
+                                }
+
                                 if (typeof this.afterCreate === 'function') {
-                                    this.afterCreate(response.data.data).then(() => {
+                                    this.afterCreate(response.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
                             }).catch((error) => {
-                            this.errors = error.data.errors;
+                            this.errors = error.response.data.errors;
                             reject();
                         });
 
@@ -203,46 +209,47 @@ export default {
                 });
 
             });
-        },
-        getUpdateFormValues() {
-            const formData = new FormData();
-            this.appendFormData(formData, this.mapUpdateFormValuesHandler(cloneDeep(this.updateForm.values)));
-
-            return formData;
         },
         updateEvent(selected) {
             this.errors = {};
             this.$refs.updateForm.validate();
+
             return new Promise((resolve, reject) => {
                 process.nextTick(() => {
                     if (this.updateForm.valid) {
-                        axios.put((this.updateResourceUri || this.resourceUri) + '/' + selected[0].id, this.getUpdateFormValues())
-                            .then(res => {
+                        this.updateForm.values.id = selected[0].id;
+
+                        this.updateHandler(this.updateForm.values)
+                            .then((response) => {
                                 if (typeof this.afterUpdate === 'function') {
-                                    this.afterUpdate(res.data.data).then(() => {
+                                    this.afterUpdate(response.data).then(() => {
                                         resolve();
                                     });
                                 } else {
                                     resolve();
                                 }
                             }).catch((error) => {
-                            this.errors = error.data.errors;
+                            this.errors = error.response.data.errors;
                             reject();
                         });
-
                     } else {
                         reject();
                     }
                 });
-
             });
 
         },
         deleteEvent(ids) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const promises = [];
-                ids.forEach(id => promises.push(axios.delete(`${this.deleteResourceUri || this.resourceUri}/${id}`)));
-                Promise.all(promises).then(() => resolve());
+                ids.forEach((id) => {
+                    promises.push(this.deleteHandler(id));
+                });
+
+                Promise.all(promises).then(() => {
+                    resolve();
+                }).catch(() => reject());
+
             });
         },
         /**
@@ -259,13 +266,13 @@ export default {
                 this.beforeOpenUpdate(selected);
                 return;
             }
-            this.updateForm.values = selected[0];
-        },
-        mapCreateFormValuesHandler(values) {
-            return this.mapCreateFormValues ? this.mapCreateFormValues() : this.mapCreateAndUpdateFormValues(values);
-        },
-        mapUpdateFormValuesHandler(values) {
-            return this.mapUpdateFormValues ? this.mapUpdateFormValues() : this.mapCreateAndUpdateFormValues(values);
+
+            if (this.modelType) {
+                this.updateForm.values = new this.modelType();
+                this.updateForm.values.mapResponse(selected[0]);
+            } else {
+                this.updateForm.values = {};
+            }
         },
     },
 };

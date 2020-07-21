@@ -6,13 +6,13 @@ export default {
         token: '',
     },
     mutations: {
-        setAuthorisationToken(currentState, token) {
-            currentState.token = token;
+        setAuthorisationToken(state, token) {
+            state.token = token;
         },
     },
     actions: {
-        logout(state) {
-            state.token = '';
+        logout(context) {
+            context.commit('setAuthorisationToken', '');
 
             router.push({
                 name: 'login',

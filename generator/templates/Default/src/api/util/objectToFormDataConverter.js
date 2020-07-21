@@ -1,11 +1,13 @@
-function isObject(input) {
+function isIterableObject(input) {
     return typeof input === 'object' && input !== null && !(input instanceof Blob) && !(input instanceof Date);
 }
 
 function objectToFormData(obj) {
-    const data = new FormData();
+    if (!isIterableObject(obj)) {
+        throw new Error('objectToFormDataConverter::objectToFormData data is not iterable');
+    }
 
-    if (!isObject(obj)) return data;
+    const data = new FormData();
 
     return convert(obj, data);
 }
@@ -18,10 +20,9 @@ function convert(obj, data, parent) {
         if (parent) {
             if (Array.isArray(obj))
                 finalName = `${parent}[${i}]`;
-            else if (isObject(obj))
+            else if (isIterableObject(obj))
                 finalName = `${parent}[${key}]`;
         }
-
         if (val instanceof Blob)
             data.append(finalName, val, val.name);
         else if (val instanceof Date)
@@ -29,11 +30,15 @@ function convert(obj, data, parent) {
         else if (val instanceof FileList)
             for (let x = 0; x < val.length; x++)
                 data.append(`${finalName}[${x}]`, val.item(x));
-        else if (isObject(val))
+        else if (isIterableObject(val))
             convert(val, data, finalName);
         else if (typeof val === 'boolean')
             data.append(finalName, val ? '1' : '0');
-        else if (val !== undefined)
+        else if (val === '' || val === null)
+            data.append(finalName, '');
+        else if (typeof val === 'number')
+            data.append(finalName, val);
+        else if (val)
             data.append(finalName, val);
     });
 

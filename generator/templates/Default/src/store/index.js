@@ -1,20 +1,24 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+/* MODULES */
+import Authorisation from './modules/authorisation';
+import Error from './modules/error';
+/* END MODULES */
 
 import createPersistedState from 'vuex-persistedstate';
-/* MODULES */
-import Authorisation from './modules/Authorisation';
-import Error from './modules/Error';
-/* END MODULES */
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     plugins: [
-        createPersistedState(),
+        createPersistedState({
+            paths: [
+                'authorisation',
+            ],
+        }),
     ],
     modules: {
-        Authorisation,
-        Error,
+        authorisation: Authorisation,
+        error: Error,
     },
 });

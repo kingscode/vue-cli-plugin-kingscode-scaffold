@@ -7,7 +7,6 @@
 </template>
 
 <script>
-
     import PasswordForgottenCard from '../components/Authorisation/PasswordForgottenCard.vue';
     export default {
         name: 'PasswordForgotten',

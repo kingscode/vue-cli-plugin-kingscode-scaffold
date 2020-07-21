@@ -1,71 +1,51 @@
 <template>
     <v-list>
-        <div
-            :key="index"
-            v-for="(item, index) in items">
-            <v-list-group
+        <div :key="item.title" v-for="item in items">
+            <v-list-item-group
                 :disabled="item.disabled"
                 :prepend-icon="item.icon"
-                no-icon
-                v-if="typeof item.items !== 'undefined'"
-                v-model="item.active"
-            >
-                <v-list-item slot="activator">
+                v-if="!!item.items && item.items.length"
+                v-model="item.active">
+                <template slot="activator">
                     <v-list-item-content>
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>
-
+                </template>
                 <v-list-item
+                    v-for="subItem in item.items"
                     :key="subItem.title"
                     :to="subItem.route"
-
-                    v-for="subItem in item.items"
-                    :value="$route.name === subItem.route"
-                >
+                    :value="$route.name === subItem.route">
                     <v-list-item-action>
                         <v-icon>{{ subItem.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>{{ subItem.title }}</v-list-item-title>
                     </v-list-item-content>
-
                 </v-list-item>
-            </v-list-group>
+            </v-list-item-group>
             <v-list-item
                 :to="item.route"
                 v-else
-                :value="$route.name === item.route"
-            >
+                :value="$route.name === item.route">
                 <v-list-item-action>
                     <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
-
             </v-list-item>
         </div>
-
     </v-list>
 </template>
 
 <script>
-    export default {
-        name: 'MainMenu',
-        data() {
-            return {
-                items: [
-                    {
-                        icon: 'fa-users',
-                        title: 'Gebruikers',
-                        route: {name: 'users'},
-                    }
-
-                ]
-            };
-        },
-    };
+export default {
+    name: 'Menu',
+    computed: {
+        items: () => [],
+    },
+};
 </script>
 
 <style scoped>

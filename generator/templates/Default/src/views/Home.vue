@@ -5,23 +5,8 @@
     </div>
 </template>
 
-<script>
-
-    export default {
-        components: {},
-        watch: {},
-        props: [],
-        name: 'home',
-        data() {
-            return {};
-        },
-        created() {
-
-        },
-        methods: {},
-    };
+<script lang="js">
+export default {
+    name: 'Home',
+};
 </script>
-
-<style scoped lang="scss">
-
-</style>

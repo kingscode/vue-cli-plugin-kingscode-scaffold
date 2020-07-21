@@ -1,10 +1,10 @@
 <template>
     <v-card height="100%">
-        <v-form @submit.prevent="handleRegister()" ref="form" v-model="valid">
+        <v-form @submit.prevent="handleRegister()" ref="form" v-model="isValid">
             <v-card-title class="title">Ik wil een account aanvragen</v-card-title>
             <v-card-text>
                 <v-alert
-                    :value="alertMessage !== null"
+                    :value="!!alertMessage.length"
                     class="mb-10"
                     transition="fade-transition"
                     :type="alertType"
@@ -46,21 +46,22 @@
 
 <script>
 import resetRequest from '../../api/endpoints/password/reset.js';
+import {getRateLimitMinutes} from '../../api/util/response.js';
 
 export default {
     name: 'PasswordResetCard',
     props: {
         token: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
     data() {
         return {
-            alertType: 'info',
-            alertMessage: null,
+            alertType: 'success',
+            alertMessage: '',
             isLoading: false,
-            valid: null,
+            isValid: false,
             form: {
                 email: '',
                 password: '',
@@ -70,16 +71,35 @@ export default {
         };
     },
     methods: {
-        async handleRegister() {
+        handleRegister() {
             this.$refs.form.validate();
-            if (!this.valid) {
-                return;
-            }
+
+            if (!this.isValid) return;
+
             this.isLoading = true;
-            const {success, message} = await resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation);
-            this.alertType = success ? 'success' : 'error';
-            this.alertMessage = message;
-            this.isLoading = false;
+            this.alertType = 'error';
+            this.errorMessage = '';
+
+            resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation)
+                .then(() => {
+                    this.alertType = 'success';
+                    this.alertMessage = 'Je wachtwoord is opnieuw ingesteld, je kan nu inloggen.';
+                })
+                .catch(error => {
+                    const response = error.response;
+                    const status = response.status;
+
+                    if (status === 429) {
+                        this.alertMessage =
+                            `Je hebt tevaak een foutieve login poging gedaan. Probeer het over ${getRateLimitMinutes(response, 15)} minuten opnieuw`;
+                    } else if (status === 400) {
+                        this.alertMessage =
+                            'Deze wachtwoord reset pagina is verlopen, vraag opnieuw een wachtwoord aan via de wachtwoord vergeten optie';
+                    }
+
+                    this.$refs.form.validate();
+                })
+                .finally(() => this.isLoading = false);
         },
     },
 };

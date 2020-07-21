@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import RegisterRequest from '../../api/endpoints/authorisation/register.js';
+import {register} from '../../api/endpoints/authorisation/register.js';
 
 export default {
     name: 'RegisterCard',
@@ -56,8 +56,10 @@ export default {
             if (!this.isValid) return;
 
             this.isLoading = true;
+            this.alertType = 'error';
+            this.alertMessage = '';
 
-            RegisterRequest(this.form.email, this.form.name)
+            register(this.form.email, this.form.name)
                 .then(() => {
                     this.alertType = 'success';
                     this.alertMessage = 'Er is een account aangemaakt, controleer je e-mail om een wachtwoord te kiezen zodat je vervolgens kunt inloggen.';

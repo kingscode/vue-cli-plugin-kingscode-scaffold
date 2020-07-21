@@ -1,7 +1,21 @@
-import {post} from '../../implementation/app/wrapper.js';
+import {post} from '../../implementation/app';
 
-export default function (email, name) {
+function register(email, name) {
     return post('registration', {
         email, name,
     });
 }
+
+function verify(token, email, password, passwordConfirmation) {
+    return post('registration/verify', {
+        token: token,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+    });
+}
+
+export {
+    register,
+    verify,
+};

@@ -2,7 +2,7 @@
     <v-autocomplete v-bind="$attrs"
                     :items="items"
                     :search-input.sync="searchInput"
-                    :loading="loading"
+                    :loading="isLoading"
                     :value="$attrs.value"
                     @change="handleChange"
                     v-if="enabled"
@@ -14,115 +14,123 @@
         </template>
     </v-autocomplete>
 </template>
-<script>
-    export default {
-        name: 'PaginatedAutocomplete',
-        data() {
-            return {
-                items: [],
-                page: 1,
-                lastPage: 1,
-                searchInput: null,
-                loading: true,
-                enabled: true,
-            };
-        },
-        props: {
-            pagination: {
-                type: Object,
-                default() {
-                    return {
-                        url: '',
-                        perPage: 15,
-                    };
-                },
-            },
-        },
-        watch: {
-            searchInput() {
-                let selectedItemsText = this.items.filter(obj => {
-                    return obj.id === this.$attrs.value;
-                })[0][this.$attrs['item-text']];
-                if(selectedItemsText !== this.searchInput) {
-                    this.getItemsFromApi(this.page, this.searchInput);
-                }
-            },
-            '$attrs.value': {
-                handler() {
-                    this.loadSelectedItemsIfTheyNotExist();
-                },
-                deep: false,
-            },
-        },
-        computed: {
-            canLoadMoreItems() {
-                return this.page < this.lastPage;
-            },
-        },
-        created() {
-            this.reload();
-        },
-        methods: {
-            getItemsFromApi(page, searchInput) {
-                this.loading = true;
-                this.$http.get(this.pagination.url + '?perPage=' + this.pagination.perPage + '&page=' + page + '&q=' + (searchInput || '')).then((response) => {
-                    response.data.data = response.data.data.map(obj => this.mapItems(obj));
 
-                    this.items = [...this.items, ...response.data.data];
-                    this.page = response.data.meta.current_page;
-                    this.lastPage = response.data.meta.last_page;
-                    this.loading = false;
-                });
+<script lang="js">
+import axios from '../api/implementation/app';
 
-            },
-            // load selected items first
-            getSelectedItems() {
-                let ids = this.$attrs.value;
-                if (typeof ids === 'undefined' || ids === null) {
-                    return;
-                }
-                if (typeof ids === 'number') {
-                    ids = [ids];
-                }
-                this.$http.get(this.pagination.url + '?only=' + ids.join() + '&perPage=' + ids.length).then((response) => {
-                    response.data.data = response.data.data.map(obj => this.mapItems(obj));
-                    this.items = [...this.items, ...response.data.data];
-                });
-            },
-            handleChange(value) {
-                this.$emit('input', value);
-            },
-            mapItems(obj) {
+export default {
+    name: 'PaginatedAutocomplete',
+    data() {
+        return {
+            items: [],
+            page: 1,
+            lastPage: 1,
+            searchInput: '',
+            isLoading: true,
+        };
+    },
+    props: {
+        pagination: {
+            type: Object,
+            default() {
                 return {
-                    [this.$attrs['item-text']]: obj[this.$attrs['item-text']],
-                    [this.$attrs['item-value']]: obj[this.$attrs['item-value']],
+                    url: '',
+                    perPage: 15,
                 };
             },
-            reload() {
-                this.items = [];
-                this.getSelectedItems();
-                this.getItemsFromApi(1);
-            },
-            loadSelectedItemsIfTheyNotExist() {
-                let ids = this.$attrs.value;
-                if (typeof ids === 'undefined' || ids === null) {
-                    return;
-                }
-                if (typeof ids === 'number') {
-                    ids = [ids];
-                }
-                ids.forEach((value) => {
-                    let found = this.items.find((obj) => {
-                        return obj.id === value;
-                    });
-                    if (typeof found === 'undefined') {
-                        this.getSelectedItems();
-                        return;
-                    }
-                });
-            },
         },
-    };
+    },
+    watch: {
+        searchInput() {
+            const selectedItemsText = this.items.filter(item => item.id === this.$attrs.value)[0][this.$attrs['item-text']];
+
+            if (selectedItemsText !== this.searchInput) {
+                this.getItemsFromApi(this.page, this.searchInput);
+            }
+        },
+        '$attrs.value': {
+            handler() {
+                this.loadSelectedItemsIfTheyNotExist();
+            },
+            deep: false,
+        },
+    },
+    computed: {
+        canLoadMoreItems: vm => vm.page < vm.lastPage,
+        selectedIds: vm => {
+            const value = vm.$attrs.value;
+
+            if (!value) return [];
+
+            return Array.isArray(value) ? value : [value];
+        },
+    },
+    created() {
+        this.reload();
+    },
+    methods: {
+        getItemsFromApi(page, searchInput) {
+            this.isLoading = true;
+
+            axios.get(`${this.pagination.url}?perPage=${this.pagination.perPage}page=${page}&q=${searchInput}`)
+                .then(response => {
+                    const axiosData = response.data;
+
+                    axiosData.data = response.data.data.map(obj => this.mapItems(obj));
+                    this.items = [...this.items, ...axiosData.data];
+
+                    const meta = axiosData.meta;
+                    this.page = meta.currentPage;
+                    this.lastPage = meta.lastPage;
+                })
+                .finally(() => this.isLoading = false);
+        },
+        getSelectedItems() {
+            const ids = this.selectedIds;
+
+            if (!ids.length) return;
+
+            this.isLoading = true;
+
+            axios.get(`${this.pagination.url}?only=${ids.join()}&perPage=${ids.length}`)
+                .then(response => {
+                    const axiosData = response.data;
+
+                    axiosData.data = axiosData.data.map(obj => this.mapItems(obj));
+                    this.items = [...this.items, ...axiosData.data];
+                })
+                .finally(() => this.isLoading = false);
+        },
+        handleChange(value) {
+            this.$emit('input', value);
+        },
+        mapItems(obj) {
+            const itemText = this.$attrs['item-text'];
+            const itemValue = this.$attrs['item-value'];
+
+            return {
+                [itemText]: obj[itemText],
+                [itemValue]: obj[itemValue],
+            };
+        },
+        reload() {
+            this.items = [];
+            this.getSelectedItems();
+            this.getItemsFromApi(1);
+        },
+        loadSelectedItemsIfTheyNotExist() {
+            const ids = this.selectedIds;
+
+            if (!ids.length) return;
+
+            ids.forEach(value => {
+                const item = this.items.find(item => item.id === value);
+
+                if (!item) this.getSelectedItems();
+            });
+        },
+    },
+};
 </script>
 
 <style scoped>

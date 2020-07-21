@@ -9,16 +9,15 @@
     </v-row>
 </template>
 
-<script>
+<script lang="js">
 import RegisterCard from '../components/Authorisation/RegisterCard.vue';
 import LoginCard from '../components/Authorisation/LoginCard.vue';
 
 export default {
     name: 'Login',
-    components: {RegisterCard, LoginCard},
+    components: {
+        RegisterCard,
+        LoginCard,
+    },
 };
 </script>
-
-<style scoped>
-
-</style>

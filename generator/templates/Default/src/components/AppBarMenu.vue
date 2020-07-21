@@ -21,13 +21,14 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 
-    export default {
-        name: 'AppBarMenu',
-        methods: {
-            logout() {
-                this.$store.dispatch('Authorisation/logout');
-            }
-        },
-    };
+export default {
+    name: 'AppBarMenu',
+    methods: {
+        ...mapActions({
+            logout: 'authorisation/logout',
+        }),
+    },
+};
 </script>

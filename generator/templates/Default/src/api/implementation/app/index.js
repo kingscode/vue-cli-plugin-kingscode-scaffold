@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from './interceptor';
-import {destroy, get, getPaginated, post, put} from './wrapper'
+import {getPaginated} from './wrapper';
+import {transformParams, transformRequest, transformResponse} from './transformer';
 
 /**
  * Returns an axios instance
@@ -16,6 +17,9 @@ const config = {
     headers: {
         Accept: 'application/json',
     },
+    transformRequest: [transformRequest],
+    transformResponse: [transformResponse],
+    paramsSerializer: transformParams,
 };
 
 const instance = axios.create(config);
@@ -23,12 +27,17 @@ const instance = axios.create(config);
 instance.interceptors.request.use(onRequestFulFilled, onRequestRejected);
 instance.interceptors.response.use(onResponseFulFilled, onResponseRejected);
 
+const get = instance.get;
+const post = instance.post;
+const destroy = instance.delete;
+const put = instance.put;
+
 export {
-    get,
     getPaginated,
+    get,
     post,
-    put,
     destroy,
-}
+    put,
+};
 
 export default instance;
