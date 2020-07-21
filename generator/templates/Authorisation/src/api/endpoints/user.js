@@ -1,4 +1,15 @@
-import axios from '../implementation/app';
+import axios, {getPaginated} from '../implementation/app';
+
+function index(page, perPage, search, sortBy, descending, params) {
+    return getPaginated('user', page, perPage, search, sortBy, descending, params);
+}
+
+/**
+ * @param id {number}
+ */
+function show(id) {
+    return axios.get(`user/${id}`);
+}
 
 /**
  * @param user {User}
@@ -22,6 +33,8 @@ function destroy(userId) {
 }
 
 export {
+    index,
+    show,
     create,
     update,
     destroy,
