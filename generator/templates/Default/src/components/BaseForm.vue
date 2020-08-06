@@ -1,57 +1,58 @@
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: 'Form',
-    props: {
-        errors: {
-            default: () => {},
-            type: Object,
-        },
+  name: 'Form',
+  props: {
+    errors: {
+      default: () => {
+      },
+      type: Object,
     },
-    computed: {
-        ...mapGetters({
-            findError: 'error/find',
-        }),
+  },
+  computed: {
+    ...mapGetters({
+      findError: 'error/find',
+    }),
+  },
+  watch: {
+    errors: {
+      handler() {
+        this.validate();
+      },
+      deep: true,
     },
-    watch: {
-        errors: {
-            handler() {
-                this.validate();
-            },
-            deep: true,
-        },
+  },
+  data() {
+    return {
+      valid: false,
+    };
+  },
+  methods: {
+    ...mapMutations({
+      removeError: 'error/remove',
+    }),
+    validate() {
+      this.$refs.form.validate();
     },
-    data() {
-        return {
-            valid: false,
-        };
+    clear() {
+      this.$refs.form.reset();
     },
-    methods: {
-        ...mapMutations({
-            removeError: 'error/remove',
-        }),
-        validate() {
-            this.$refs.form.validate();
-        },
-        clear() {
-            this.$refs.form.reset();
-        },
-        /* Should only be used for Vuetify rules */
-        serverError(key) {
-            const error = this.findError(key);
+    /* Should only be used for Vuetify rules */
+    serverError(key) {
+      const error = this.findError(key);
 
-            if (error) {
-                this.removeServerError(key);
+      if (error) {
+        this.removeServerError(key);
 
-                return error;
-            }
+        return error;
+      }
 
-            return true;
-        },
-        removeServerError(key) {
-            this.removeError(key);
-        },
+      return true;
     },
+    removeServerError(key) {
+      this.removeError(key);
+    },
+  },
 };
 </script>

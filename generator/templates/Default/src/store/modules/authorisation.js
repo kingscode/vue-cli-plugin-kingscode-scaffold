@@ -1,25 +1,25 @@
 import router from '../../router';
 
 export default {
-    namespaced: true,
-    state: {
-        token: '',
+  namespaced: true,
+  state: {
+    token: '',
+  },
+  mutations: {
+    setAuthorisationToken(state, token) {
+      state.token = token;
     },
-    mutations: {
-        setAuthorisationToken(state, token) {
-            state.token = token;
-        },
-    },
-    actions: {
-        logout(context) {
-            context.commit('setAuthorisationToken', '');
+  },
+  actions: {
+    logout(context) {
+      context.commit('setAuthorisationToken', '');
 
-            router.push({
-                name: 'login',
-            });
-        },
+      router.push({
+        name: 'login',
+      });
     },
-    getters: {
-        isLoggedIn: state => !!state.token.length,
-    },
+  },
+  getters: {
+    isLoggedIn: state => !!state.token.length,
+  },
 };

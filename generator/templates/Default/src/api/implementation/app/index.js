@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-import {onRequestFulFilled, onRequestRejected, onResponseFulFilled, onResponseRejected} from './interceptor';
-import {getPaginated} from './wrapper';
-import {transformParams, transformRequest, transformResponse} from './transformer';
+import {
+  onRequestFulFilled,
+  onRequestRejected,
+  onResponseFulFilled,
+  onResponseRejected,
+} from './interceptor';
+import { transformParams, transformRequest, transformResponse } from './transformer';
+import { getPaginated } from './wrapper';
 
 /**
  * Returns an axios instance
@@ -13,13 +18,13 @@ import {transformParams, transformRequest, transformResponse} from './transforme
  * @type {AxiosRequestConfig}
  */
 const config = {
-    baseURL: process.env.VUE_APP_ROOT_API,
-    headers: {
-        Accept: 'application/json',
-    },
-    transformRequest: [transformRequest],
-    transformResponse: [transformResponse],
-    paramsSerializer: transformParams,
+  baseURL: process.env.VUE_APP_ROOT_API,
+  headers: {
+    Accept: 'application/json',
+  },
+  transformRequest: [transformRequest],
+  transformResponse: [transformResponse],
+  paramsSerializer: transformParams,
 };
 
 const instance = axios.create(config);
@@ -33,11 +38,11 @@ const destroy = instance.delete;
 const put = instance.put;
 
 export {
-    getPaginated,
-    get,
-    post,
-    destroy,
-    put,
+  getPaginated,
+  get,
+  post,
+  destroy,
+  put,
 };
 
 export default instance;

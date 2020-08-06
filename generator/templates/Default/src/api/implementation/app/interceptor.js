@@ -4,72 +4,74 @@ import store from '../../../store';
  * @param request {AxiosRequestConfig}
  */
 function onRequestFulFilled(request) {
-    if (request.method === 'put') {
-        request.method = 'post';
-        if (request.data instanceof FormData) {
-            request.data.append('_method', 'put');
-        } else {
-            request.data['_method'] = 'put';
-        }
+  if (request.method === 'put') {
+    request.method = 'post';
+    if (request.data instanceof FormData) {
+      request.data.append('_method', 'put');
+    } else {
+      request.data['_method'] = 'put';
     }
+  }
 
-    const computedHeaders = computeHeaders();
+  const computedHeaders = computeHeaders();
 
-    Object.keys(computedHeaders).forEach(header => {
-        Object.assign(request.headers.common, {
-            [header]: computedHeaders[header],
-        });
+  Object.keys(computedHeaders)
+    .forEach(header => {
+      Object.assign(request.headers.common, {
+        [header]: computedHeaders[header],
+      });
     });
 
-    return request;
+  return request;
 }
 
 function computeHeaders() {
-    return {
-        Authorization: store.getters['authorisation/isLoggedIn']
-            ? `Bearer ${store.state.authorisation.token}`
-            : undefined,
-    };
+  return {
+    Authorization: store.getters['authorisation/isLoggedIn']
+      ? `Bearer ${store.state.authorisation.token}`
+      : undefined,
+  };
 }
 
 /**
  * @param error {AxiosError}
  */
 function onRequestRejected(error) {
-    return error;
+  return error;
 }
 
 /**
  * @param response {AxiosResponse}
  */
 function onResponseFulFilled(response) {
-    return response;
+  return response;
 }
 
 /**
  * @param error {AxiosError}
  */
 function onResponseRejected(error) {
-    const response = error.response;
+  const response = error.response;
 
-    if (!response) return Promise.reject(error); // network error, not axios related
+  if (!response) return Promise.reject(error); // network error, not axios related
 
-    const status = response.status;
-    const errors = response.data.errors;
+  const status = response.status;
+  const errors = response.data.errors;
 
-    if (errors && status === 422) {
-        Object.keys(errors).forEach(key => store.commit('error/add', {
-            key: key,
-            message: errors[key][0],
-        }));
-    }
+  if (errors && status === 422) {
+    Object.keys(errors)
+      .forEach(key => store.commit('error/add', {
+        key: key,
+        message: errors[key][0],
+      }));
+  }
 
-    return Promise.reject(error);
+  return Promise.reject(error);
 }
 
 export {
-    onRequestFulFilled,
-    onRequestRejected,
-    onResponseFulFilled,
-    onResponseRejected,
+  onRequestFulFilled,
+  onRequestRejected,
+  onResponseFulFilled,
+  onResponseRejected,
 };
