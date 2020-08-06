@@ -11,12 +11,6 @@ class User extends Model {
       email: this.email,
     };
   }
-
-  mapResponse(data) {
-    this.id = data.id;
-    this.name = data.name;
-    this.email = data.email;
-  }
 }
 
 export default User;
