@@ -145,7 +145,8 @@ export default {
               let item;
 
               if (this.modelType) {
-                item = new this.modelType().mapResponse(response.data.data);
+                item = new this.modelType();
+                item.mapResponse(response.data.data);
               } else {
                 item = response.data.data;
               }
@@ -238,7 +239,8 @@ export default {
       }
 
       if (this.modelType) {
-        this.updateForm.values = new this.modelType().mapResponse(selected[0]);
+        this.updateForm.values = new this.modelType();
+        this.updateForm.values.mapResponse(selected[0]);
       } else {
         this.updateForm.values = selected[0];
       }
