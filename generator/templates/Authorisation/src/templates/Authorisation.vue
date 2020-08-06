@@ -1,13 +1,13 @@
 <template>
-    <v-main>
-        <v-container fluid class="fill-height primary">
-            <router-view/>
-        </v-container>
-    </v-main>
+  <v-main>
+    <v-container class="fill-height primary" fluid>
+      <router-view/>
+    </v-container>
+  </v-main>
 </template>
 
 <script lang="js">
 export default {
-    name: 'Authorisation',
+  name: 'Authorisation',
 };
 </script>

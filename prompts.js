@@ -12,7 +12,7 @@ module.exports = [
         default: true,
     },
     {
-        name: 'useGithubDeployemnts',
+        name: 'useGithubDeployments',
         type: 'confirm',
         message: 'Do you want to use github actions for deployments?',
         default: true,
