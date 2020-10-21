@@ -1,0 +1,30 @@
+@import "~vuetify/src/styles/styles.sass";
+
+@include theme(v-application) using($material) {
+  .text-color-theme {
+    color: map-deep-get($material, "text", "theme")
+  }
+  .text-color-primary {
+    color: map-deep-get($material, "text", "primary")
+  }
+  .text-color-secondary {
+    color: map-deep-get($material, "text", "secondary")
+  }
+  .text-color-disabled {
+    color: map-deep-get($material, "text", "disabled")
+  }
+  .text-color-link {
+    color: map-deep-get($material, "text", "link")
+  }
+  .surface-background {
+    background-color: map-get($material, "surface");
+  }
+}
+
+/**
+ * Hotfix, hope vuetify fixes this one day
+ * https://github.com/vuetifyjs/vuetify/issues/8541
+ */
+.v-icon.fas, .v-icon.fal, .v-icon.far {
+  width: 20px;
+}

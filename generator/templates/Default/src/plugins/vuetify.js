@@ -32,15 +32,11 @@ export default new Vuetify({
         },
 <%_ } _%>
     },
-    customProperties: true,
     lang: {
         locales: {nl},
         current: 'nl',
     },
     theme: {
-        options: {
-            customProperties: true,
-        },
         themes: {
             light: {
                 primary: '#002F4E',
