@@ -29,15 +29,6 @@ module.exports = (api, options) => {
     });
   }
 
-  if (options.useCrud) {
-    api.extendPackage({
-      dependencies: {
-        '@kingscode/vuetify-resource': '^2.0.3',
-      },
-    });
-    api.render('./templates/Crud', options);
-  }
-
   if (options.useGithubDeployments) {
     api.render('./templates/Deployment', options);
   }
@@ -50,6 +41,15 @@ module.exports = (api, options) => {
 
   if (options.useAuthorisation) {
     api.render('./templates/Authorisation', options);
+  }
+
+  if (options.useCrud) {
+    api.extendPackage({
+      dependencies: {
+        '@kingscode/vuetify-resource': '^2.0.3',
+      },
+    });
+    api.render('./templates/Crud', options);
   }
 
   if (options.plugins.includes('sentry')) {

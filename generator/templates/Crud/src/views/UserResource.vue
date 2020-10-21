@@ -16,7 +16,7 @@
 
 <script lang="js">
 import Resource from '@/components/Resource.vue';
-import { create, destroy, index, show, update } from '../api/endpoints/user.js';
+import { create, remove, index, show, update } from '../api/endpoints/user.js';
 import User from '../application/models/user.js';
 
 export default {
@@ -28,7 +28,7 @@ export default {
     indexHandler: () => index,
     showHandler: () => show,
     updateHandler: () => update,
-    deleteHandler: () => destroy,
+    deleteHandler: () => remove,
     createHandler: () => create,
     modelType: () => User,
     tableContent: () => [

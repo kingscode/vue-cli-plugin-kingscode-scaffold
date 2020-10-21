@@ -8,6 +8,10 @@ import authorised from './routes/authorised.js';
 Vue.use(Router);
 
 const routes = [
+  {
+    path: '',
+    redirect: { name: 'home' },
+  },
 <%_ if (options.useAuthorisation) { _%>
   authorisation,
 <%_ } _%>

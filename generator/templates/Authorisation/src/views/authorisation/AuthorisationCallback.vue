@@ -6,8 +6,7 @@
 
 <script lang="js">
 import { getFragment } from '@/application/util/url';
-import admin from '@/router/routes/admin.js';
-import { mapActions, mapMutations, mapState } from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'AuthorisationCallback',
@@ -15,12 +14,6 @@ export default {
     ...mapMutations({
       setAuthorisationToken: 'authorisation/setAuthorisationToken',
     }),
-    ...mapActions({
-      fetchProfile: 'authorisation/fetchProfile',
-    }),
-  },
-  computed: {
-    ...mapState('authorisation', ['isAdmin']),
   },
   async created() {
     const redirectUri = this.$route.query.redirect_uri;
@@ -30,10 +23,6 @@ export default {
     if (!token) throw new Error('AuthorisationCallback::created token hash not found');
 
     this.setAuthorisationToken(token);
-    await this.fetchProfile();
-    if (this.isAdmin) {
-      this.$router.addRoutes([admin]);
-    }
     this.$router.push({ name: redirectUri });
   },
 };
