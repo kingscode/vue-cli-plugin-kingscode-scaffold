@@ -5,10 +5,9 @@ module.exports = (api, options) => {
   api.extendPackage({
     dependencies: {
       'axios': '^0.19.2',
-      'dayjs': '^1.8.19',
-      'vuex': '^3.1.2',
+      'dayjs': '^1.8.34',
+      'vuex': '^3.4.0',
       'vuex-persistedstate': '^2.5.4',
-      'lodash.clonedeep': '^4.5.0',
       'css-vars-ponyfill': '^2.1.2',
       'qs': '^6.9.4',
       'vue-router': '3.3.4',
