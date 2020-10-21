@@ -6,9 +6,11 @@ function camelToSnake(data) {
   const target = Array.isArray(data) ? [] : {};
 
   Object.keys(data)
-    .forEach(key => {
+    .forEach((key) => {
       Object.assign(target, {
-        [convertCamelToSnake(key)]: isIterableObject(data[key]) ? camelToSnake(data[key]) : data[key],
+        [convertCamelToSnake(key)]: isIterableObject(data[key])
+          ? camelToSnake(data[key])
+          : data[key],
       });
     });
 
@@ -16,9 +18,7 @@ function camelToSnake(data) {
 }
 
 function convertCamelToSnake(key) {
-  return key.replace(/[A-Z]/g, value => {
-    return '_' + value[0].toLowerCase();
-  });
+  return key.replace(/[A-Z]/g, (value) => `_${value[0].toLowerCase()}`);
 }
 
 function snakeToCamel(data) {
@@ -29,9 +29,11 @@ function snakeToCamel(data) {
   const target = Array.isArray(data) ? [] : {};
 
   Object.keys(data)
-    .forEach(key => {
+    .forEach((key) => {
       Object.assign(target, {
-        [convertSnakeToCamel(key)]: isIterableObject(data[key]) ? snakeToCamel(data[key]) : data[key],
+        [convertSnakeToCamel(key)]: isIterableObject(data[key])
+          ? snakeToCamel(data[key])
+          : data[key],
       });
     });
 
@@ -39,9 +41,7 @@ function snakeToCamel(data) {
 }
 
 function convertSnakeToCamel(key) {
-  return key.replace(/_\w/g, value => {
-    return value[1].toUpperCase();
-  });
+  return key.replace(/_\w/g, (value) => value[1].toUpperCase());
 }
 
 function isIterableObject(target) {
@@ -51,4 +51,6 @@ function isIterableObject(target) {
 export {
   snakeToCamel,
   camelToSnake,
+  convertCamelToSnake,
+  convertSnakeToCamel,
 };

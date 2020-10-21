@@ -7,7 +7,6 @@ import {
   onResponseRejected,
 } from './interceptor';
 import { transformParams, transformRequest, transformResponse } from './transformer';
-import { getPaginated } from './wrapper';
 
 /**
  * Returns an axios instance
@@ -32,13 +31,12 @@ const instance = axios.create(config);
 instance.interceptors.request.use(onRequestFulFilled, onRequestRejected);
 instance.interceptors.response.use(onResponseFulFilled, onResponseRejected);
 
-const get = instance.get;
-const post = instance.post;
+const { get } = instance;
+const { post } = instance;
 const destroy = instance.delete;
-const put = instance.put;
+const { put } = instance;
 
 export {
-  getPaginated,
   get,
   post,
   destroy,

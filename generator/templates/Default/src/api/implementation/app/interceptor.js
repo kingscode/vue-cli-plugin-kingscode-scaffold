@@ -1,4 +1,5 @@
-import store from '../../../store';
+import router from '@/router';
+import store from '@/store';
 
 /**
  * @param request {AxiosRequestConfig}
@@ -9,14 +10,14 @@ function onRequestFulFilled(request) {
     if (request.data instanceof FormData) {
       request.data.append('_method', 'put');
     } else {
-      request.data['_method'] = 'put';
+      request.data._method = 'put';
     }
   }
 
   const computedHeaders = computeHeaders();
 
   Object.keys(computedHeaders)
-    .forEach(header => {
+    .forEach((header) => {
       Object.assign(request.headers.common, {
         [header]: computedHeaders[header],
       });
@@ -51,17 +52,27 @@ function onResponseFulFilled(response) {
  * @param error {AxiosError}
  */
 function onResponseRejected(error) {
-  const response = error.response;
+  const { response } = error;
 
   if (!response) return Promise.reject(error); // network error, not axios related
 
-  const status = response.status;
-  const errors = response.data.errors;
+  const { status } = response;
+  const { errors } = response.data;
+
+  if (status === 401) {
+    store.dispatch('authorisation/logout');
+    router.push({ name: 'login' });
+    return;
+  } else if (status === 403) {
+    router.push({ name: '403' });
+  } else if (status === 404) {
+    router.push({ name: '404' });
+  }
 
   if (errors && status === 422) {
     Object.keys(errors)
-      .forEach(key => store.commit('error/add', {
-        key: key,
+      .forEach((key) => store.commit('error/add', {
+        key,
         message: errors[key][0],
       }));
   }

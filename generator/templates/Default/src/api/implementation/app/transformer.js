@@ -1,7 +1,7 @@
 import Qs from 'qs';
-import Model from '../../../application/models/model.js';
+import Model from '../../../application/models/model';
 import { camelToSnake, snakeToCamel } from '../../util/keyConverter';
-import objectToFormData from '../../util/objectToFormDataConverter.js';
+import objectToFormData from '../../util/objectToFormDataConverter';
 
 /**
  * @param response
@@ -9,8 +9,12 @@ import objectToFormData from '../../util/objectToFormDataConverter.js';
  */
 function transformResponse(response) {
   if (typeof response === 'string' && response.length > 0) {
-    const result = JSON.parse(response);
-    return snakeToCamel(result);
+    try {
+      const result = JSON.parse(response);
+      return snakeToCamel(result);
+    } catch (e) {
+      return response;
+    }
   }
 
   if (!response) {
