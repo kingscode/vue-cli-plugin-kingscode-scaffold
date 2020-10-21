@@ -9,7 +9,7 @@
         <img :src="require('../assets/logo.png')" class="logo">
       </router-link>
       <v-divider class="mt-10"/>
-      <MainMenu/>
+      <TheMainMenu/>
     </v-navigation-drawer>
     <v-app-bar app color="primary" dark mfixed>
       <v-app-bar-nav-icon @click.stop="isMenuOpen = !isMenuOpen"></v-app-bar-nav-icon>
@@ -29,13 +29,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import AppBarMenu from '../components/AppBarMenu.vue';
-import MainMenu from './../components/menu/MainMenu.vue';
+import TheMainMenu from 'generator/templates/Default/src/components/menu/TheMainMenu.vue';
 
 export default {
   name: 'Default',
   components: {
     AppBarMenu,
-    MainMenu,
+    TheMainMenu,
   },
   data() {
     return {

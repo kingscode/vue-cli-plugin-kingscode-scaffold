@@ -2,7 +2,7 @@
 import Menu from './Menu.vue';
 
 export default {
-  name: 'MainMenu',
+  name: 'TheMainMenu',
   extends: Menu,
   computed: {
     items: () => [
