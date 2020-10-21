@@ -51,7 +51,6 @@
 
 <script>
 import { getRateLimitMinutes } from '@/api/util/response';
-import { getOrganisationFromUrl } from '@/application/util/url.js';
 import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
 import KTextField from '@/components/crud/fields/KTextField.vue';
 import { mapGetters } from 'vuex';
@@ -123,11 +122,6 @@ export default {
       tokenElement.name = 'token';
       tokenElement.value = token;
       form.appendChild(tokenElement);
-
-      const organisationElement = document.createElement('input');
-      organisationElement.name = 'organisation';
-      organisationElement.value = getOrganisationFromUrl();
-      form.appendChild(organisationElement);
 
       document.body.appendChild(form);
       form.submit();

@@ -45,7 +45,6 @@
 
 <script>
 import { getRateLimitMinutes } from '@/api/util/response.js';
-import { getOrganisationFromUrl } from '@/application/util/url.js';
 import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
 import KTextField from '@/components/crud/fields/KTextField.vue';
 import resetRequest from '../../api/endpoints/authorisation/password/reset';
@@ -89,7 +88,7 @@ export default {
       this.alertType = 'error';
       this.errorMessage = '';
 
-      resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation, getOrganisationFromUrl())
+      resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation)
           .then(() => {
             this.alertType = 'success';
             this.alertMessage = this.$t('authorisation.passwordReset.successMessage');

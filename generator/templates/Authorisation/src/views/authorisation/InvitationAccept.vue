@@ -60,7 +60,6 @@ import { getRateLimitMinutes } from '@/api/util/response.js';
 import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
 import KTextField from '@/components/crud/fields/KTextField.vue';
 import { mapGetters } from 'vuex';
-import { getOrganisationFromUrl } from '../../application/util/url.js';
 
 export default {
   name: 'InvitationAccept',

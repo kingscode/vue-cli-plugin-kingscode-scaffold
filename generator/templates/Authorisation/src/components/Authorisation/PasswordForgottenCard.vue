@@ -42,7 +42,6 @@
 import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
 import KTextField from '@/components/crud/fields/KTextField.vue';
 import ForgottenRequest from '../../api/endpoints/authorisation/password/forgotten';
-import { getOrganisationFromUrl } from '../../application/util/url.js';
 
 export default {
   name: 'PasswordForgottenCard',
@@ -71,7 +70,7 @@ export default {
       this.alertMessage = '';
       this.alertType = 'error';
 
-      ForgottenRequest(this.form.email, getOrganisationFromUrl())
+      ForgottenRequest(this.form.email)
           .then(() => {
             this.alertMessage = this.$t('authorisation.passwordForgotten.successMessage');
             this.alertType = 'success';

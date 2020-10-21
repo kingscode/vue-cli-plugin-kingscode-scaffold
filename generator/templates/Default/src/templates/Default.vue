@@ -28,8 +28,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import AppBarMenu from '../components/AppBarMenu.vue';
-import TheMainMenu from 'generator/templates/Default/src/components/menu/TheMainMenu.vue';
+import AppBarMenu from '@/components/AppBarMenu.vue';
+import TheMainMenu from '@/components/menu/TheMainMenu.vue';
 
 export default {
   name: 'Default',
