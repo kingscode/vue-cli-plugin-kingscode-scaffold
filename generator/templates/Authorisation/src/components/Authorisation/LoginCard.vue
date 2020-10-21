@@ -1,7 +1,7 @@
 <template>
   <v-card height="100%">
     <v-form @submit.prevent="handleLogin()" ref="form" v-model="isValid">
-      <v-card-title class="title">Ik wil inloggen</v-card-title>
+      <VCardTitle class="title" v-text="$t('authorisation.login.title')"/>
       <v-card-text>
         <v-alert :value="!!errorMessage.length"
                  class="mb-10"
@@ -10,43 +10,59 @@
         >
           {{ errorMessage }}
         </v-alert>
-        <VTextField
-            :rules="[(v) => !!v || 'E-Mail is verplicht']"
-            label="E-Mail"
-            tabindex="1"
-            v-model="form.email"
-        />
-        <VTextField
-            :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-            :rules="[(v) => !!v || 'Wachtwoord is verplicht']"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
-            label="Wachtwoord"
-            tabindex="2"
-            v-model="form.password"
-        />
+        <k-field-group language-prefix="authorisation.fields">
+          <KTextField field="email"
+                      autofocus
+                      tabindex="1"
+                      v-model="form.email"
+                      autocomplete="username"
+          />
+          <KTextField :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                      :type="showPassword ? 'text' : 'password'"
+                      @click:append="showPassword = !showPassword"
+                      field="password"
+                      autocomplete="current-password"
+                      tabindex="2"
+                      v-model="form.password"
+          />
+        </k-field-group>
       </v-card-text>
       <v-card-actions>
         <VSpacer/>
-        <v-btn :to="{name: 'password.forgotten'}" color="primary" tabindex="4" text>Wachtwoord vergeten</v-btn>
-        <v-btn :loading="isLoading" color="primary" tabindex="3" type="submit">Inloggen</v-btn>
+        <VBtn :to="{name: 'password.forgotten'}"
+              color="primary"
+              tabindex="4"
+              text
+              v-text="$t('authorisation.actions.passwordForgotten')"/>
+        <VBtn :loading="isLoading"
+              color="primary"
+              tabindex="3"
+              type="submit"
+              v-text="$t('authorisation.actions.login')"/>
       </v-card-actions>
     </v-form>
 
     <v-overlay class="text-center" v-model="isRedirecting">
       <VProgressCircular indeterminate size="64"/>
-      <div class="mt-5">Je bent ingelogd, we sturen je nu door.</div>
+      <div class="mt-5" v-text="$t('authorisation.login.successMessage')"></div>
     </v-overlay>
   </v-card>
 </template>
 
 <script>
+import { getRateLimitMinutes } from '@/api/util/response';
+import { getOrganisationFromUrl } from '@/application/util/url.js';
+import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
+import KTextField from '@/components/crud/fields/KTextField.vue';
 import { mapGetters } from 'vuex';
 import LoginRequest from '../../api/endpoints/authorisation/login';
-import { getRateLimitMinutes } from '../../api/util/response.js';
 
 export default {
   name: 'LoginCard',
+  components: {
+    KFieldGroup,
+    KTextField,
+  },
   data() {
     return {
       errorMessage: '',
@@ -69,33 +85,33 @@ export default {
     handleLogin() {
       this.isLoading = true;
       LoginRequest(this.form.email, this.form.password)
-          .then(res => {
+          .then((res) => {
             this.isRedirecting = true;
             this.redirectToAuthDispense(res.data.data.token);
           })
-          .catch(err => {
-            const response = err.response;
-            const status = response.status;
+          .catch((err) => {
+            const { response } = err;
+            const { status } = response;
 
             if (status === 429) {
-              this.errorMessage =
-                  `Je hebt te veel foutieve inlog pogingen gedaan.
-                             Probeer het over ${getRateLimitMinutes(response, 15)} minuten opnieuw`;
+              this.errorMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
             } else {
               this.errorMessage = this.findError('email');
             }
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
     redirectToAuthDispense(token) {
       const form = document.createElement('form');
 
       form.method = 'POST';
-      form.action = process.env.VUE_APP_ROOT_API + '/auth/dispense';
+      form.action = `${process.env.VUE_APP_ROOT_API}/auth/dispense`;
 
       const redirectUriElement = document.createElement('input');
       redirectUriElement.name = 'redirect_uri';
-      redirectUriElement.value = 'home';
+      redirectUriElement.value = 'dashboard';
       form.appendChild(redirectUriElement);
 
       const emailElement = document.createElement('input');
@@ -107,6 +123,11 @@ export default {
       tokenElement.name = 'token';
       tokenElement.value = token;
       form.appendChild(tokenElement);
+
+      const organisationElement = document.createElement('input');
+      organisationElement.name = 'organisation';
+      organisationElement.value = getOrganisationFromUrl();
+      form.appendChild(organisationElement);
 
       document.body.appendChild(form);
       form.submit();

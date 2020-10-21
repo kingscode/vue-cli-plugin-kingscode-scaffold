@@ -1,5 +1,5 @@
 <template>
-  <v-row align="stretch" justify-md="center">
+  <v-row justify-md="center" align="stretch">
     <v-col md="3">
       <PasswordForgottenCard/>
     </v-col>
@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PasswordForgottenCard from '../components/Authorisation/PasswordForgottenCard.vue';
+import PasswordForgottenCard from '@/components/authorisation/PasswordForgottenCard.vue';
 
 export default {
   name: 'PasswordForgotten',

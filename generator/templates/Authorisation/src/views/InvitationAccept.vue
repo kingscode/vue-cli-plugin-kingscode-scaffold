@@ -1,126 +1,129 @@
 <template>
-  <v-form @submit.prevent="handleAccept()" ref="form">
-    <v-card>
-      <v-card-text>
-        <img :src="require('../assets/logo.png')" class="logo">
-        <div v-if="!isLoading">
-          <v-alert
-              :value="!!firstValidGlobalError.length"
-              class="mb-10"
-              transition="fade-transition"
-              type="error"
-          >
-            {{ firstValidGlobalError }}
-          </v-alert>
-          <VTextField
-              :rules="[(v) => !!v || 'E-Mail is verplicht']"
-              label="E-Mail"
-              v-model="email"
-          />
-          <VTextField
-              :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-              :rules="[(v) => !!v || 'Wachtwoord is verplicht', () => serverError('password')]"
-              :type="showPassword ? 'text' : 'password'"
-              @click:append="showPassword = !showPassword"
-              label="Wachtwoord"
-              v-model="password"
-          />
-          <VTextField
-              :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-              :rules="[(v) => !!v || 'Wachtwoord is verplicht']"
-              :type="showPassword ? 'text' : 'password'"
-              @click:append="showPassword = !showPassword"
-              label="Wachtwoord"
-              v-model="passwordConfirmation"
-          />
-        </div>
-        <div class="text-center" v-else>
-          <VProgressCircular
-              :size="70"
-              :width="7"
-              color="accent"
-              indeterminate
-          />
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <VSpacer/>
-        <v-btn color="accent" type="submit">Uitnodiging accepteren</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+
+  <v-row align="stretch" justify-md="center">
+    <v-col md="3">
+      <v-form @submit.prevent="handleAccept()" ref="form" v-model="isValid">
+        <v-card>
+          <VCardTitle class="title" v-text="$t('authorisation.invitationAccept.title')"/>
+          <v-card-text>
+            <v-alert
+                :value="!!alertMessage.length"
+                class="mb-10"
+                transition="fade-transition"
+                :type="alertType"
+            >
+              {{ alertMessage }}
+            </v-alert>
+
+            <k-field-group language-prefix="authorisation.fields">
+              <KTextField
+                  autocomplete="username"
+                  autofocus
+                  disabled
+                  field="email"
+                  tabindex="1"
+                  v-model="email"
+              />
+              <KTextField
+                  autocomplete="new-password"
+                  autofocus
+                  field="password"
+                  tabindex="1"
+                  type="password"
+                  v-model="password"
+              />
+              <KTextField
+                  autocomplete="new-password"
+                  field="passwordConfirmation"
+                  tabindex="1"
+                  type="password"
+                  v-model="passwordConfirmation"
+              />
+            </k-field-group>
+          </v-card-text>
+          <v-card-actions>
+            <VSpacer/>
+            <v-btn :loading="isLoading" color="primary" type="submit">{{
+                $t('authorisation.invitationAccept.request')
+              }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="js">
+import { acceptInvitation } from '@/api/endpoints/authorisation/register.js';
+import { getRateLimitMinutes } from '@/api/util/response.js';
+import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
+import KTextField from '@/components/crud/fields/KTextField.vue';
 import { mapGetters } from 'vuex';
-import axios from '../api/implementation/app';
+import { getOrganisationFromUrl } from '../../application/util/url.js';
 
 export default {
   name: 'InvitationAccept',
+  components: {
+    KFieldGroup,
+    KTextField,
+  },
   data() {
     return {
+      alertType: 'success',
+      alertMessage: '',
       isLoading: false,
-      email: '',
+      email: this.$route.query.email,
       password: '',
       passwordConfirmation: '',
-      errorMessage: '',
-      showPassword: false,
-      errors: {},
+      isValid: false,
     };
   },
   computed: {
     ...mapGetters({
       isLoggedIn: 'authorisation/isLoggedIn',
       firstError: 'error/first',
-      findError: 'error/find',
     }),
-    firstValidGlobalError: vm => vm.errorMessage || vm.firstError,
   },
   created() {
     if (this.isLoggedIn) {
       this.$router.push({
-        name: 'home',
+        name: 'dashboard',
       });
     }
-    this.email = this.$route.query.email || '';
+
+    if (!this.$route.query.email) {
+      this.$router.push({
+        name: 'login',
+      });
+
+      throw new Error('InvitationAccept::created no email present');
+    }
   },
   methods: {
     handleAccept() {
-      this.$refs.form.validate();
-
       this.isLoading = true;
-
-      axios.post('invitation/accept', {
-            email: this.email,
-            password: this.password,
-            password_confirmation: this.passwordConfirmation,
-            token: this.$route.params.token,
+      acceptInvitation(this.email, this.$route.params.token, this.password, this.passwordConfirmation)
+          .then(() => {
+            this.alertType = 'success';
+            this.alertMessage = this.$t('authorisation.invitationAccept.successMessage');
           })
-          .then(() => this.$router.push({
-                name: 'login',
-              }),
-          )
-          .catch(error => {
-            const response = error.response;
-            const data = response.data;
+          .catch((error) => {
+            this.alertType = 'error';
+            const { response } = error;
+            const { status } = response;
 
-            if (response.status === 422) {
-              this.errors = data.errors || [];
-              process.nextTick(() => {
-                this.$refs.form.validate();
-              });
-            } else {
-              if (data.message) {
-                this.errorMessage = data.message;
-              } else {
-                this.errorMessage = 'Er ging iets mis';
-              }
+            if (status === 429) {
+              this.alertMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
+            } else if (status === 400) {
+              this.alertMessage = this.$t('authorisation.invitationAccept.errorMessage');
             }
+
+            this.$refs.form.validate();
           })
-          .finally(() => this.isLoading = false);
-    },
-    serverError(name) {
-      return this.findError(name) || true;
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
   },
 };

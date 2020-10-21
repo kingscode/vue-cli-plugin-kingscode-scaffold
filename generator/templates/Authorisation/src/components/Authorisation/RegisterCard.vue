@@ -4,36 +4,36 @@
       <v-card-title class="title">Ik wil een account aanvragen</v-card-title>
       <v-card-text>
         <v-alert
-            :type="alertType"
             :value="!!alertMessage.length"
             class="mb-10"
             transition="fade-transition"
+            :type="alertType"
         >
           {{ alertMessage }}
         </v-alert>
         <VTextField
             :rules="[(v) => !!v || 'Naam is verplicht']"
             label="Naam"
-            tabindex="10"
             v-model="form.name"
+            tabindex="10"
         />
         <VTextField
             :rules="[(v) => !!v || 'E-Mail is verplicht']"
             label="E-Mail"
-            tabindex="11"
             v-model="form.email"
+            tabindex="11"
         />
       </v-card-text>
       <v-card-actions>
         <VSpacer/>
-        <v-btn :loading="isLoading" color="primary" tabindex="12" type="submit">Registreren</v-btn>
+        <v-btn tabindex="12" type="submit" color="primary" :loading="isLoading">Registreren</v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
 </template>
 
 <script>
-import { register } from '../../api/endpoints/authorisation/register.js';
+import { register } from '../../api/endpoints/authorisation/register';
 
 export default {
   name: 'RegisterCard',
@@ -68,7 +68,9 @@ export default {
             this.alertType = 'error';
             this.alertMessage = 'De ingevulde gegevens kloppen niet.';
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <v-card height="100%">
     <v-form @submit.prevent="handleRegister()" ref="form" v-model="isValid">
-      <v-card-title class="title">Ik wil een account aanvragen</v-card-title>
+      <VCardTitle class="title" v-text="$t('authorisation.passwordReset.title')"/>
       <v-card-text>
         <v-alert
             :type="alertType"
@@ -11,45 +11,51 @@
         >
           {{ alertMessage }}
         </v-alert>
-        <VTextField
-            :rules="[(v) => !!v || 'E-Mail is verplicht']"
-            label="E-Mail"
-            tabindex="1"
-            v-model="form.email"
-        />
-        <VTextField
-            :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-            :rules="[(v) => !!v || 'Wachtwoord is verplicht']"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
-            label="Wachtwoord"
-            tabindex="2"
-            v-model="form.password"
-        />
-        <VTextField
-            :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-            :rules="[(v) => !!v || 'Wachtwoord is verplicht']"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
-            label="Wachtwoord"
-            tabindex="3"
-            v-model="form.passwordConfirmation"
-        />
+        <k-field-group language-prefix="authorisation.fields">
+          <KTextField
+              field="email"
+              tabindex="1"
+              v-model="form.email"
+          />
+          <KTextField
+              :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              field="password"
+              tabindex="2"
+              v-model="form.password"
+          />
+          <KTextField
+              :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              field="password"
+              tabindex="3"
+              v-model="form.passwordConfirmation"
+          />
+        </k-field-group>
       </v-card-text>
       <v-card-actions>
         <VSpacer/>
-        <v-btn :loading="isLoading" color="primary" tabindex="4" type="submit">Wachtwoord aanvragen</v-btn>
+        <VBtn :loading="isLoading" color="primary" tabindex="4" type="submit" v-text="$t('actions.save')"/>
       </v-card-actions>
     </v-form>
   </v-card>
 </template>
 
 <script>
-import resetRequest from '../../api/endpoints/password/reset.js';
-import { getRateLimitMinutes } from '../../api/util/response.js';
+import { getRateLimitMinutes } from '@/api/util/response.js';
+import { getOrganisationFromUrl } from '@/application/util/url.js';
+import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
+import KTextField from '@/components/crud/fields/KTextField.vue';
+import resetRequest from '../../api/endpoints/authorisation/password/reset';
 
 export default {
   name: 'PasswordResetCard',
+  components: {
+    KTextField,
+    KFieldGroup,
+  },
   props: {
     token: {
       type: String,
@@ -70,6 +76,9 @@ export default {
       showPassword: false,
     };
   },
+  created() {
+    this.form.email = this.$route.query.email;
+  },
   methods: {
     handleRegister() {
       this.$refs.form.validate();
@@ -80,26 +89,27 @@ export default {
       this.alertType = 'error';
       this.errorMessage = '';
 
-      resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation)
+      resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation, getOrganisationFromUrl())
           .then(() => {
             this.alertType = 'success';
-            this.alertMessage = 'Je wachtwoord is opnieuw ingesteld, je kan nu inloggen.';
+            this.alertMessage = this.$t('authorisation.passwordReset.successMessage');
           })
-          .catch(error => {
-            const response = error.response;
-            const status = response.status;
+          .catch((error) => {
+            this.alertType = 'error';
+            const { response } = error;
+            const { status } = response;
 
             if (status === 429) {
-              this.alertMessage =
-                  `Je hebt tevaak een foutieve login poging gedaan. Probeer het over ${getRateLimitMinutes(response, 15)} minuten opnieuw`;
+              this.alertMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
             } else if (status === 400) {
-              this.alertMessage =
-                  'Deze wachtwoord reset pagina is verlopen, vraag opnieuw een wachtwoord aan via de wachtwoord vergeten optie';
+              this.alertMessage = this.$t('authorisation.passwordReset.errorMessage');
             }
 
             this.$refs.form.validate();
           })
-          .finally(() => this.isLoading = false);
+          .finally(() => {
+            this.isLoading = false;
+          });
     },
   },
 };

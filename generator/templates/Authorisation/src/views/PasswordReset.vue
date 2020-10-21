@@ -1,5 +1,5 @@
 <template>
-  <v-row align="stretch" justify-md="center">
+  <v-row justify-md="center" align="stretch">
     <v-col md="3">
       <PasswordResetCard :token="$route.params.token"/>
     </v-col>
@@ -7,7 +7,7 @@
 </template>
 
 <script lang="js">
-import PasswordResetCard from '../components/Authorisation/PasswordResetCard.vue';
+import PasswordResetCard from '@/components/authorisation/PasswordResetCard.vue';
 
 export default {
   name: 'PasswordReset',
