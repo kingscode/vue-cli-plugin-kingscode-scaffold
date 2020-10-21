@@ -5,7 +5,7 @@
         :delete-request="deleteHandler"
         :form-component="() => import('../components/forms/UserForm.vue')"
         :index-request="indexHandler"
-        :meta="{name: 'gebruiker', namePlural: 'gebruikers'}"
+        :meta="{name: $tc('user.title', 1), namePlural: $tc('user.title', 2)}"
         :model-type="modelType"
         :show-request="showHandler"
         :table-content="tableContent"
@@ -16,7 +16,7 @@
 
 <script lang="js">
 import Resource from '@/components/Resource.vue';
-import { create, remove, index, show, update } from '../api/endpoints/user.js';
+import { create, index, remove, show, update } from '../api/endpoints/user.js';
 import User from '../application/models/user.js';
 
 export default {
@@ -31,20 +31,22 @@ export default {
     deleteHandler: () => remove,
     createHandler: () => create,
     modelType: () => User,
-    tableContent: () => [
-      {
-        text: 'Naam',
-        align: 'left',
-        sortable: true,
-        value: 'name',
-      },
-      {
-        text: 'E-mail',
-        align: 'left',
-        sortable: true,
-        value: 'email',
-      },
-    ],
+    tableContent() {
+      return [
+        {
+          text: this.$t('user.fields.name'),
+          align: 'left',
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: this.$t('user.fields.email'),
+          align: 'left',
+          sortable: true,
+          value: 'email',
+        },
+      ];
+    },
   },
 };
 </script>

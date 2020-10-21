@@ -28,7 +28,6 @@ export default {
   computed: {
     computedFieldProps() {
       return {
-        filled: true,
         validateOnBlur: true,
         ...this.fieldProps,
       };
