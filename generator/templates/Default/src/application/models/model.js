@@ -29,48 +29,29 @@ class Model {
         const value = assignable[key];
         const type = typeof value;
 
-        if (typeof data[key] === type) {
-          assignable[key] = data[key];
+        if (typeof data === 'undefined') {
+          assignable[key] = value;
           return;
         }
 
-        const defaultValue = this.getDefaultValueFromType(type, value);
-
-        assignable[key] = data[key] || defaultValue;
-      });
-
-    Object.keys(data)
-      .forEach(key => {
-        if (typeof assignable[key] === 'undefined') {
-          assignable[key] = data[key];
-        }
+        const apiValue = data[key];
+        assignable[key] = this.convertByType(type, value, apiValue);
       });
 
     return assignable;
   }
 
-  /**
-   * @private
-   * @param type
-   * @param defaultModelValue
-   * @return {*}
-   */
-  getDefaultValueFromType(type, defaultModelValue) {
-    let defaultValue;
-
-    if (type === 'string') {
-      defaultValue = defaultModelValue || '';
+  convertByType(type, currentValue, apiValue) {
+    if (type === 'object' && currentValue && typeof currentValue.mapResponse === 'function') {
+      return currentValue.mapResponse(apiValue);
+    } else if (type === 'string') {
+      return apiValue ? String(apiValue) : '';
     } else if (type === 'boolean') {
-      defaultValue = defaultModelValue || false;
+      return Boolean(apiValue);
     } else if (type === 'number') {
-      defaultValue = defaultModelValue || 0;
-    } else if (Array.isArray(defaultModelValue)) {
-      defaultValue = defaultModelValue || [];
-    } else {
-      defaultValue = defaultModelValue || null;
+      return parseFloat(apiValue);
     }
-
-    return defaultValue;
+    return apiValue || currentValue;
   }
 }
 
