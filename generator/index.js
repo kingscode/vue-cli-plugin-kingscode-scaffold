@@ -11,6 +11,8 @@ module.exports = (api, options) => {
       'css-vars-ponyfill': '^2.1.2',
       'qs': '^6.9.4',
       'vue-router': '3.3.4',
+      'vue-i18n': '^8.21.0',
+
     },
   });
   if (options.plugins.includes('fontawesomepro')) {

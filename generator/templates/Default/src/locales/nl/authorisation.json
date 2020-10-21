@@ -1,0 +1,38 @@
+{
+    "login": {
+        "title": "Inloggen",
+        "successMessage": "Je bent ingelogd, we sturen je nu door."
+    },
+    "registrationVerify": {
+        "title": "Registratie afronden",
+        "successMessage": "Je registratie is voltooid, je kunt nu inloggen.",
+        "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de registratie link uit je mail verlopen."
+    },
+    "passwordForgotten": {
+        "title": "Wachtwoord vergeten",
+        "successMessage": "Er is een wachtwoord vergeten mail verstuurd mits er een account bestaat met het gegeven email adres.",
+        "request": "Wachtwoord aanvragen"
+    },
+    "passwordReset": {
+        "title": "Wachtwoord opnieuw instellen",
+        "successMessage": "Je wachtwoord is veranderd, je kunt nu inloggen.",
+        "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de wachtwoord reset link uit je mail verlopen.",
+        "request": "Wachtwoord aanvragen"
+    },
+    "invitationAccept": {
+        "title": "Uitnodiging accepteren",
+        "request": "Uitnodiging accepteren",
+        "successMessage": "Je account is geactiveerd, je kunt nu inloggen.",
+        "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de uitnodigings link uit je mail verlopen."
+    },
+    "fields": {
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "passwordConfirmation": "Wachtwoord herhalen"
+    },
+    "actions": {
+        "login": "Inloggen",
+        "passwordForgotten": "Wachtwoord vergeten",
+        "logOff": "Uitloggen"
+    }
+}

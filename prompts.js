@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'useCrud',
         type: 'confirm',
-        message: 'Do you want to use a crud system?',
+        message: 'Do you want to use a crud system? (with the package vuetify-resource)',
         default: true,
     },
     {
