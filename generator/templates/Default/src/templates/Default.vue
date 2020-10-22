@@ -1,9 +1,9 @@
 <template>
   <div v-if="isLoggedIn">
     <v-navigation-drawer
+        v-model="isMenuOpen"
         app
         fixed
-        v-model="isMenuOpen"
     >
       <router-link :to="{name: 'home'}">
         <img :src="require('../assets/logo.png')" class="logo">
@@ -18,6 +18,9 @@
       <AppBarMenu/>
     </v-app-bar>
     <v-main>
+      <v-row class="ma-3 mb-0">
+        <Breadcrumbs class="breadcrumbs"/>
+      </v-row>
       <router-view/>
     </v-main>
     <v-footer app color="primary" inset>
@@ -27,9 +30,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import AppBarMenu from '@/components/AppBarMenu.vue';
 import TheMainMenu from '@/components/menu/TheMainMenu.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Default',

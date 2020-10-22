@@ -16,6 +16,7 @@
 
 <script lang="js">
 import Resource from '@/components/Resource.vue';
+import eventBus from '@/eventBus.js';
 import { create, index, remove, show, update } from '../api/endpoints/user.js';
 import User from '../application/models/user.js';
 
@@ -48,5 +49,19 @@ export default {
       ];
     },
   },
+  created() {
+    eventBus.$emit('setBreadcrumbs', [
+      {
+        exact: true,
+        to: { name: 'home' },
+        text: this.$t('global.dashboard'),
+      },
+      {
+        exact: true,
+        to: { name: 'users' },
+        text: this.$tc('user.title', 2),
+      },
+    ]);
+  }
 };
 </script>

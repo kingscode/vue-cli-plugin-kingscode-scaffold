@@ -1,40 +1,38 @@
 <template>
-  <v-container fluid>
-    <vuetify-resource
-        :beforeCreateCallback="beforeOpenCreateHandler"
-        :beforeUpdateCallback="beforeOpenUpdateHandler"
-        :createCallback="handleCreateRequest"
-        :deleteCallback="handleDeleteRequest"
-        :getDataCallback="handleIndexRequest"
-        :getItemCallback="handleShowRequest"
-        :meta="meta"
-        :tableContent="tableContent"
-        :texts="require('../VuetifyResourceTexts.js').default"
-        :updateCallback="handleUpdateRequest"
-        @row-click="onRowClick"
-        ref="resourceList"
-        v-bind="$attrs"
-        v-model="selected"
-    >
-      <div slot="createContent">
-        <component :errors="errors"
-                   :is="formComponent"
-                   :is-update-form="false"
-                   ref="createForm"
-                   v-model="createForm"/>
-      </div>
-      <div slot="updateContent">
-        <component :errors="errors"
-                   :is="formComponent"
-                   :is-update-form="true"
-                   ref="updateForm"
-                   v-model="updateForm"/>
-      </div>
-      <template v-slot:crudActionsAfter="slotProps">
-        <slot name="crudActionsAfter" v-bind="slotProps"></slot>
-      </template>
-    </vuetify-resource>
-  </v-container>
+  <vuetify-resource
+      ref="resourceList"
+      v-model="selected"
+      v-bind="$attrs"
+      :beforeCreateCallback="beforeOpenCreateHandler"
+      :beforeUpdateCallback="beforeOpenUpdateHandler"
+      :createCallback="handleCreateRequest"
+      :deleteCallback="handleDeleteRequest"
+      :getDataCallback="handleIndexRequest"
+      :getItemCallback="handleShowRequest"
+      :meta="meta"
+      :tableContent="tableContent"
+      :texts="require('../VuetifyResourceTexts.js').default"
+      :updateCallback="handleUpdateRequest"
+      @row-click="onRowClick"
+  >
+    <div slot="createContent">
+      <component :is="formComponent"
+                 ref="createForm"
+                 v-model="createForm"
+                 :errors="errors"
+                 :is-update-form="false"/>
+    </div>
+    <div slot="updateContent">
+      <component :is="formComponent"
+                 ref="updateForm"
+                 v-model="updateForm"
+                 :errors="errors"
+                 :is-update-form="true"/>
+    </div>
+    <template v-slot:crudActionsAfter="slotProps">
+      <slot v-bind="slotProps" name="crudActionsAfter"></slot>
+    </template>
+  </vuetify-resource>
 </template>
 
 <script>
