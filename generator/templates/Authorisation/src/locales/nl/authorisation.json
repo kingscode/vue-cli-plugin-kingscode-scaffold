@@ -33,6 +33,6 @@
     "actions": {
         "login": "Inloggen",
         "passwordForgotten": "Wachtwoord vergeten",
-        "logOff": "Uitloggen"
+        "logout": "Uitloggen"
     }
 }

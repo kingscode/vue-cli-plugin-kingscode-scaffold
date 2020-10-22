@@ -38,7 +38,7 @@
 
 <script>
 import Field from '@/components/crud/fields/FieldMixin.vue';
-import dayjs from 'dayjs';
+import dayjs from '@/plugins/dayjs';
 
 export default {
   name: 'KDateField',
@@ -93,4 +93,3 @@ export default {
   },
 };
 </script>
-
