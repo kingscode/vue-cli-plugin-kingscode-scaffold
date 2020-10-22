@@ -33,10 +33,12 @@
 import AppBarMenu from '@/components/AppBarMenu.vue';
 import TheMainMenu from '@/components/menu/TheMainMenu.vue';
 import { mapGetters } from 'vuex';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 
 export default {
   name: 'Default',
   components: {
+    Breadcrumbs,
     AppBarMenu,
     TheMainMenu,
   },
