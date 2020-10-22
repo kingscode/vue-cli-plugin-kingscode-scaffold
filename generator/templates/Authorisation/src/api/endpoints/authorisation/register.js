@@ -11,10 +11,10 @@ function verify(token, email, password, passwordConfirmation) {
 
 function acceptInvitation(email, token, password, passwordConfirmation) {
   return post('invitation/accept', {
-    email: email,
-    password: password,
+    email,
+    password,
     passwordConfirmation,
-    token: token,
+    token,
   });
 }
 
