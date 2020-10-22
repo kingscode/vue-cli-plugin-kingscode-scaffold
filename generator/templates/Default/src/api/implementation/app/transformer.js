@@ -1,5 +1,5 @@
 import Qs from 'qs';
-import Model from '../../../application/models/model';
+import Model from '@/application/models/model';
 import { camelToSnake, snakeToCamel } from '../../util/keyConverter';
 import objectToFormData from '../../util/objectToFormDataConverter';
 

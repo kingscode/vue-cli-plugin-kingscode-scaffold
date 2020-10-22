@@ -80,7 +80,6 @@ export default {
     onFormSubmit() {
       const token = getFragment('token');
 
-      // TODO: what to do?
       if (!token) return;
 
       this.isLoading = true;
@@ -100,7 +99,7 @@ export default {
             } else if (status === 400) {
               this.alertMessage = this.$t('authorisation.registrationVerify.errorMessage');
             }
-            this.validate();
+            this.$refs.form.validate();
           })
           .finally(() => {
             this.isLoading = false;

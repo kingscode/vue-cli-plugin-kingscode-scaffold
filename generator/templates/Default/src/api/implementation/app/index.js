@@ -31,10 +31,9 @@ const instance = axios.create(config);
 instance.interceptors.request.use(onRequestFulFilled, onRequestRejected);
 instance.interceptors.response.use(onResponseFulFilled, onResponseRejected);
 
-const { get } = instance;
-const { post } = instance;
+const { get, post, put } = instance;
 const destroy = instance.delete;
-const { put } = instance;
+
 
 export {
   get,

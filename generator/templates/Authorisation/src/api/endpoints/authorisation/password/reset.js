@@ -5,6 +5,6 @@ export default async function (email, token, password, passwordConfirmation) {
     email,
     token,
     password,
-    password_confirmation: passwordConfirmation,
+    passwordConfirmation,
   });
 }

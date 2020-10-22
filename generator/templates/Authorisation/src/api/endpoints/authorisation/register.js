@@ -5,7 +5,7 @@ function verify(token, email, password, passwordConfirmation) {
     token,
     email,
     password,
-    password_confirmation: passwordConfirmation,
+    passwordConfirmation,
   });
 }
 
@@ -13,7 +13,7 @@ function acceptInvitation(email, token, password, passwordConfirmation) {
   return post('invitation/accept', {
     email: email,
     password: password,
-    password_confirmation: passwordConfirmation,
+    passwordConfirmation,
     token: token,
   });
 }
