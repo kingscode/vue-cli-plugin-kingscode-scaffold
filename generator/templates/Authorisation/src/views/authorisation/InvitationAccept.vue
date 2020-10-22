@@ -1,5 +1,4 @@
 <template>
-
   <v-row align="stretch" justify-md="center">
     <v-col md="3">
       <v-form @submit.prevent="handleAccept()" ref="form" v-model="isValid">
