@@ -24,7 +24,10 @@ import User from '../../application/models/user.js';
 
 export default {
   name: 'UserForm',
-  components: { KTextField, KFieldGroup },
+  components: {
+    KTextField,
+    KFieldGroup,
+  },
   extends: Form,
   data: () => ({
     values: new User(),
