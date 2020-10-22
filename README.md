@@ -35,12 +35,7 @@ And then:
 The rest doesn't matter.
 
 ### Vuetify
-Configure:
-- Pre made templates will be overwritten, so keep it default
-- Custom properties
-- Font awesome 5 (this will be overwritten with font awesome pro)
-- Use a-la-carte components
-- Locale will be overwritten to dutch as default
+Choose recommended
 
 ### Kingscode scaffold
 This is our own scaffold, which you can use with our laravel API you can answer the questions
