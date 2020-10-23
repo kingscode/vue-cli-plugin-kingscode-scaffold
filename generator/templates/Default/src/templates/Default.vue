@@ -1,15 +1,15 @@
 <template>
   <div v-if="isLoggedIn">
     <v-navigation-drawer
+        v-model="isMenuOpen"
         app
         fixed
-        v-model="isMenuOpen"
     >
       <router-link :to="{name: 'home'}">
         <img :src="require('../assets/logo.png')" class="logo">
       </router-link>
       <v-divider class="mt-10"/>
-      <MainMenu/>
+      <TheMainMenu/>
     </v-navigation-drawer>
     <v-app-bar app color="primary" dark mfixed>
       <v-app-bar-nav-icon @click.stop="isMenuOpen = !isMenuOpen"></v-app-bar-nav-icon>
@@ -18,6 +18,9 @@
       <AppBarMenu/>
     </v-app-bar>
     <v-main>
+      <v-row class="ma-3 mb-0">
+        <Breadcrumbs class="breadcrumbs"/>
+      </v-row>
       <router-view/>
     </v-main>
     <v-footer app color="primary" inset>
@@ -27,15 +30,17 @@
 </template>
 
 <script>
+import AppBarMenu from '@/components/AppBarMenu.vue';
+import TheMainMenu from '@/components/menu/TheMainMenu.vue';
 import { mapGetters } from 'vuex';
-import AppBarMenu from '../components/AppBarMenu.vue';
-import MainMenu from './../components/menu/MainMenu.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
 
 export default {
   name: 'Default',
   components: {
+    Breadcrumbs,
     AppBarMenu,
-    MainMenu,
+    TheMainMenu,
   },
   data() {
     return {

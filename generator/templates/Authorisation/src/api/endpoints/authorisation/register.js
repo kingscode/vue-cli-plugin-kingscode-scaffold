@@ -1,22 +1,24 @@
 import { post } from '../../implementation/app';
 
-function register(email, name) {
-  return post('registration', {
+function verify(token, email, password, passwordConfirmation) {
+  return post('registration/verify', {
+    token,
     email,
-    name,
+    password,
+    passwordConfirmation,
   });
 }
 
-function verify(token, email, password, passwordConfirmation) {
-  return post('registration/verify', {
-    token: token,
-    email: email,
-    password: password,
-    password_confirmation: passwordConfirmation,
+function acceptInvitation(email, token, password, passwordConfirmation) {
+  return post('invitation/accept', {
+    email,
+    password,
+    passwordConfirmation,
+    token,
   });
 }
 
 export {
-  register,
   verify,
+  acceptInvitation,
 };

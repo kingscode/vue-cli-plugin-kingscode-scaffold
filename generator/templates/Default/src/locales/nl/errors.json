@@ -1,0 +1,4 @@
+{
+    "422": "De ingevulde gegevens kloppen niet.",
+    "429": "Je hebt te veel foutieve pogingen gedaan. Probeer het over {minutes} minuten opnieuw"
+}

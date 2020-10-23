@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list nav>
     <div :key="item.title" v-for="item in items">
       <v-list-item-group
           :disabled="item.disabled"

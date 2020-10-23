@@ -1,0 +1,15 @@
+{
+    "cancel": "annuleren",
+    "continue": "doorgaan",
+    "save": "opslaan",
+    "create": "aanmaken",
+    "remove": "verwijderen",
+    "back": "terug",
+    "loadMore": "Meer laden",
+    "createResource": "{resource} aanmaken",
+    "updateResource": "{resource} bewerken",
+    "deleteConfirmation": {
+        "title": "Weet je het zeker?",
+        "body": "Je staat op het punt om dit {resource} te verwijderen, weet je zeker dat je door wilt gaan?"
+    }
+}

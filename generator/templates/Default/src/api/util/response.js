@@ -1,4 +1,4 @@
-import dayjs from '../../plugins/dayJs.js';
+import dayjs from '../../plugins/dayJs';
 
 function getRateLimitMinutes(response, defaultMinutes = 15) {
   const remainingMilliseconds = (+response.headers['retry-after']) * 1000;

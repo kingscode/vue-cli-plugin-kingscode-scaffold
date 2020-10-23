@@ -5,8 +5,12 @@ import './analytics';
 <%_ if (options.plugins.includes('sentry')) { _%>
 import './sentry';
 <%_ } _%>
+import i18n from './i18n';
 import vuetify from './vuetify';
 
 cssVars();
 
-export {vuetify};
+export {
+  i18n, vuetify,
+};
+

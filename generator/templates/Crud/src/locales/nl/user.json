@@ -1,0 +1,7 @@
+{
+    "title": "Gebruiker|Gebruikers",
+    "fields": {
+        "name": "Naam",
+        "email": "E-mail"
+    }
+}

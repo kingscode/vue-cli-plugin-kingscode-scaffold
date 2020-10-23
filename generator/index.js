@@ -5,13 +5,14 @@ module.exports = (api, options) => {
   api.extendPackage({
     dependencies: {
       'axios': '^0.19.2',
-      'dayjs': '^1.8.19',
-      'vuex': '^3.1.2',
+      'dayjs': '^1.8.34',
+      'vuex': '^3.4.0',
       'vuex-persistedstate': '^2.5.4',
-      'lodash.clonedeep': '^4.5.0',
       'css-vars-ponyfill': '^2.1.2',
       'qs': '^6.9.4',
       'vue-router': '3.3.4',
+      'vue-i18n': '^8.21.0',
+
     },
   });
   if (options.plugins.includes('fontawesomepro')) {
@@ -28,15 +29,6 @@ module.exports = (api, options) => {
     });
   }
 
-  if (options.useCrud) {
-    api.extendPackage({
-      dependencies: {
-        '@kingscode/vuetify-resource': '^2.0.3',
-      },
-    });
-    api.render('./templates/Crud', options);
-  }
-
   if (options.useGithubDeployments) {
     api.render('./templates/Deployment', options);
   }
@@ -49,6 +41,15 @@ module.exports = (api, options) => {
 
   if (options.useAuthorisation) {
     api.render('./templates/Authorisation', options);
+  }
+
+  if (options.useCrud) {
+    api.extendPackage({
+      dependencies: {
+        '@kingscode/vuetify-resource': '^2.0.3',
+      },
+    });
+    api.render('./templates/Crud', options);
   }
 
   if (options.plugins.includes('sentry')) {

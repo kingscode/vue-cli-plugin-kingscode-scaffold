@@ -1,4 +1,5 @@
-import handle from './index';
+import { get } from '@/api/implementation/app';
+import { convertCamelToSnake } from '@/api/util/keyConverter.js';
 
 /**
  * @param url
@@ -14,17 +15,18 @@ function getPaginated(url, page = 1, perPage = 10, search, sortBy, descending, p
   if (search) {
     params.search = search;
   }
+
   if (sortBy) {
-    params.sortBy = sortBy;
+    params.sortBy = convertCamelToSnake(sortBy);
   }
   if (typeof descending !== 'undefined') {
     params.desc = descending ? '1' : '0';
   }
 
-  return handle.get(url, {
+  return get(url, {
     params: {
-      page: page,
-      perPage: perPage,
+      page,
+      perPage,
       ...params,
     },
   });
