@@ -110,7 +110,7 @@ export default {
 
       const redirectUriElement = document.createElement('input');
       redirectUriElement.name = 'redirect_uri';
-      redirectUriElement.value = 'dashboard';
+      redirectUriElement.value = 'home';
       form.appendChild(redirectUriElement);
 
       const emailElement = document.createElement('input');

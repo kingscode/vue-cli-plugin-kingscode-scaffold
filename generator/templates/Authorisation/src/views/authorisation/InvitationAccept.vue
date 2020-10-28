@@ -86,7 +86,7 @@ export default {
   created() {
     if (this.isLoggedIn) {
       this.$router.push({
-        name: 'dashboard',
+        name: 'home',
       });
     }
 

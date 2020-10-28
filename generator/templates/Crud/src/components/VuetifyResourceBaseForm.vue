@@ -29,7 +29,10 @@ export default {
     },
     valid: {
       handler() {
-        this.handleFormEmit();
+        this.$emit('input', {
+          values: this.values,
+          valid: this.valid,
+        });
       },
     },
     values: {
@@ -46,6 +49,12 @@ export default {
     };
   },
   methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    clear() {
+      this.$refs.form.reset();
+    },
     setFormValues(values) {
       return values;
     },

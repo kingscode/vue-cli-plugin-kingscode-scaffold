@@ -140,16 +140,8 @@ export default {
       return new Promise((resolve) => {
         this.showRequest(id)
             .then((response) => {
-              let item;
-
-              if (this.modelType) {
-                item = new this.modelType().mapResponse(response.data.data);
-              } else {
-                item = response.data.data;
-              }
-
               resolve({
-                item,
+                item: response.data.data,
               });
             });
 
@@ -164,12 +156,7 @@ export default {
           if (this.createForm.valid) {
             this.createRequest(this.createForm.values)
                 .then(() => {
-                  if (this.modelType) {
-                    this.createForm.values = new this.modelType();
-                  } else {
-                    this.createForm.values = {};
-                  }
-
+                  this.createForm.values = {};
                   resolve();
                 })
                 .catch((error) => {
@@ -183,15 +170,13 @@ export default {
 
       });
     },
-    handleUpdateRequest(selected) {
+    handleUpdateRequest() {
       this.errors = {};
       this.$refs.updateForm.validate();
 
       return new Promise((resolve, reject) => {
         process.nextTick(() => {
           if (this.updateForm.valid) {
-            this.updateForm.values.id = selected[0].id;
-
             this.updateRequest(this.updateForm.values)
                 .then(() => resolve())
                 .catch((error) => {
@@ -228,18 +213,21 @@ export default {
       if (this.beforeOpenCreate) {
         this.beforeOpenCreate(selected);
       }
+      if (this.modelType) {
+        this.createForm.values = new this.modelType();
+      }
     },
     beforeOpenUpdateHandler(selected) {
       if (this.beforeOpenUpdate) {
         this.beforeOpenUpdate(selected);
         return;
       }
-
-      if (this.modelType) {
-        this.updateForm.values = new this.modelType().mapResponse(selected[0]);
-      } else {
+      if (!this.modelType) {
         this.updateForm.values = selected[0];
+        return;
       }
+
+      this.updateForm.values = new this.modelType().mapResponse(selected[0]);
     },
   },
 };
