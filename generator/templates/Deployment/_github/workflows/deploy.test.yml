@@ -3,14 +3,14 @@ name: Deploy [test]
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
 
       - name: setup server connections
         env:
