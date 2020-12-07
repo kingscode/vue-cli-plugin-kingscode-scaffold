@@ -1,4 +1,3 @@
-import '@babel/polyfill'
 import Vue from 'vue'
 import { i18n, vuetify } from './plugins';
 <%_ if (options.useCrud) { _%>
