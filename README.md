@@ -22,6 +22,8 @@ later in the `vue add vuetify` will be overwritten by vuetify, or the kings code
 ### Vue:
 We'd recommend you to choose
 - babel
+- eslint
+  > eslint-config-airbnb
 - pwa
 - router
 - vuex
@@ -30,7 +32,7 @@ We'd recommend you to choose
 And then:
 
 - history mode
-- dart sass (very important, vuetify wont work without it)
+- dart sass (very important, vuetify won't work without it)
 
 The rest doesn't matter.
 
@@ -42,7 +44,7 @@ This is our own scaffold, which you can use with our laravel API you can answer 
 as you like in this plugins. The most important choices are:
 
 - Do you want to use a crud system?
-    - This installs our vuetify resource and creates an implementation for this so the vuetify
+    - This installs our vuetify resource and creates an implementation for this, so the vuetify
     resource works with the connected laravel API
     - a example user resource
 - Do you want to use authorisation?

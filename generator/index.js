@@ -12,7 +12,9 @@ module.exports = (api, options) => {
       'qs': '^6.9.4',
       'vue-router': '3.3.4',
       'vue-i18n': '^8.21.0',
-
+    },
+    scripts: {
+      'lint': 'vue-cli-service lint',
     },
   });
   if (options.plugins.includes('fontawesomepro')) {
