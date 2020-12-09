@@ -73,6 +73,19 @@ module.exports = (api, options) => {
     api.render('./templates/Plugins/analytics', options);
   }
 
+  if (options.useBuildAndLintAction) {
+    api.extendPackage({
+      dependencies: {
+        '@vue/cli-plugin-eslint': '~4.4.0',
+        'babel-eslint': '^10.1.0',
+        'eslint': '^6.7.2',
+        'eslint-plugin-import': '^2.22.1',
+        'eslint-plugin-vue': '^6.2.2',
+      },
+    });
+    api.render('./templates/ESLint', options);
+  }
+
   api.onCreateComplete(() => {
     if (fs.existsSync('src/store.js')) {
       fs.unlinkSync(api.resolve('src/store.js'));
