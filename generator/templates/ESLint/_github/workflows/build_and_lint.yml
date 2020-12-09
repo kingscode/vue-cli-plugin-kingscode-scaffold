@@ -17,6 +17,7 @@ jobs:
           echo "@fortawesome:registry=https://npm.fontawesome.com/" >> .npmrc
           echo "//npm.fontawesome.com/:_authToken=$FONT_AWESOME_TOKEN" >> .npmrc
 <%_ } _%>
+
       - name: install
         run: |
           npm ci
