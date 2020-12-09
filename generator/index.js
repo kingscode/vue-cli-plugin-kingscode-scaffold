@@ -74,6 +74,9 @@ module.exports = (api, options) => {
   }
 
   if (options.useBuildAndLintAction) {
+    if (fs.existsSync('.eslintrc.js')) {
+      fs.unlinkSync(api.resolve('.eslintrc.js'));
+    }
     api.extendPackage({
       dependencies: {
         '@vue/cli-plugin-eslint': '~4.4.0',
