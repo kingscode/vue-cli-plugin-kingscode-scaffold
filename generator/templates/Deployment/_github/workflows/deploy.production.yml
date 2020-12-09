@@ -3,7 +3,7 @@ name: Deploy [production]
 on:
   push:
     branches:
-      - 'env/demo'
+      - 'env/production'
 
 jobs:
   deploy:
