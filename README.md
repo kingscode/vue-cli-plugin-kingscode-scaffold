@@ -22,8 +22,7 @@ later in the `vue add vuetify` will be overwritten by vuetify, or the kings code
 ### Vue:
 We'd recommend you to choose
 - babel
-- eslint
-  > eslint-config-airbnb
+- eslint (only the essential)
 - pwa
 - router
 - vuex
