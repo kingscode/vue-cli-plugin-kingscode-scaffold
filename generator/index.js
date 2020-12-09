@@ -12,7 +12,9 @@ module.exports = (api, options) => {
       'qs': '^6.9.4',
       'vue-router': '3.3.4',
       'vue-i18n': '^8.21.0',
-
+    },
+    scripts: {
+      'lint': 'vue-cli-service lint',
     },
   });
   if (options.plugins.includes('fontawesomepro')) {
@@ -69,6 +71,22 @@ module.exports = (api, options) => {
       },
     });
     api.render('./templates/Plugins/analytics', options);
+  }
+
+  if (options.useBuildAndLintAction) {
+    if (fs.existsSync('./.eslintrc.js')) {
+      fs.unlinkSync(api.resolve('./.eslintrc.js'));
+    }
+    api.extendPackage({
+      dependencies: {
+        '@vue/cli-plugin-eslint': '~4.4.0',
+        'babel-eslint': '^10.1.0',
+        'eslint': '^6.7.2',
+        'eslint-plugin-import': '^2.22.1',
+        'eslint-plugin-vue': '^6.2.2',
+      },
+    });
+    api.render('./templates/ESLint', options);
   }
 
   api.onCreateComplete(() => {

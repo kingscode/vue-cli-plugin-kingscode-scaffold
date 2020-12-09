@@ -78,10 +78,8 @@ export default {
     },
   },
   created() {
-    if (this.type === 'month') {
-      return this.date = this.value || dayjs().format('MMM YYYY');
-    }
-    this.date = this.value || dayjs().format('YYYY-MM-DD');
+    const format = this.type === 'month' ? 'MMM YYYY' : 'YYYY-MM-DD';
+    this.date = this.value || dayjs().format(format);
   },
   computed: {
     formattedDate() {

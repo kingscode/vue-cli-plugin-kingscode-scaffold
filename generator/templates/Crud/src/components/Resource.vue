@@ -132,7 +132,7 @@ export default {
                 total,
               });
             })
-            .catch(() => reject());
+            .catch((e) => reject(e));
 
       });
     },
@@ -161,10 +161,10 @@ export default {
                 })
                 .catch((error) => {
                   this.errors = error.response.data.errors;
-                  reject();
+                  reject(error);
                 });
           } else {
-            reject();
+            reject(new Error('(create)Form is invalid'));
           }
         });
 
@@ -181,10 +181,10 @@ export default {
                 .then(() => resolve())
                 .catch((error) => {
                   this.errors = error.response.data.errors;
-                  reject();
+                  reject(error);
                 });
           } else {
-            reject();
+            reject(new Error('(update)Form is invalid'));
           }
         });
       });
@@ -201,7 +201,7 @@ export default {
             .then(() => {
               resolve();
             })
-            .catch(() => reject());
+            .catch((e) => reject(e));
 
       });
     },
@@ -214,7 +214,8 @@ export default {
         this.beforeOpenCreate(selected);
       }
       if (this.modelType) {
-        this.createForm.values = new this.modelType();
+        const Model = this.modelType()
+        this.createForm.values = new Model;
       }
     },
     beforeOpenUpdateHandler(selected) {
@@ -227,7 +228,9 @@ export default {
         return;
       }
 
-      this.updateForm.values = new this.modelType().mapResponse(selected[0]);
+      const Model = this.modelType()
+      const instance = new Model
+      this.updateForm.values = instance.mapResponse(selected[0]);
     },
   },
 };
