@@ -164,7 +164,7 @@ export default {
                   reject(error);
                 });
           } else {
-            reject('(create)Form is invalid');
+            reject(new Error('(create)Form is invalid'));
           }
         });
 
@@ -184,7 +184,7 @@ export default {
                   reject(error);
                 });
           } else {
-            reject('(update)Form is invalid');
+            reject(new Error('(update)Form is invalid'));
           }
         });
       });
@@ -229,7 +229,8 @@ export default {
       }
 
       const Model = this.modelType()
-      this.updateForm.values = new Model.mapResponse(selected[0]);
+      const instance = new Model
+      this.updateForm.values = instance.mapResponse(selected[0]);
     },
   },
 };
