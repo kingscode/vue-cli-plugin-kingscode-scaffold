@@ -45,7 +45,7 @@ export default {
   computed: {
     icon() {
       if (!this.previewType) {
-        return 'fa-upload';
+        return '$upload';
       }
       return this.getIconByType(this.previewType);
     },
@@ -75,13 +75,13 @@ export default {
     },
     getIconByType(type) {
       if (type.match('video/*')) {
-        return 'fa-file-video';
+        return '$fileVideo';
       } else if (type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || type === 'application/msword') {
-        return 'fa-file-word';
+        return '$fileWord';
       } else if (type === 'application/pdf') {
-        return 'fa-file-pdf';
+        return '$filePdf';
       }
-      return 'fa-file';
+      return '$fileUnkown';
     },
   },
 };

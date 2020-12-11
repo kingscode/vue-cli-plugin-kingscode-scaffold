@@ -7,7 +7,7 @@ export default {
   computed: {
     items: () => [
       {
-        icon: 'fa-users',
+        icon: '$users',
         title: 'Gebruikers',
         route: { name: 'users' },
       },
