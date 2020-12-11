@@ -1020,6 +1020,17 @@ library.add(faCrown);
 
 // Example of icon bindings.
 const icons = {
+  user: ['fas', 'crown'],                     // <v-icon>$users</v-icon>
+  users: ['fas', 'crown'],                     // <v-icon>$users</v-icon>
+  visible: ['fas', 'crown'],                   // <v-icon>$visible</v-icon>
+  invisible: ['fas', 'crown'],                 // <v-icon>$invisible</v-icon>
+  fileUnknown: ['fas', 'crown'],               // <v-icon>$fileUnknown</v-icon>
+  fileVideo: ['fas', 'crown'],                 // <v-icon>$fileVideo</v-icon>
+  fileWord: ['fas', 'crown'],                  // <v-icon>$fileWord</v-icon>
+  fileExcel: ['fas', 'crown'],                 // <v-icon>$fileExcel</v-icon>
+  filePowerpoint: ['fas', 'crown'],            // <v-icon>$filePowerpoint</v-icon>
+  filePdf: ['fas', 'crown'],                   // <v-icon>$filePdf</v-icon>
+
   complete: ['fas', 'crown'],                  // <v-icon>$complete</v-icon>
   cancel: ['fas', 'crown'],                    // <v-icon>$cancel</v-icon>
   close: ['fas', 'crown'],                     // <v-icon>$close</v-icon>

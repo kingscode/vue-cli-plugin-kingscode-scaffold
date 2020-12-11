@@ -1,4 +1,3 @@
-const helpers = require('./tools/helpers');
 const fs = require('fs');
 
 module.exports = (api, options) => {
@@ -17,18 +16,23 @@ module.exports = (api, options) => {
       'lint': 'vue-cli-service lint',
     },
   });
+
+  api.render('./templates/Default', options);
+
   if (options.plugins.includes('fontawesomepro')) {
     api.extendPackage({
       dependencies: {
         '@fortawesome/fontawesome-pro': '^5.8.1',
       },
     });
+    if (fs.existsSync('src/plugins/vuetify/FontawesomeFree.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomeFree.js'));
   } else {
     api.extendPackage({
       dependencies: {
         '@fortawesome/fontawesome-free': '^5.14.0',
       },
     });
+    if (fs.existsSync('src/plugins/vuetify/FontawesomePro.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomePro.js'));
   }
 
   if (options.useGithubDeployments) {
@@ -38,8 +42,6 @@ module.exports = (api, options) => {
   if (options.addRobotsFile) {
     api.render('./templates/Robots', options);
   }
-
-  api.render('./templates/Default', options);
 
   if (options.useAuthorisation) {
     api.render('./templates/Authorisation', options);
