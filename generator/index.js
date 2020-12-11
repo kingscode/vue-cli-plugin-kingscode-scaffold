@@ -19,6 +19,7 @@ module.exports = (api, options) => {
 
   api.render('./templates/Default', options);
 
+  if (fs.existsSync('src/plugins/vuetify.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify.js'));
   if (options.plugins.includes('fontawesomepro')) {
     api.extendPackage({
       dependencies: {
