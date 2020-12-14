@@ -1,9 +1,16 @@
 const light = {
-  primary: '#2A73C5',
+  primary: '#002f4e',
+  secondary: '#000000',
+  accent: '#ffd0b1',
 };
 
 const dark = {
-  primary: '#2A73C5',
+  primary: '#002f4e',
+  secondary: '#000000',
+  accent: '#ffd0b1',
 };
 
-export default { light, dark };
+export default {
+  light,
+  dark,
+};
