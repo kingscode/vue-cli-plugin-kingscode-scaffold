@@ -21,7 +21,7 @@
                   v-model="form.email"
               />
               <KTextField
-                  :append-icon="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"
+                  :append-icon="showPassword ? '$invisible' : '$visible'"
                   :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
                   field="password"
@@ -29,7 +29,7 @@
                   v-model="form.password"
               />
               <KTextField
-                  :append-icon="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"
+                  :append-icon="showPassword ? '$invisible' : '$visible'"
                   :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
                   field="password"

@@ -1,4 +1,3 @@
-const helpers = require('./tools/helpers');
 const fs = require('fs');
 
 module.exports = (api, options) => {
@@ -17,16 +16,25 @@ module.exports = (api, options) => {
       'lint': 'vue-cli-service lint',
     },
   });
+
+  api.render('./templates/Default', options);
+
   if (options.plugins.includes('fontawesomepro')) {
     api.extendPackage({
       dependencies: {
-        '@fortawesome/fontawesome-pro': '^5.8.1',
+        '@fortawesome/fontawesome-svg-core': '^1.2.32',
+        '@fortawesome/pro-light-svg-icons': '^5.15.1',
+        '@fortawesome/pro-regular-svg-icons': '^5.15.1',
+        '@fortawesome/pro-solid-svg-icons': '^5.15.1',
+        '@fortawesome/vue-fontawesome': '^2.0.0',
       },
     });
   } else {
     api.extendPackage({
       dependencies: {
-        '@fortawesome/fontawesome-free': '^5.14.0',
+        '@fortawesome/fontawesome-svg-core': '^1.2.32',
+        '@fortawesome/vue-fontawesome': '^2.0.0',
+        '@fortawesome/free-solid-svg-icons': '^5.15.1',
       },
     });
   }
@@ -38,8 +46,6 @@ module.exports = (api, options) => {
   if (options.addRobotsFile) {
     api.render('./templates/Robots', options);
   }
-
-  api.render('./templates/Default', options);
 
   if (options.useAuthorisation) {
     api.render('./templates/Authorisation', options);
@@ -74,9 +80,6 @@ module.exports = (api, options) => {
   }
 
   if (options.useBuildAndLintAction) {
-    if (fs.existsSync('./.eslintrc.js')) {
-      fs.unlinkSync(api.resolve('./.eslintrc.js'));
-    }
     api.extendPackage({
       dependencies: {
         '@vue/cli-plugin-eslint': '~4.4.0',
@@ -90,18 +93,13 @@ module.exports = (api, options) => {
   }
 
   api.onCreateComplete(() => {
-    if (fs.existsSync('src/store.js')) {
-      fs.unlinkSync(api.resolve('src/store.js'));
-    }
-    if (fs.existsSync('src/assets/logo.svg')) {
-      fs.unlinkSync(api.resolve('src/assets/logo.svg'));
-    }
-    if (fs.existsSync('src/components/HelloWorld.vue')) {
-      fs.unlinkSync(api.resolve('src/components/HelloWorld.vue'));
-    }
-    if (fs.existsSync('src/main.js')) {
-      fs.unlinkSync(api.resolve('src/main.js'));
-    }
+    if (fs.existsSync('src/plugins/vuetify.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify.js'));
+    if (options.plugins.includes('fontawesomepro') && fs.existsSync('src/plugins/vuetify/FontawesomeFree.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomeFree.js'));
+    if (!options.plugins.includes('fontawesomepro') && fs.existsSync('src/plugins/vuetify/FontawesomePro.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomePro.js'));
+    if (fs.existsSync('src/store.js')) fs.unlinkSync(api.resolve('src/store.js'));
+    if (fs.existsSync('src/assets/logo.svg')) fs.unlinkSync(api.resolve('src/assets/logo.svg'));
+    if (fs.existsSync('src/components/HelloWorld.vue')) fs.unlinkSync(api.resolve('src/components/HelloWorld.vue'));
+    if (fs.existsSync('src/main.js')) fs.unlinkSync(api.resolve('src/main.js'));
     fs.renameSync(api.resolve('src/newmain.js'), api.resolve('src/main.js'));
   });
 };

@@ -17,7 +17,7 @@
                       v-model="form.email"
                       autocomplete="username"
           />
-          <KTextField :append-icon="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+          <KTextField :append-icon="showPassword ? '$invisible' : '$visible'"
                       :type="showPassword ? 'text' : 'password'"
                       @click:append="showPassword = !showPassword"
                       field="password"

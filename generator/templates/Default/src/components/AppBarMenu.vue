@@ -8,7 +8,7 @@
     <template v-slot:activator="{ on }">
       <v-btn class="mr-6" fab icon v-on="on">
         <v-avatar class="accent" size="48" title>
-          <v-icon>fa-user</v-icon>
+          <v-icon>$user</v-icon>
         </v-avatar>
       </v-btn>
     </template>
