@@ -10,6 +10,13 @@
         >
           {{ errorMessage }}
         </v-alert>
+        <v-alert v-if="$route.query.message"
+                 class="mb-10"
+                 transition="fade-transition"
+                 type="success"
+        >
+          {{ $t(`authorisation.login.messages.${$route.query.message}`) }}
+        </v-alert>
         <k-field-group language-prefix="authorisation.fields">
           <KTextField field="email"
                       autofocus
