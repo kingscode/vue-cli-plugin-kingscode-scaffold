@@ -4,7 +4,7 @@
       <VCardTitle class="title" v-text="$t('authorisation.passwordReset.title')"/>
       <v-card-text>
         <v-alert
-            :type="alertType"
+            type="error"
             :value="!!alertMessage.length"
             class="mb-10"
             transition="fade-transition"
@@ -63,7 +63,6 @@ export default {
   },
   data() {
     return {
-      alertType: 'success',
       alertMessage: '',
       isLoading: false,
       isValid: false,
@@ -85,7 +84,6 @@ export default {
       if (!this.isValid) return;
 
       this.isLoading = true;
-      this.alertType = 'error';
       this.errorMessage = '';
 
       resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation)
@@ -93,7 +91,6 @@ export default {
             this.$router.push({name: 'login', query: {message: 'passwordResetSuccess'}});
           })
           .catch((error) => {
-            this.alertType = 'error';
             const { response } = error;
             const { status } = response;
 

@@ -6,7 +6,7 @@
           <VCardTitle class="title" v-text="$t('authorisation.registrationVerify.title')"/>
           <v-card-text>
             <v-alert
-                :type="alertType"
+                type="error"
                 :value="!!alertMessage.length"
                 text
                 transition="fade-transition"
@@ -67,7 +67,6 @@ export default {
         email: '',
       },
       isLoading: false,
-      alertType: 'success',
       alertMessage: '',
       valid: true,
       showPassword: false,
@@ -92,7 +91,6 @@ export default {
             const { response } = error;
             const { status } = response;
 
-            this.alertType = 'error';
             if (status === 429) {
               this.alertMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
             } else if (status === 400) {

@@ -18,9 +18,8 @@ function acceptInvitation(email, token, password, passwordConfirmation) {
   });
 }
 
-function resendInvitation(organisation, email) {
+function resendInvitation(email) {
   return post('invitation/resend', {
-    organisation,
     email,
   });
 }

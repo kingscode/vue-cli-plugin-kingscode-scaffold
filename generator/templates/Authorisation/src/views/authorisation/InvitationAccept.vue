@@ -9,7 +9,7 @@
                 :value="!!alertMessage.length"
                 class="mb-10"
                 transition="fade-transition"
-                :type="alertType"
+                type="error"
             >
               {{ alertMessage }}
               <v-row class="mx-0 mt-3 justify-end">
@@ -74,7 +74,6 @@ export default {
   data() {
     return {
       errorCode: 0,
-      alertType: 'success',
       alertMessage: '',
       isLoading: false,
       isValid: false,
@@ -82,7 +81,6 @@ export default {
       email: this.$route.query.email,
       password: '',
       passwordConfirmation: '',
-      organisation: this.$route.query.organisation,
     };
   },
   computed: {
@@ -108,17 +106,16 @@ export default {
   },
   methods: {
     async handleResend() {
-      await resendInvitation(this.organisation, this.email);
+      await resendInvitation(this.email);
       this.$router.push({name: 'login', query: {message: 'resendInvitationSuccess'}});
     },
     handleAccept() {
       this.isLoading = true;
       acceptInvitation(this.email, this.$route.params.token, this.password, this.passwordConfirmation)
           .then(() => {
-            this.$router.push({name: 'login', query: {message: 'invitationAcceptSuccess'}});
+            this.$router.push({name: 'login', query: {message: 'acceptInvitationSuccess'}});
           })
           .catch((error) => {
-            this.alertType = 'error';
             const { response } = error;
             const { status } = response;
 
