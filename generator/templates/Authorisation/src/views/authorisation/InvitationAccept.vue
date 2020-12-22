@@ -115,8 +115,7 @@ export default {
       this.isLoading = true;
       acceptInvitation(this.email, this.$route.params.token, this.password, this.passwordConfirmation)
           .then(() => {
-            this.alertType = 'success';
-            this.alertMessage = this.$t('authorisation.invitationAccept.successMessage');
+            this.$router.push({name: 'login', query: {message: 'invitationAcceptSuccess'}});
           })
           .catch((error) => {
             this.alertType = 'error';

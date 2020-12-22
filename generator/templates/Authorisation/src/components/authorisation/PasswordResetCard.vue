@@ -90,8 +90,7 @@ export default {
 
       resetRequest(this.form.email, this.token, this.form.password, this.form.passwordConfirmation)
           .then(() => {
-            this.alertType = 'success';
-            this.alertMessage = this.$t('authorisation.passwordReset.successMessage');
+            this.$router.push({name: 'login', query: {message: 'passwordResetSuccess'}});
           })
           .catch((error) => {
             this.alertType = 'error';

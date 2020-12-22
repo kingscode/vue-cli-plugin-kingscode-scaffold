@@ -1,7 +1,12 @@
 {
     "login": {
         "title": "Inloggen",
-        "successMessage": "Je bent ingelogd, we sturen je nu door."
+        "successMessage": "Je bent ingelogd, we sturen je nu door.",
+        "messages": {
+            "invitationAcceptSuccess": "Je account is geactiveerd, je kunt nu inloggen.",
+            "passwordResetSuccess": "Je wachtwoord is veranderd, je kunt nu inloggen.",
+            "registrationVerify": "Je registratie is voltooid, je kunt nu inloggen."
+        }
     },
     "registrationVerify": {
         "title": "Registratie afronden",
