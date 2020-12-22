@@ -12,6 +12,11 @@
                 :type="alertType"
             >
               {{ alertMessage }}
+              <v-row class="mx-0 mt-3 justify-end">
+                <v-btn v-if="errorCode === 400 && !!alertMessage.length" outlined @click="handleResend">
+                  {{ $t('authorisation.invitationAccept.resend') }}
+                </v-btn>
+              </v-row>
             </v-alert>
 
             <k-field-group language-prefix="authorisation.fields">
@@ -54,7 +59,7 @@
 </template>
 
 <script lang="js">
-import { acceptInvitation } from '@/api/endpoints/authorisation/register.js';
+import { acceptInvitation, resendInvitation } from '@/api/endpoints/authorisation/register.js';
 import { getRateLimitMinutes } from '@/api/util/response.js';
 import KFieldGroup from '@/components/crud/fields/KFieldGroup.vue';
 import KTextField from '@/components/crud/fields/KTextField.vue';
@@ -68,13 +73,16 @@ export default {
   },
   data() {
     return {
+      errorCode: 0,
       alertType: 'success',
       alertMessage: '',
       isLoading: false,
+      isValid: false,
+
       email: this.$route.query.email,
       password: '',
       passwordConfirmation: '',
-      isValid: false,
+      organisation: this.$route.query.organisation,
     };
   },
   computed: {
@@ -99,6 +107,10 @@ export default {
     }
   },
   methods: {
+    async handleResend() {
+      await resendInvitation(this.organisation, this.email);
+      this.$router.push({name: 'login', query: {message: 'resendInvitationSuccess'}});
+    },
     handleAccept() {
       this.isLoading = true;
       acceptInvitation(this.email, this.$route.params.token, this.password, this.passwordConfirmation)
@@ -111,6 +123,7 @@ export default {
             const { response } = error;
             const { status } = response;
 
+            this.errorCode = status;
             if (status === 429) {
               this.alertMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
             } else if (status === 400) {

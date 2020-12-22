@@ -18,7 +18,15 @@ function acceptInvitation(email, token, password, passwordConfirmation) {
   });
 }
 
+function resendInvitation(organisation, email) {
+  return post('invitation/resend', {
+    organisation,
+    email,
+  });
+}
+
 export {
   verify,
   acceptInvitation,
+  resendInvitation,
 };
