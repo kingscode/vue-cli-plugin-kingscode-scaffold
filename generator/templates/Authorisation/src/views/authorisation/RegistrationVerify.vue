@@ -86,8 +86,7 @@ export default {
 
       verify(token, this.form.email, this.form.password, this.form.passwordConfirmation)
           .then(() => {
-            this.alertMessage = this.$t('authorisation.registrationVerify.successMessage');
-            this.alertType = 'success';
+            this.$router.push({name: 'login', query: {message: 'registrationVerify'}});
           })
           .catch((error) => {
             const { response } = error;
