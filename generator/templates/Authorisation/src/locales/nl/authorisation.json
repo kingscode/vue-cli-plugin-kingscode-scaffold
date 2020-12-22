@@ -3,7 +3,8 @@
         "title": "Inloggen",
         "successMessage": "Je bent ingelogd, we sturen je nu door.",
         "messages": {
-            "invitationAcceptSuccess": "Je account is geactiveerd, je kunt nu inloggen.",
+            "acceptInvitationSuccess": "Je account is geactiveerd, je kunt nu inloggen.",
+            "resendInvitationSuccess": "De uitnodiging is opnieuw verstuurd, controleer je mail.",
             "passwordResetSuccess": "Je wachtwoord is veranderd, je kunt nu inloggen.",
             "registrationVerify": "Je registratie is voltooid, je kunt nu inloggen."
         }
