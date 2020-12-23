@@ -6,7 +6,7 @@
           <VCardTitle class="title" v-text="$t('authorisation.registrationVerify.title')"/>
           <v-card-text>
             <v-alert
-                :type="alertType"
+                type="error"
                 :value="!!alertMessage.length"
                 text
                 transition="fade-transition"
@@ -67,7 +67,6 @@ export default {
         email: '',
       },
       isLoading: false,
-      alertType: 'success',
       alertMessage: '',
       valid: true,
       showPassword: false,
@@ -86,14 +85,12 @@ export default {
 
       verify(token, this.form.email, this.form.password, this.form.passwordConfirmation)
           .then(() => {
-            this.alertMessage = this.$t('authorisation.registrationVerify.successMessage');
-            this.alertType = 'success';
+            this.$router.push({name: 'login', query: {message: 'registrationVerify'}});
           })
           .catch((error) => {
             const { response } = error;
             const { status } = response;
 
-            this.alertType = 'error';
             if (status === 429) {
               this.alertMessage = this.$t('errors.429', { minutes: getRateLimitMinutes(response) });
             } else if (status === 400) {

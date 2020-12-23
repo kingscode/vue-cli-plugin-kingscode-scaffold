@@ -1,11 +1,16 @@
 {
     "login": {
         "title": "Inloggen",
-        "successMessage": "Je bent ingelogd, we sturen je nu door."
+        "successMessage": "Je bent ingelogd, we sturen je nu door.",
+        "messages": {
+            "acceptInvitationSuccess": "Je account is geactiveerd, je kunt nu inloggen.",
+            "resendInvitationSuccess": "De uitnodiging is opnieuw verstuurd, controleer je mail.",
+            "passwordResetSuccess": "Je wachtwoord is veranderd, je kunt nu inloggen.",
+            "registrationVerify": "Je registratie is voltooid, je kunt nu inloggen."
+        }
     },
     "registrationVerify": {
         "title": "Registratie afronden",
-        "successMessage": "Je registratie is voltooid, je kunt nu inloggen.",
         "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de registratie link uit je mail verlopen."
     },
     "passwordForgotten": {
@@ -15,15 +20,14 @@
     },
     "passwordReset": {
         "title": "Wachtwoord opnieuw instellen",
-        "successMessage": "Je wachtwoord is veranderd, je kunt nu inloggen.",
         "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de wachtwoord reset link uit je mail verlopen.",
         "request": "Wachtwoord aanvragen"
     },
     "invitationAccept": {
         "title": "Uitnodiging accepteren",
         "request": "Uitnodiging accepteren",
-        "successMessage": "Je account is geactiveerd, je kunt nu inloggen.",
-        "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de uitnodigings link uit je mail verlopen."
+        "errorMessage": "Er is iets misgegaan. Waarschijnlijk is de uitnodigings link uit je mail verlopen.",
+        "resend": "Opnieuw versturen"
     },
     "fields": {
         "email": "E-mail",
