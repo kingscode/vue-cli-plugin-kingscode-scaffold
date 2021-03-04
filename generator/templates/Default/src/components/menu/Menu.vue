@@ -1,21 +1,29 @@
 <template>
   <v-list nav>
-    <div :key="item.title" v-for="item in items">
-      <v-list-item-group
+    <template v-for="item in items">
+      <v-list-group
+          v-if="!!item.items && item.items.length"
+          v-model="item.active"
           :disabled="item.disabled"
           :prepend-icon="item.icon"
-          v-if="!!item.items && item.items.length"
-          v-model="item.active">
-        <template slot="activator">
+          :key="item.title"
+      >
+
+        <template v-slot:activator>
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </template>
+
         <v-list-item
+            v-for="subItem in item.items"
             :key="subItem.title"
             :to="subItem.route"
             :value="$route.name === subItem.route"
-            v-for="subItem in item.items">
+            exact>
           <v-list-item-action>
             <v-icon>{{ subItem.icon }}</v-icon>
           </v-list-item-action>
@@ -23,11 +31,16 @@
             <v-list-item-title>{{ subItem.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list-item-group>
+
+      </v-list-group>
+
       <v-list-item
+          v-else
           :to="item.route"
           :value="$route.name === item.route"
-          v-else>
+          color="primary"
+          :key="item.title"
+          exact>
         <v-list-item-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
@@ -35,7 +48,8 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-    </div>
+
+    </template>
   </v-list>
 </template>
 
