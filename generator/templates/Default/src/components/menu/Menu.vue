@@ -9,7 +9,7 @@
           :key="item.title"
       >
 
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
