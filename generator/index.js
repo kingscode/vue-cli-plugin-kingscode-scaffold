@@ -94,8 +94,6 @@ module.exports = (api, options) => {
 
   api.onCreateComplete(() => {
     if (fs.existsSync('src/plugins/vuetify.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify.js'));
-    if (options.plugins.includes('fontawesomepro') && fs.existsSync('src/plugins/vuetify/FontawesomeFree.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomeFree.js'));
-    if (!options.plugins.includes('fontawesomepro') && fs.existsSync('src/plugins/vuetify/FontawesomePro.js')) fs.unlinkSync(api.resolve('src/plugins/vuetify/FontawesomePro.js'));
     if (fs.existsSync('src/store.js')) fs.unlinkSync(api.resolve('src/store.js'));
     if (fs.existsSync('src/assets/logo.svg')) fs.unlinkSync(api.resolve('src/assets/logo.svg'));
     if (fs.existsSync('src/components/HelloWorld.vue')) fs.unlinkSync(api.resolve('src/components/HelloWorld.vue'));
