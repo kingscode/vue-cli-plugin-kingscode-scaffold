@@ -10,7 +10,7 @@ const dark = {
   accent: '#ffd0b1',
 };
 
-export default {
+export {
   light,
   dark,
 };
