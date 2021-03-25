@@ -49,3 +49,15 @@ as you like in this plugins. The most important choices are:
 - Do you want to use authorisation?
     - This creates a login, password forgotten and invitation page
     - You'll get follow up questions about the Oauth settings from the API
+
+### Development
+To test/develop the kingscode scaffold you can locally invoke this plugin.
+create a test project (`vue create scaffold-tester`) just like above.
+
+install the cli-plugin locally
+
+`npm install path\to\local\vue-cli-plugin-kingscode-scaffold`
+
+invoke the plugin
+
+`vue invoke kingscode-scaffold`

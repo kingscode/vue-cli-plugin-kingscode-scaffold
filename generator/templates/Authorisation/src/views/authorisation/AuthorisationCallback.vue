@@ -15,7 +15,7 @@ export default {
       setAuthorisationToken: 'authorisation/setAuthorisationToken',
     }),
   },
-  async created() {
+  created() {
     const redirectUri = this.$route.query.redirect_uri;
 
     const token = getFragment('token');
