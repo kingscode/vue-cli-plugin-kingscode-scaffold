@@ -47,6 +47,10 @@ const identifiers = {
   fileExcel: ['fas', 'file-excel'],
   filePowerpoint: ['fas', 'file-powerpoint'],
   filePdf: ['fas', 'file-pdf'],
+
+  add: ['fas', 'plus'],
+  plus: ['fas', 'plus'],
+  minus: ['fas', 'minus'],
 };
 
 export default {

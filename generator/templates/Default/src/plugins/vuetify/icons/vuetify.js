@@ -91,8 +91,6 @@ const identifiers = {
   last: ['fas', 'step-forward'],
   unfold: ['fas', 'arrows-alt-v'],
   file: ['fas', 'paperclip'],
-  plus: ['fas', 'plus'],
-  minus: ['fas', 'minus'],
 };
 
 export default { icons, identifiers, };
