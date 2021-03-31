@@ -214,8 +214,7 @@ export default {
         this.beforeOpenCreate(selected);
       }
       if (this.modelType) {
-        const Model = this.modelType()
-        this.createForm.values = new Model;
+        this.createForm.values = new this.modelType();
       }
     },
     beforeOpenUpdateHandler(selected) {
@@ -227,10 +226,7 @@ export default {
         this.updateForm.values = selected[0];
         return;
       }
-
-      const Model = this.modelType()
-      const instance = new Model
-      this.updateForm.values = instance.mapResponse(selected[0]);
+      this.updateForm.values = new this.modelType().mapResponse(selected[0]);
     },
   },
 };

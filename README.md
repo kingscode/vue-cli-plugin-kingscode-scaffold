@@ -54,9 +54,15 @@ as you like in this plugins. The most important choices are:
 To test/develop the kingscode scaffold you can locally invoke this plugin.
 create a test project (`vue create scaffold-tester`) just like above.
 
+browse to the scaffold-tester folder, which was just created.
+
+install vuetify
+
+`vue add vuetify`
+
 install the cli-plugin locally
 
-`npm install path\to\local\vue-cli-plugin-kingscode-scaffold`
+`npm i path\to\local\vue-cli-plugin-kingscode-scaffold`
 
 invoke the plugin
 
