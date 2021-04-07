@@ -160,7 +160,7 @@ export default {
                   resolve();
                 })
                 .catch((error) => {
-                  this.errors = error.response.data.errors;
+                  this.$refs.createForm.validate();
                   reject(error);
                 });
           } else {
@@ -180,7 +180,7 @@ export default {
             this.updateRequest(this.updateForm.values)
                 .then(() => resolve())
                 .catch((error) => {
-                  this.errors = error.response.data.errors;
+                  this.$refs.createForm.validate();
                   reject(error);
                 });
           } else {
