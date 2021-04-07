@@ -68,5 +68,8 @@ export default {
       }, 500);
     },
   },
+  beforeDestroy() {
+    clearTimeout(this.emitTimeout);
+  },
 };
 </script>

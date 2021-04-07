@@ -70,6 +70,8 @@ export default {
     getServerError() {
       const error = this.$store.getters['error/find'](this.validationField || this.field);
       if (error) {
+        // ServerError should be removed after it had been appeared,
+        //    else the ServerError keep existing and appearing when the user tries to navigate to a different form
         this.removeServerError(this.field);
         return error;
       }
