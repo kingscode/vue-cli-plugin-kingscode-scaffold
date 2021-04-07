@@ -1,10 +1,13 @@
 export default {
   save: 'Opslaan',
+  close: 'Sluiten',
   from: 'van',
   till: 'tot',
+  of: 'van',
   create: 'Nieuwe maken',
   update: 'Wijzigen',
   delete: 'Verwijderen',
+  cancel: 'Terug',
   'no-data': 'Er is niets gevonden...',
   'no-results': 'Er is niets gevonden...',
   'rows-per-page-text': 'Rijen per pagina',
@@ -13,5 +16,8 @@ export default {
   'snackbar-get-error': 'Er ging iets mis, probeer het later opnieuwr',
   'snackbar-deleted': 'Het is verwijderd!',
   'snackbar-delete-error': 'Er ging iets mis, probeer het later opnieuw',
-  'search': 'Zoeken',
+  search: 'Zoeken',
+  loading: 'Laden...',
+  'delete-confirmation-title': 'Weet u het zeker?',
+  'delete-confirmation-content': 'Weet u het zeker dat u deze item(s) wilt verwijderen?',
 };
