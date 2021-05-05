@@ -77,6 +77,7 @@ export default {
           })
           .catch(() => {
             this.alertMessage = this.$t('errors.422');
+            this.$refs.form.validate();
           })
           .finally(() => {
             this.isLoading = false;

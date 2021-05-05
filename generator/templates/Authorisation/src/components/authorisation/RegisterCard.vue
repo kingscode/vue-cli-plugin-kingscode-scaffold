@@ -67,6 +67,7 @@ export default {
           .catch(() => {
             this.alertType = 'error';
             this.alertMessage = 'De ingevulde gegevens kloppen niet.';
+            this.$refs.form.validate();
           })
           .finally(() => {
             this.isLoading = false;
