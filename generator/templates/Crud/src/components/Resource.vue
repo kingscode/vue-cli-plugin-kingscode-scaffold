@@ -180,7 +180,7 @@ export default {
             this.updateRequest(this.updateForm.values)
                 .then(() => resolve())
                 .catch((error) => {
-                  this.$refs.createForm.validate();
+                  this.$refs.updateForm.validate();
                   reject(error);
                 });
           } else {

@@ -104,6 +104,7 @@ export default {
             } else {
               this.errorMessage = this.findError('email');
             }
+            this.$refs.form.validate();
           })
           .finally(() => {
             this.isLoading = false;
