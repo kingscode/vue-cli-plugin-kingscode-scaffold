@@ -2,12 +2,15 @@
   <k-autocomplete v-bind="computedAttributes"
                   v-on="$listeners"
                   :field="field"
+                  :item-text="itemText"
+                  :item-value="itemValue"
                   :items="items"
                   :loading="isLoading"
+                  :return-object="returnObject"
                   :search-input.sync="search"
                   :value="value"
+                  :disabled="disabled"
                   no-filter
-                  return-object
   >
     <template v-if="lastPage > page" #append-item>
       <v-list-item>
@@ -49,13 +52,32 @@ export default {
       required: true,
     },
     value: {
-      type: [Array, Object],
       required: false,
+    },
+    returnObject: {
+      type: Boolean,
+      default: true,
+    },
+    itemText: {
+      type: String,
+      default: 'name',
+    },
+    itemValue: {
+      type: String,
+      default: 'id',
+    },
+    disabled: {
+      type: Boolean,
     },
   },
   watch: {
     search() {
       this.handleInitialFetch();
+    },
+    disabled(value) {
+      if (!value) {
+        this.handleInitialFetch();
+      }
     },
   },
   data() {
@@ -96,9 +118,18 @@ export default {
   },
   methods: {
     async getPaginator() {
-      const excludeIds = this.valuesAsArray.map((item) => item.id);
       this.isLoading = true;
-      const result = await this.paginator(this.page, this.perPage, this.searchParameter, undefined, undefined, { exclude: excludeIds });
+
+      // currentValues are the id's of selected values in the autocomplete.
+      // They will be excluded from the autocomplete, because they are already known
+      let currentValues = [];
+      if (this.returnObject) {
+        currentValues = this.valuesAsArray.map((item) => item[this.itemValue]);
+      } else {
+        currentValues = this.valuesAsArray;
+      }
+
+      const result = await this.paginator(this.page, this.perPage, this.searchParameter, undefined, undefined, { exclude: currentValues });
       this.lastPage = result.data.meta.lastPage;
       this.isLoading = false;
       return result.data.data;
@@ -111,15 +142,38 @@ export default {
     async handleInitialFetch() {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(async () => {
-        if (this.value && this.search === this.value[this.computedAttributes.itemText]) {
-          return;
-        }
-        this.searchParameter = this.search;
+        this.searchParameter = (this.search && this.searchIsValid()) ? this.search : '';
+
         this.page = 1;
-        this.items = [...this.valuesAsArray];
-        const result = await this.getPaginator();
-        this.items = [...this.items, ...result];
-      }, 200);
+        this.items = [];
+
+        if (this.returnObject) {
+          // If we are working with objects, we need to add the value objects to the item list,
+          // so they are at the top of the selectable values
+          this.items = [...this.valuesAsArray];
+        } else if (this.valuesAsArray.length) {
+          // If not, we need to fetch all the values, otherwise we don't know their names
+          const result = await this.paginator(1, this.valuesAsArray.length, undefined, undefined, undefined, { only: this.valuesAsArray });
+          this.items = [...result.data.data];
+        }
+
+        if (!this.disabled) {
+          const result = await this.getPaginator();
+          this.items = [...this.items, ...result];
+        }
+      }, 400);
+    },
+    /**
+     * Check if the search is valid and not the current selected value
+     * @returns {boolean}
+     */
+    searchIsValid() {
+      if (!this.value) return true;
+      if (this.returnObject) {
+        return !this.value[this.itemText] === this.search;
+      }
+      return !this.items.find((item) => item[this.itemText] === this.search);
+
     },
     refresh() {
       this.handleInitialFetch();
