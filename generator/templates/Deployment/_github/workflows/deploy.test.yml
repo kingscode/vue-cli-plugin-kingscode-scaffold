@@ -35,8 +35,8 @@ jobs:
       - name: lock environment for deployment
         uses: appleboy/ssh-action@master
         with:
-          host: kingscode3.hix.nl
-          username: rstool
+          host: host
+          username: user
           key: ${{ secrets.private_key }}
           proxy_host: jumphost.kingscode.nl
           proxy_username: jumphost
