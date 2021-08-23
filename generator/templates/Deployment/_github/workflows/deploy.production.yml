@@ -31,6 +31,21 @@ jobs:
 
       - name: test connection
         run: ssh -T jumphost@jumphost.kingscode.nl
+        
+      - name: lock environment for deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: host
+          username: user
+          key: ${{ secrets.private_key }}
+          proxy_host: jumphost.kingscode.nl
+          proxy_username: jumphost
+          proxy_key: ${{ secrets.private_key }}
+          script: |
+            shopt -s dotglob
+            cd ~/domains/example.com/public_html
+            if test -f "deploy.lock"; then echo "Deployment is locked by another process, aborting."; exit 1; fi
+            touch deploy.lock
 
 <%_ if (options.plugins.includes('fontawesomepro')){ _%>
       - name: build .npmrc
@@ -82,7 +97,7 @@ jobs:
           cd dist
           rsync -ave "ssh -o ProxyJump=jumphost@jumphost.kingscode.nl" ./ user@host:~/domains/example.com/public_html/new
 
-      - name: move previous deployment to ./old and move ./new deployment to ./
+      - name: move previous deployment to ./old and move ./new deployment to ./; also unlocks deployment.
         uses: appleboy/ssh-action@master
         with:
           host: host
